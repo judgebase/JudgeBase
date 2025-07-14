@@ -26,7 +26,7 @@ type HostFormData = z.infer<typeof hostSchema>;
 export default function Host() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
-  
+
   const {
     register,
     handleSubmit,
@@ -44,7 +44,7 @@ export default function Host() {
         startDate: new Date(data.startDate).toISOString(),
         endDate: new Date(data.endDate).toISOString(),
       };
-      
+
       const response = await apiRequest("POST", "/api/hackathons/apply", payload);
       return response.json();
     },
@@ -111,6 +111,34 @@ export default function Host() {
             <p className="text-xl text-gray-600">
               We work with hackathons to place verified judges and mentors
             </p>
+          </div>
+
+          {/* Metrics */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="text-center p-8 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <span className="text-2xl font-bold text-white">4.9</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Judge Satisfaction</h3>
+              <p className="text-gray-600">Verified feedback from event organizers</p>
+              <div className="mt-3 text-3xl font-bold text-purple-600">4.9/5</div>
+            </div>
+            <div className="text-center p-8 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-green-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <span className="text-2xl font-bold text-white">2h</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Average Response Time</h3>
+              <p className="text-gray-600">Fast matching for your events</p>
+              <div className="mt-3 text-3xl font-bold text-blue-600">< 2 hours</div>
+            </div>
+            <div className="text-center p-8 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                <span className="text-2xl font-bold text-white">99</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Platform Uptime</h3>
+              <p className="text-gray-600">Reliable service you can count on</p>
+              <div className="mt-3 text-3xl font-bold text-green-600">99.9%</div>
+            </div>
           </div>
 
           <Card>
