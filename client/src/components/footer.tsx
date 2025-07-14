@@ -63,11 +63,6 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
-                  Pricing
-                </Link>
-              </li>
-              <li>
                 <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
                   Support
                 </a>

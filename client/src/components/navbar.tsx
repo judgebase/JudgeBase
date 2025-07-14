@@ -53,12 +53,6 @@ export function Navbar() {
               Blog
             </Link>
             <Link 
-              href="/pricing" 
-              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
-            >
-              Pricing
-            </Link>
-            <Link 
               href="/host" 
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
             >
