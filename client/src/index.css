@@ -71,7 +71,14 @@
 
 @layer utilities {
   .gradient-bg {
-    background: linear-gradient(135deg, var(--gradient-purple) 0%, var(--gradient-blue) 50%, var(--gradient-green) 100%);
+    background: linear-gradient(135deg, var(--gradient-purple), var(--gradient-blue));
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--gradient-purple), var(--gradient-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .gradient-bg-warm {
@@ -84,13 +91,6 @@
 
   .gradient-bg-vibrant {
     background: linear-gradient(135deg, var(--gradient-red) 0%, var(--gradient-orange) 25%, var(--gradient-yellow) 50%, var(--gradient-green) 75%, var(--gradient-blue) 100%);
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, var(--gradient-purple) 0%, var(--gradient-blue) 50%, var(--gradient-green) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
   .gradient-text-warm {

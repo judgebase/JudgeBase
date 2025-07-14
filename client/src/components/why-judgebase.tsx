@@ -78,15 +78,15 @@ export function WhyJudgeBase() {
           <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold gradient-bg bg-clip-text text-transparent mb-2">98%</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">98%</div>
                 <div className="text-gray-600 text-sm sm:text-base">Judge Satisfaction</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold gradient-bg bg-clip-text text-transparent mb-2">24hrs</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">24hrs</div>
                 <div className="text-gray-600 text-sm sm:text-base">Average Response Time</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold gradient-bg bg-clip-text text-transparent mb-2">99.9%</div>
+                <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">99.9%</div>
                 <div className="text-gray-600 text-sm sm:text-base">Platform Uptime</div>
               </div>
             </div>
