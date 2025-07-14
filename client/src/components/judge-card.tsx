@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -99,11 +99,16 @@ export function JudgeCard({ judge }: JudgeCardProps) {
             <span>{judge.location || 'Remote'}</span>
           </div>
 
-          <Link href={`/judges/${judge.slug}`}>
+          <a 
+            href={`https://judgebase.co/${judge.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block"
+          >
             <Button className="gradient-bg-cool text-white hover:shadow-lg transition-all duration-200">
               View Profile
             </Button>
-          </Link>
+          </a>
         </div>
       </CardContent>
     </Card>

@@ -38,28 +38,25 @@ export function Navbar() {
               Home
             </Link>
             <Link 
-              href="/apply" 
-              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
-            >
-              Apply as Judge
-            </Link>
-            <Link 
               href="/blog" 
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
             >
               Blog
             </Link>
             <Link 
-              href="/host" 
+              href="/find-judges" 
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
             >
-              Host Event
+              Find Judges
             </Link>
-            <Link href="/apply">
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 transition-all duration-200">
-                Apply as Judge
-              </Button>
-            </Link>
+            <a 
+              href="https://teleform.app/example" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 transition-all duration-200 px-4 py-2 rounded-lg font-medium"
+            >
+              Apply as Judge
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -87,13 +84,6 @@ export function Navbar() {
                 Home
               </Link>
               <Link 
-                href="/apply" 
-                className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
-                onClick={handleLinkClick}
-              >
-                Apply as Judge
-              </Link>
-              <Link 
                 href="/blog" 
                 className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
                 onClick={handleLinkClick}
@@ -101,25 +91,22 @@ export function Navbar() {
                 Blog
               </Link>
               <Link 
-                href="/pricing" 
+                href="/find-judges" 
                 className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
                 onClick={handleLinkClick}
               >
-                Pricing
-              </Link>
-              <Link 
-                href="/host" 
-                className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
-                onClick={handleLinkClick}
-              >
-                Host Event
+                Find Judges
               </Link>
               <div className="px-3 py-3">
-                <Link href="/apply" onClick={handleLinkClick}>
-                  <Button className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700 text-white w-full font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-sm tracking-wide">
-                    ✨ Apply as Judge
-                  </Button>
-                </Link>
+                <a 
+                  href="https://teleform.app/example" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700 text-white w-full font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-sm tracking-wide block text-center"
+                  onClick={handleLinkClick}
+                >
+                  ✨ Apply as Judge
+                </a>
               </div>
             </div>
           </div>

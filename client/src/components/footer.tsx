@@ -31,9 +31,9 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">For Judges</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/apply" className="text-gray-400 hover:text-purple-300 transition-colors duration-200 hover:underline font-medium">
+                <a href="https://teleform.app/example" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-300 transition-colors duration-200 hover:underline font-medium">
                   ✨ Apply to Judge
-                </Link>
+                </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
@@ -57,8 +57,8 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">For Organizers</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/host" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
-                  Host Event
+                <Link href="/find-judges" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
+                  Find Judges
                 </Link>
               </li>
               <li>

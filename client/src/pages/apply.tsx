@@ -1,48 +1,54 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { insertJudgeSchema } from "@shared/schema";
+import { useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Upload } from "lucide-react";
-import { z } from "zod";
-
-const applySchema = insertJudgeSchema.extend({
-  avatar: z.any().optional(),
-});
-
-type ApplyFormData = z.infer<typeof applySchema>;
+import { ExternalLink, ArrowRight } from "lucide-react";
 
 export default function Apply() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const { toast } = useToast();
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ApplyFormData>({
-    resolver: zodResolver(applySchema),
-  });
+  useEffect(() => {
+    // Redirect to external form immediately
+    window.location.href = "https://teleform.app/example";
+  }, []);
 
-  const submitMutation = useMutation({
-    mutationFn: async (data: ApplyFormData) => {
-      const formData = new FormData();
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
       
-      // Append all form fields
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === "avatar" && value instanceof FileList && value.length > 0) {
-          formData.append("avatar", value[0]);
-        } else if (key !== "avatar" && value !== undefined && value !== null) {
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Card className="shadow-lg">
+          <CardHeader className="text-center">
+            <CardTitle className="text-3xl font-bold text-gray-900">
+              Apply as a Judge
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-6"></div>
+            <p className="text-gray-600 mb-6">
+              Redirecting you to our application form...
+            </p>
+            <p className="text-sm text-gray-500 mb-8">
+              If you're not redirected automatically, click the button below.
+            </p>
+            <a 
+              href="https://teleform.app/example"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Open Application Form
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </a>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <Footer />
+    </div>
+  );
+}
           formData.append(key, String(value));
         }
       });
