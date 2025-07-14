@@ -40,7 +40,7 @@ export function JudgeCard({ judge }: JudgeCardProps) {
           <p className="text-gray-600 mb-6 leading-relaxed">{judge.bio}</p>
 
           <div className="flex flex-wrap gap-2 justify-center mb-6">
-            {judge.expertise && judge.expertise.length > 0 ? (
+            {judge.expertise && Array.isArray(judge.expertise) && judge.expertise.length > 0 ? (
               <>
                 {judge.expertise.slice(0, 3).map((skill, index) => (
                   <Badge
