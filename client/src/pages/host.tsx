@@ -129,7 +129,7 @@ export default function Host() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Average Response Time</h3>
               <p className="text-gray-600">Fast matching for your events</p>
-              <div className="mt-3 text-3xl font-bold text-blue-600">< 2 hours</div>
+              <div className="mt-3 text-3xl font-bold text-blue-600">&lt; 2 hours</div>
             </div>
             <div className="text-center p-8 bg-white rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
