@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { HeroSection } from "@/components/hero-section";
 import { FeaturedJudges } from "@/components/featured-judges";
+import { BeOnPanel } from "@/components/be-on-panel";
 import { WhyJudgeBase } from "@/components/why-judgebase";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -33,6 +34,7 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <FeaturedJudges />
+      <BeOnPanel />
       <WhyJudgeBase />
       <Footer />
     </div>

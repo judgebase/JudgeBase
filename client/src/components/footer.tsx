@@ -10,7 +10,7 @@ export function Footer() {
           <div className="col-span-1 sm:col-span-2">
             <div className="flex items-center mb-4">
               <Logo className="h-8 w-auto mr-2" />
-              <span className="text-2xl font-bold gradient-bg bg-clip-text text-transparent">JudgeBase</span>
+              <span className="text-2xl font-bold text-white">JudgeBase</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed max-w-md">
               Connecting hackathons with expert judges to create meaningful evaluation experiences and foster innovation.
@@ -63,9 +63,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
+                <Link href="/pricing" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
                   Pricing
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">

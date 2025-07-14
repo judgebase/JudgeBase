@@ -12,6 +12,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle, XCircle, Clock, Users, Calendar } from "lucide-react";
 import type { Judge, Hackathon } from "@shared/schema";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
 export default function Admin() {
   const { toast } = useToast();
@@ -101,9 +103,16 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+      <Navbar />
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Admin <span className="gradient-text-vibrant">Dashboard</span>
+            </h1>
+            <p className="text-gray-600">Manage judge applications and hackathon requests</p>
+          </div>
         
         <Tabs defaultValue="judges" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -346,7 +355,9 @@ export default function Admin() {
             )}
           </TabsContent>
         </Tabs>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

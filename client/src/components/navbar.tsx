@@ -30,18 +30,8 @@ export function Navbar() {
             </span>
           </div>
 
-          {isMobile ? (
-            <div className="flex items-center">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200"
-                aria-label="Toggle menu"
-              >
-                <Menu className="h-6 w-6" />
-              </button>
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center space-x-8">
+          {!isMobile ? (
+            <div className="hidden md:flex items-center space-x-6">
               <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
                 Home
               </Link>
@@ -57,9 +47,21 @@ export function Navbar() {
               <Link href="/host" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
                 Host Event
               </Link>
-              <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-200">
-                Sign In
-              </Button>
+              <Link href="/apply">
+                <Button className="gradient-bg-cool text-white hover:shadow-lg animate-bounce-soft">
+                  Apply to Judge
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
             </div>
           )}
         </div>
@@ -82,11 +84,11 @@ export function Navbar() {
               <Link href="/host" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
                 Host Event
               </Link>
-              <div className="px-3 py-3">
-                <Button variant="outline" className="w-full border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-200">
-                  Sign In
+              <Link href="/apply">
+                <Button className="gradient-bg-cool text-white w-full mx-3 my-3">
+                  Apply to Judge
                 </Button>
-              </div>
+              </Link>
             </div>
           </div>
         )}

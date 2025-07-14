@@ -10,6 +10,8 @@ JudgeBase is a modern web application that connects hackathons with curated expe
 Preferred communication style: Simple, everyday language.
 Visual appeal: Wants more colorful elements and visual enhancement.
 Priority: Ship as SaaS as soon as possible.
+Admin functionality: Allow admin control of which judges are displayed/approved.
+UI style: topmate.io-inspired modern design with gradients and animations.
 ```
 
 ## System Architecture
@@ -48,20 +50,26 @@ The application uses four main tables:
 - `POST /api/judges/apply` - Submit judge applications with file upload
 - `POST /api/hackathons/apply` - Submit hackathon requests
 - `GET /api/judges/:slug` - Individual judge profiles
-- Admin endpoints for managing judge/hackathon statuses
+- `GET /api/admin/judges` - Admin: Get all judges
+- `PATCH /api/admin/judges/:id` - Admin: Update judge status/featured/badges
+- `GET /api/admin/hackathons` - Admin: Get all hackathons
 
 ### Key Pages
-1. **Homepage** (`/`) - Hero section, featured judges, value propositions
+1. **Homepage** (`/`) - Hero section, featured judges, "Be on the Panel" section, value propositions
 2. **Apply** (`/apply`) - Judge application form with file upload
 3. **Host** (`/host`) - Hackathon organizer request form
-4. **Judge Profile** (`/judges/:slug`) - Individual judge showcase pages
-5. **Admin** (`/admin`) - Administrative dashboard for approvals
+4. **Blog** (`/blog`) - Full-featured blog with search and filtering
+5. **Pricing** (`/pricing`) - 3-tier pricing plans ($99-$299/month + Enterprise)
+6. **Judge Profile** (`/judges/:slug`) - Individual judge showcase pages
+7. **Admin** (`/admin`) - Administrative dashboard for judge intake management
 
 ### Design System
 - **Typography**: Inter font family with large, breathable spacing
 - **Colors**: Multi-gradient theme with purple-blue-green primary, plus warm (orange-pink-purple), cool (cyan-blue-green), and vibrant (rainbow) variants
 - **Animations**: Rainbow glows, floating elements, soft bounces, and enhanced hover effects
 - **Layout**: Card-based design with soft shadows, rounded corners, and animated statistics sections
+- **Style**: topmate.io-inspired modern UI with backdrop blur effects and professional aesthetics
+- **Components**: "Be on the Panel" section, enhanced admin dashboard, comprehensive SEO implementation
 
 ## Data Flow
 
@@ -69,6 +77,8 @@ The application uses four main tables:
 2. **Featured Judges**: Database query → React Query caching → Homepage display
 3. **Hackathon Requests**: Form submission → Database storage → Admin processing
 4. **Judge Profiles**: Slug-based routing → Database lookup → Profile rendering
+5. **Admin Management**: Admin can approve/reject judges, set featured status, assign badges
+6. **Public Display**: Only approved judges appear in featured section and public listings
 
 ## External Dependencies
 
