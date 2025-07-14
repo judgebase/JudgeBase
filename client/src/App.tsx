@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import Apply from "@/pages/apply";
 import Host from "@/pages/host";
+import Blog from "@/pages/blog";
+import Pricing from "@/pages/pricing";
 import JudgeProfile from "@/pages/judge-profile";
 import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
@@ -16,6 +18,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/apply" component={Apply} />
       <Route path="/host" component={Host} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/pricing" component={Pricing} />
       <Route path="/judges/:slug" component={JudgeProfile} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />

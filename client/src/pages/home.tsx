@@ -3,20 +3,33 @@ import { HeroSection } from "@/components/hero-section";
 import { FeaturedJudges } from "@/components/featured-judges";
 import { WhyJudgeBase } from "@/components/why-judgebase";
 import { Footer } from "@/components/footer";
-import { useEffect } from "react";
+import { SEO } from "@/components/seo";
 
 export default function Home() {
-  useEffect(() => {
-    // Set page title and meta description
-    document.title = "JudgeBase - Connect serious events with serious judges";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'We connect serious events with serious judges. Join our curated panel of expert hackathon judges.');
-    }
-  }, []);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "JudgeBase",
+    "description": "Expert judge network for hackathons and tech events",
+    "url": "https://judgebase.com",
+    "logo": "https://judgebase.com/logo.png",
+    "sameAs": [
+      "https://twitter.com/judgebase",
+      "https://linkedin.com/company/judgebase"
+    ]
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO
+        title="Expert Judge Network for Hackathons"
+        description="Connect with vetted industry experts for your hackathon. Access 200+ professional judges, get 24hr response, and achieve 98% success rate."
+        keywords="hackathon judges, expert judges, hackathon judging, judge network, hackathon platform, tech event judges"
+        ogTitle="JudgeBase - Expert Judge Network for Hackathons"
+        ogDescription="Connect with vetted industry experts for your hackathon. Access 200+ professional judges, get 24hr response, and achieve 98% success rate."
+        structuredData={structuredData}
+        canonical="https://judgebase.com"
+      />
       <Navbar />
       <HeroSection />
       <FeaturedJudges />

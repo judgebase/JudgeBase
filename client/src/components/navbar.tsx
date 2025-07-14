@@ -48,6 +48,12 @@ export function Navbar() {
               <Link href="/apply" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
                 Apply as Judge
               </Link>
+              <Link href="/blog" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
+                Blog
+              </Link>
+              <Link href="/pricing" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
+                Pricing
+              </Link>
               <Link href="/host" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
                 Host Event
               </Link>
@@ -66,6 +72,12 @@ export function Navbar() {
               </Link>
               <Link href="/apply" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
                 Apply as Judge
+              </Link>
+              <Link href="/blog" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
+                Blog
+              </Link>
+              <Link href="/pricing" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
+                Pricing
               </Link>
               <Link href="/host" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
                 Host Event

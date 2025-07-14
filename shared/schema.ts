@@ -14,6 +14,8 @@ export const judges = pgTable("judges", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   title: text("title").notNull(),
+  company: text("company"),
+  location: text("location"),
   bio: text("bio"),
   judgingPhilosophy: text("judging_philosophy"),
   linkedin: text("linkedin"),
@@ -24,6 +26,7 @@ export const judges = pgTable("judges", {
   status: text("status").notNull().default("pending"), // pending, approved, rejected
   featured: boolean("featured").default(false),
   badges: text("badges").array().default([]),
+  expertise: text("expertise").array().default([]),
   experience: text("experience"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
