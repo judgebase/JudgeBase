@@ -66,7 +66,7 @@ export function Navbar() {
             </Link>
             <Link href="/apply">
               <Button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 transition-all duration-200">
-                Apply to Judge
+                Apply as Judge
               </Button>
             </Link>
           </div>
@@ -126,7 +126,7 @@ export function Navbar() {
               <div className="px-3 py-3">
                 <Link href="/apply" onClick={handleLinkClick}>
                   <Button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-full">
-                    Apply to Judge
+                    Apply as Judge
                   </Button>
                 </Link>
               </div>
