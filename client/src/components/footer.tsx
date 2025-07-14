@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Logo } from "./logo";
+import { Github, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
