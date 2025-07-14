@@ -31,8 +31,8 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">For Judges</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/apply" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
-                  Apply to Judge
+                <Link href="/apply" className="text-gray-400 hover:text-purple-300 transition-colors duration-200 hover:underline font-medium">
+                  ✨ Apply to Judge
                 </Link>
               </li>
               <li>

@@ -65,9 +65,11 @@ export function BeOnPanel() {
 
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
               <Link href="/apply">
-                <Button size="lg" className="gradient-bg-vibrant text-white hover:shadow-xl px-8 py-6 text-lg font-semibold rounded-xl transition-all duration-300 animate-pulse-glow">
-                  Apply to Judge
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700 text-white hover:shadow-2xl px-10 py-7 text-xl font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white/10 backdrop-blur-sm shadow-xl group">
+                  <span className="flex items-center gap-3">
+                    🎯 Apply to Judge
+                    <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
                 </Button>
               </Link>
               <Link href="/blog">

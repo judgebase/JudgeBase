@@ -295,8 +295,10 @@ export default function Blog() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/apply">
-                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 px-8 py-4 text-lg font-semibold">
-                  Apply to Judge
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 px-10 py-5 text-xl font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-2 border-purple-200 hover:border-purple-300">
+                  <span className="flex items-center gap-2">
+                    ⚡ Apply to Judge
+                  </span>
                 </Button>
               </Link>
               <Link href="/host">
