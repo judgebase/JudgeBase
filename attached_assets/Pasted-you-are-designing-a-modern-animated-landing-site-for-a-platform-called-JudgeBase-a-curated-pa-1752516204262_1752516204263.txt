@@ -1,0 +1,95 @@
+you are designing a modern, animated landing site for a platform called **JudgeBase** — a curated panel of expert judges for hackathons. the site should feel sleek, vibrant, and exclusive — like a mix of **Topmate**, **Notion**, and **Stripe**.
+
+### overall design vibe:
+- bold gradients (electric purple, blue, green)
+- soft rounded cards, clean spacing
+- large type, calm animations, smooth hover effects
+- aesthetic should feel premium, trustable, and slightly playful
+
+### fonts:
+use modern sans-serif fonts like Inter, Satoshi, or Outfit  
+body should be light, airy — make the typography breathe
+
+### animations:
+- subtle card lift on hover
+- section fade-ins on scroll
+- CTA buttons pulse or glow gently
+
+### logo:
+use the attached JudgeBase logo (multicolor, pixel-style J)  
+stick to that vibe — modern but punchy
+
+---
+
+### pages required:
+
+1. **Home Page `/`**
+   - big title: “be on the panel.”
+   - subtext: “we connect serious events with serious judges.”
+   - CTA: two large buttons:
+     - “i want to judge” → goes to `/apply`
+     - “i’m a hackathon looking for judges” → goes to `/host`
+   - “trusted by” logo strip (Maximally, MU, Devpost, etc)
+   - featured judges (3–4 judge cards pulled dynamically from db)
+   - section: “Why JudgeBase?” (3 horizontal cards: curated, async, recognized)
+   - footer: logo, discord link, contact
+
+2. **Apply Page `/apply`**
+   - application form for new judges
+   - fields: name, email, linkedin, experience, judging philosophy, socials, headshot upload
+   - on submit, save to PostgreSQL or DB layer
+   - show a thank you message, “we’ll reach out if selected.”
+
+3. **Host Page `/host`**
+   - simple pitch: “running a hackathon? we provide trusted judges.”
+   - form for hackathons to fill:
+     - event name, dates, org, number of judges needed, format (async/live)
+   - saves to db
+   - CTA: “submit your event”
+
+4. **Judge Profile Page `/judges/:slug`**
+   - dynamic routing for individual judges
+   - layout:
+     - avatar, name, role
+     - 1-liner bio
+     - judging philosophy
+     - social links (LinkedIn, X, website)
+     - badge strip (e.g. judge of the month, participant fav)
+     - events judged (styled as cards)
+     - optional “contact me” button
+
+5. **Not a public directory**
+   - do **not** add a full judge search or listing
+   - only show **featured judges** on homepage
+   - individual profiles should be linkable but not browsable via search
+
+6. **CMS Backend or Admin Placeholder**
+   - allow the site owner (me) to manually:
+     - approve/reject judge applications
+     - assign badges
+     - edit profile info
+   - this can be a simple internal page or JSON edits
+
+---
+
+### data storage
+store all judge applications and hackathon submissions in **PostgreSQL** or any database that works well on Replit. each judge who is approved gets a profile created under `/judges/:slug`.
+
+---
+
+### bonus ideas
+- judge profiles should feel like a mini portfolio
+- eventually you could build a leaderboard, but don’t add it now
+- blog/articles not needed for now
+- seo-friendly structure preferred
+
+---
+
+### example references (for vibe)
+- https://topmate.io/
+- https://stripe.com/
+- https://read.cv/
+- https://notion.so/
+
+build this as a full Replit project. make it aesthetic, modular, and editable later. i’ll be manually uploading judge data at first, so keep things flexible.
+

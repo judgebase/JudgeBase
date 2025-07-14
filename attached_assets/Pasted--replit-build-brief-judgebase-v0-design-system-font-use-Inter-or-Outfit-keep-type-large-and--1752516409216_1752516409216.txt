@@ -1,0 +1,169 @@
+🧠 replit build brief: judgebase v0
+🎨 design system
+font: use Inter or Outfit, keep type large and breathable
+
+color scheme: use gradients inspired by the logo
+
+primary: purple → blue → green
+
+secondary: white backgrounds, black text
+
+layout: big spacing, soft card edges, shadow layering
+
+animation:
+
+page fade-ins
+
+card hover lift (3–6px)
+
+button pulse glow every few seconds
+
+vibe: playful, premium, clean — like Topmate x Notion x Read.cv
+
+🧱 pages to build
+1. Homepage /
+nav:
+
+left: JudgeBase logo
+
+right: links to "about", "how it works", "contact", and a button → apply to judge
+
+hero section:
+
+headline: be on the panel.
+
+subtext: we connect serious events with serious judges.
+
+two buttons:
+
+i want to judge → /apply
+
+i’m a hackathon looking for judges → /host
+
+trust strip (greyscale logos): Maximally, Masters’ Union, Devpost, etc
+
+featured judges (3–4 cards from a featured pool)
+
+show avatar, name, role/title, short line, LinkedIn/X
+
+section: "Why JudgeBase?" → 3 cards (curated, async judging, recognized)
+
+CTA block: “see how Judge Pages work” → /judges/preview
+
+footer: links, discord icon, email
+
+2. Judge Apply Page /apply
+form with:
+
+name, email, title/role
+
+judging experience
+
+judging philosophy (textarea)
+
+LinkedIn, X, website
+
+optional photo upload
+
+on submit → save to backend DB (PostgreSQL or Replit DB)
+
+success message: “you’ll hear from us if selected”
+
+3. Hackathon Host Page /host
+headline: need judges for your event?
+
+short para: we work with hackathons to place verified judges and mentors.
+
+form:
+
+org name, hackathon name, website
+
+dates
+
+number of judges needed
+
+async/live, domains
+
+submit to DB or email
+
+4. Judge Profile Page /judges/:slug
+each approved judge gets their own public profile page
+layout:
+
+avatar + name + role/title
+
+1-liner bio
+
+“Judging Philosophy” block
+
+social links: LinkedIn, X, website
+
+list of badges (manual for now):
+
+judge of the month
+
+participant favorite
+
+rising judge
+
+founder’s pick
+
+hackathons judged (small cards with event name + logo)
+
+optional: “contact me” button → email link or Notion form
+
+🔒 access rules
+no full public directory
+
+only featured judges are visible on homepage
+
+individual profiles can be shared via link, not browsed
+
+only admin (me) can approve and publish new judges
+
+data can be stored manually or via DB, I’ll update for now
+
+🧰 functionality
+all forms write to backend (can be simple DB for now)
+
+all judge pages are statically routed via slug system
+
+forms should have required validation and show success states
+
+nav bar should stick and shrink on scroll
+
+optimize for SEO with clean meta tags + alt text on avatars
+
+📱 responsiveness
+full mobile-first layout
+
+nav becomes hamburger menu
+
+hero text shrinks and buttons stack
+
+judge cards flow to 1-column layout
+
+💡 bonus (if time):
+simple admin.js file where I can manually flip judges from “pending” → “approved”
+
+scroll-based section highlights in navbar
+
+custom favicon with JudgeBase logomark
+
+🧭 sample user journey
+flow for new judge:
+
+lands on homepage → clicks “i want to judge” → submits /apply form
+
+if selected, we create their /judges/name page manually
+
+they get a sharable link to use on LinkedIn/bio
+
+flow for hackathon:
+
+lands on homepage → clicks “i’m a hackathon looking for judges”
+
+fills out form
+
+I reach out and onboard manually
+
