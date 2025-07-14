@@ -27,9 +27,6 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center" onClick={handleLinkClick}>
             <Logo className="h-9 w-auto" />
-            <span className="ml-3 text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              JudgeBase
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
