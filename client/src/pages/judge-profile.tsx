@@ -89,15 +89,15 @@ export default function JudgeProfile() {
                     alt={`${judge.name} profile picture`}
                   />
                   <AvatarFallback className="text-4xl font-semibold bg-gradient-to-br from-purple-100 to-blue-100">
-                    {judge.name.split(" ").map(n => n[0]).join("")}
+                    {judge.name ? judge.name.split(" ").map(n => n[0]).join("") : "JB"}
                   </AvatarFallback>
                 </Avatar>
                 
                 <div className="flex-1 text-center md:text-left">
                   <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                    {judge.name}
+                    {judge.name || 'Anonymous Judge'}
                   </h1>
-                  <p className="text-xl text-gray-600 mb-6">{judge.title}</p>
+                  <p className="text-xl text-gray-600 mb-6">{judge.title || 'Judge'}</p>
                   
                   {judge.badges && judge.badges.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-6 justify-center md:justify-start">

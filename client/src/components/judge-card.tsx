@@ -27,44 +27,61 @@ export function JudgeCard({ judge }: JudgeCardProps) {
               alt={`${judge.name} profile picture`}
             />
             <AvatarFallback className="text-2xl font-semibold gradient-bg-cool text-white">
-              {judge.name.split(" ").map(n => n[0]).join("")}
+              {judge.name ? judge.name.split(" ").map(n => n[0]).join("") : "JB"}
             </AvatarFallback>
           </Avatar>
           
           <div className="mb-4">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">{judge.name}</h3>
-            <p className="text-lg text-gray-600 font-medium">{judge.title}</p>
-            <p className="text-gray-500">{judge.company}</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">{judge.name || 'Anonymous Judge'}</h3>
+            <p className="text-lg text-gray-600 font-medium">{judge.title || 'Judge'}</p>
+            <p className="text-gray-500">{judge.company || 'Independent'}</p>
           </div>
 
-          <p className="text-gray-600 mb-6 leading-relaxed">{judge.bio}</p>
+          <p className="text-gray-600 mb-6 leading-relaxed">{judge.bio || 'No bio available.'}</p>
 
           <div className="flex flex-wrap gap-2 justify-center mb-6">
-            {judge.expertise && Array.isArray(judge.expertise) && judge.expertise.length > 0 ? (
-              <>
-                {judge.expertise.slice(0, 3).map((skill, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors"
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-                {judge.expertise.length > 3 && (
+            {(() => {
+              // Handle different expertise formats safely
+              let expertiseArray: string[] = [];
+              
+              if (judge.expertise) {
+                if (Array.isArray(judge.expertise)) {
+                  expertiseArray = judge.expertise.filter(skill => skill && typeof skill === 'string');
+                } else if (typeof judge.expertise === 'string') {
+                  expertiseArray = judge.expertise.split(',').map(s => s.trim()).filter(s => s.length > 0);
+                }
+              }
+              
+              if (expertiseArray.length > 0) {
+                return (
+                  <>
+                    {expertiseArray.slice(0, 3).map((skill, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                    {expertiseArray.length > 3 && (
+                      <Badge variant="secondary" className="bg-gray-50 text-gray-600">
+                        +{expertiseArray.length - 3} more
+                      </Badge>
+                    )}
+                  </>
+                );
+              } else {
+                return (
                   <Badge variant="secondary" className="bg-gray-50 text-gray-600">
-                    +{judge.expertise.length - 3} more
+                    General
                   </Badge>
-                )}
-              </>
-            ) : (
-              <Badge variant="secondary" className="bg-gray-50 text-gray-600">
-                General
-              </Badge>
-            )}
+                );
+              }
+            })()}
           </div>
 
-          {judge.badges && judge.badges.length > 0 && (
+          {judge.badges && Array.isArray(judge.badges) && judge.badges.length > 0 && (
             <div className="flex flex-wrap gap-2 justify-center mb-6">
               {judge.badges.map((badge, index) => (
                 <Badge
