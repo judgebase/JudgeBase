@@ -2,7 +2,7 @@
 
 ## Overview
 
-JudgeBase is a modern web application that connects hackathons with curated expert judges. The platform features a sleek, animated interface with a purple-blue-green gradient design system and provides separate workflows for judges to apply and hackathon organizers to request judges.
+JudgeBase is a modern static website that connects hackathons with curated expert judges. The platform features a sleek, animated interface with a purple-blue-green gradient design system. The site showcases featured judges and provides external links for judge applications and organizer requests.
 
 ## User Preferences
 
@@ -19,22 +19,16 @@ UI style: topmate.io-inspired modern design with gradients and animations.
 ### Frontend Architecture
 - **Framework**: React with TypeScript
 - **Routing**: Wouter (lightweight client-side routing)
-- **State Management**: TanStack Query (React Query) for server state management
+- **State Management**: Static data (no server state management needed)
 - **Styling**: Tailwind CSS with custom gradient theme
 - **UI Components**: Radix UI primitives with shadcn/ui component library
 - **Build Tool**: Vite for fast development and optimized builds
 
-### Backend Architecture
-- **Framework**: Express.js with TypeScript
-- **Database**: PostgreSQL with Drizzle ORM
-- **Database Provider**: Neon Database (serverless PostgreSQL)
-- **File Upload**: Multer for handling avatar uploads
-- **API Pattern**: RESTful API with JSON responses
-
 ### Project Structure
-- **Monorepo**: Single repository with separate client and server directories
-- **Shared Types**: Common schema definitions in `/shared` directory
-- **Asset Management**: Separate `/attached_assets` for design assets and briefs
+- **Static Site**: Frontend-only application with no backend
+- **Data**: Hardcoded static data for featured judges
+- **Forms**: External form handling via Teleform
+- **Judge Profiles**: External links to judgebase.co domain
 
 ## Key Components
 

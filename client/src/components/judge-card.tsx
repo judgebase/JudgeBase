@@ -4,7 +4,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MapPin, Linkedin, Twitter, Globe } from "lucide-react";
-import type { Judge } from "@shared/schema";
+
+interface Judge {
+  id: number;
+  name: string;
+  title: string;
+  company: string;
+  location: string;
+  bio: string;
+  judgingPhilosophy: string;
+  linkedin: string;
+  twitter: string;
+  website: string;
+  avatar: string | null;
+  expertise: string[];
+  experience: string;
+  slug: string;
+  status: string;
+  featured: boolean;
+  badges: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 interface JudgeCardProps {
   judge: Judge;
