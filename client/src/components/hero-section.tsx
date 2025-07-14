@@ -48,7 +48,7 @@ export function HeroSection() {
             </Link>
             <Link href="/host">
               <Button size="lg" variant="outline" className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg font-semibold rounded-xl transition-all duration-300">
-                Host an Event
+                Find Judges for Your Hackathon
               </Button>
             </Link>
           </div>
