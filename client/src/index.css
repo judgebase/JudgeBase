@@ -30,6 +30,10 @@
   --gradient-purple: hsl(262, 83%, 58%);
   --gradient-blue: hsl(217, 91%, 60%);
   --gradient-green: hsl(158, 64%, 52%);
+  --gradient-orange: hsl(31, 97%, 55%);
+  --gradient-pink: hsl(329, 86%, 70%);
+  --gradient-cyan: hsl(181, 84%, 62%);
+  --gradient-yellow: hsl(48, 100%, 67%);
 }
 
 .dark {
@@ -70,8 +74,27 @@
     background: linear-gradient(135deg, var(--gradient-purple) 0%, var(--gradient-blue) 50%, var(--gradient-green) 100%);
   }
 
+  .gradient-bg-warm {
+    background: linear-gradient(135deg, var(--gradient-orange) 0%, var(--gradient-pink) 50%, var(--gradient-purple) 100%);
+  }
+
+  .gradient-bg-cool {
+    background: linear-gradient(135deg, var(--gradient-cyan) 0%, var(--gradient-blue) 50%, var(--gradient-green) 100%);
+  }
+
+  .gradient-bg-vibrant {
+    background: linear-gradient(135deg, var(--gradient-yellow) 0%, var(--gradient-orange) 25%, var(--gradient-pink) 50%, var(--gradient-purple) 75%, var(--gradient-cyan) 100%);
+  }
+
   .gradient-text {
     background: linear-gradient(135deg, var(--gradient-purple) 0%, var(--gradient-blue) 50%, var(--gradient-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-warm {
+    background: linear-gradient(135deg, var(--gradient-orange) 0%, var(--gradient-pink) 50%, var(--gradient-purple) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -104,6 +127,18 @@
     animation: pulseGlow 3s ease-in-out infinite;
   }
 
+  .animate-rainbow-glow {
+    animation: rainbowGlow 4s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-bounce-soft {
+    animation: bounceSoft 2s ease-in-out infinite;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -132,6 +167,42 @@
     }
     50% {
       box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+    }
+  }
+
+  @keyframes rainbowGlow {
+    0% {
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    }
+    25% {
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+    }
+    75% {
+      box-shadow: 0 0 25px rgba(245, 101, 101, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes bounceSoft {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-5px);
     }
   }
 }

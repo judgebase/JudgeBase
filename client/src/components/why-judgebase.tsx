@@ -9,18 +9,24 @@ export function WhyJudgeBase() {
       title: "Curated",
       description: "Only experienced judges who bring real value to your hackathon participants.",
       gradient: "from-purple-50 to-blue-50",
+      iconBg: "gradient-bg",
+      animation: "animate-bounce-soft"
     },
     {
       icon: Clock,
       title: "Async",
       description: "Flexible judging that works with everyone's schedule across time zones.",
       gradient: "from-blue-50 to-green-50",
+      iconBg: "gradient-bg-cool",
+      animation: "animate-float"
     },
     {
       icon: Star,
       title: "Recognized",
       description: "Industry experts and founders who participants actually want to meet.",
       gradient: "from-green-50 to-purple-50",
+      iconBg: "gradient-bg-warm",
+      animation: "animate-pulse-glow"
     },
   ];
 
@@ -40,7 +46,7 @@ export function WhyJudgeBase() {
                   key={index}
                   className={`text-center p-8 rounded-2xl bg-gradient-to-br ${feature.gradient} card-hover`}
                 >
-                  <div className="w-16 h-16 gradient-bg rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <div className={`w-16 h-16 ${feature.iconBg} rounded-full mx-auto mb-6 flex items-center justify-center ${feature.animation}`}>
                     <Icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
@@ -65,7 +71,7 @@ export function WhyJudgeBase() {
               Join the exclusive network of expert judges and premium hackathon organizers.
             </p>
             <Link href="/judges/preview">
-              <Button className="gradient-bg text-white px-8 py-4 text-lg font-semibold rounded-xl hover:shadow-xl transition-all animate-pulse-glow">
+              <Button className="gradient-bg-vibrant text-white px-8 py-4 text-lg font-semibold rounded-xl hover:shadow-xl transition-all animate-rainbow-glow">
                 See how Judge Pages work →
               </Button>
             </Link>

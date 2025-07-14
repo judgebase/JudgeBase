@@ -45,7 +45,7 @@ export function Navbar() {
               </a>
             ))}
             <Link href="/apply">
-              <Button className="gradient-bg text-white hover:shadow-lg">
+              <Button className="gradient-bg-cool text-white hover:shadow-lg animate-bounce-soft">
                 Apply to Judge
               </Button>
             </Link>
@@ -75,7 +75,7 @@ export function Navbar() {
                 </a>
               ))}
               <Link href="/apply">
-                <Button className="gradient-bg text-white w-full">
+                <Button className="gradient-bg-cool text-white w-full">
                   Apply to Judge
                 </Button>
               </Link>

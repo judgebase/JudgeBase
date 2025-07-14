@@ -18,15 +18,15 @@ export function JudgeCard({ judge }: JudgeCardProps) {
   };
 
   return (
-    <Card className="bg-white rounded-2xl shadow-lg card-hover">
+    <Card className="bg-white rounded-2xl shadow-lg card-hover animate-float">
       <CardContent className="p-8">
         <div className="text-center">
-          <Avatar className="w-20 h-20 mx-auto mb-6">
+          <Avatar className="w-20 h-20 mx-auto mb-6 animate-bounce-soft">
             <AvatarImage
               src={judge.avatar || undefined}
               alt={`${judge.name} profile picture`}
             />
-            <AvatarFallback className="text-2xl font-semibold bg-gradient-to-br from-purple-100 to-blue-100">
+            <AvatarFallback className="text-2xl font-semibold gradient-bg-cool text-white">
               {judge.name.split(" ").map(n => n[0]).join("")}
             </AvatarFallback>
           </Avatar>

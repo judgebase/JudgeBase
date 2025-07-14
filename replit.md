@@ -8,6 +8,8 @@ JudgeBase is a modern web application that connects hackathons with curated expe
 
 ```
 Preferred communication style: Simple, everyday language.
+Visual appeal: Wants more colorful elements and visual enhancement.
+Priority: Ship as SaaS as soon as possible.
 ```
 
 ## System Architecture
@@ -57,9 +59,9 @@ The application uses four main tables:
 
 ### Design System
 - **Typography**: Inter font family with large, breathable spacing
-- **Colors**: Purple-blue-green gradient theme with CSS custom properties
-- **Animations**: Subtle hover effects, fade-ins, and pulse animations
-- **Layout**: Card-based design with soft shadows and rounded corners
+- **Colors**: Multi-gradient theme with purple-blue-green primary, plus warm (orange-pink-purple), cool (cyan-blue-green), and vibrant (rainbow) variants
+- **Animations**: Rainbow glows, floating elements, soft bounces, and enhanced hover effects
+- **Layout**: Card-based design with soft shadows, rounded corners, and animated statistics sections
 
 ## Data Flow
 
