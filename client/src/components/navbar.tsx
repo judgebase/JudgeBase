@@ -5,80 +5,76 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const navItems = [
-    { label: "About", href: "#about" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Contact", href: "#contact" },
-  ];
-
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 py-4 ${isScrolled ? "nav-sticky" : ""}`}>
+    <nav className="bg-white/95 backdrop-blur-lg border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3">
-            <Logo />
-            <span className="text-xl font-bold text-gray-900">JudgeBase</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-gray-700 hover:text-primary transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
-            <Link href="/apply">
-              <Button className="gradient-bg-cool text-white hover:shadow-lg animate-bounce-soft">
-                Apply to Judge
-              </Button>
-            </Link>
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Logo className="h-9 w-auto" />
+            <span className="ml-3 text-xl font-bold gradient-bg bg-clip-text text-transparent">
+              JudgeBase
+            </span>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {isMobile ? (
+            <div className="flex items-center">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200"
+                aria-label="Toggle menu"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
+                Home
+              </Link>
+              <Link href="/apply" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
+                Apply as Judge
+              </Link>
+              <Link href="/host" className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium">
+                Host Event
+              </Link>
+              <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-200">
+                Sign In
+              </Button>
+            </div>
+          )}
         </div>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 py-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="text-gray-700 hover:text-primary transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
-              <Link href="/apply">
-                <Button className="gradient-bg-cool text-white w-full">
-                  Apply to Judge
-                </Button>
+        {isMobile && isMenuOpen && (
+          <div className="md:hidden animate-in slide-in-from-top duration-200">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 border-t border-gray-200/50 backdrop-blur-lg">
+              <Link href="/" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
+                Home
               </Link>
+              <Link href="/apply" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
+                Apply as Judge
+              </Link>
+              <Link href="/host" className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium">
+                Host Event
+              </Link>
+              <div className="px-3 py-3">
+                <Button variant="outline" className="w-full border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-200">
+                  Sign In
+                </Button>
+              </div>
             </div>
           </div>
         )}

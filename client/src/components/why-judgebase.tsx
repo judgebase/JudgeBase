@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Clock, Star } from "lucide-react";
+import { CheckCircle, Clock, Star, Users, Zap, Shield } from "lucide-react";
 
 export function WhyJudgeBase() {
   const features = [
@@ -31,53 +31,68 @@ export function WhyJudgeBase() {
   ];
 
   return (
-    <>
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">
-            Why JudgeBase?
+    <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+            Why Choose JudgeBase?
           </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <div
-                  key={index}
-                  className={`text-center p-8 rounded-2xl bg-gradient-to-br ${feature.gradient} card-hover`}
-                >
-                  <div className={`w-16 h-16 ${feature.iconBg} rounded-full mx-auto mb-6 flex items-center justify-center ${feature.animation}`}>
-                    <Icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </div>
-              );
-            })}
-          </div>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            We connect you with the right experts to make your hackathon a success
+          </p>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white rounded-3xl p-12 shadow-xl">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Ready to elevate your hackathon?
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              Join the exclusive network of expert judges and premium hackathon organizers.
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
+          <div className="text-center group">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 gradient-bg rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-110">
+              <Users className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Curated Experts</h3>
+            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              Hand-picked judges with proven experience in their fields, ensuring quality feedback for your participants
             </p>
-            <Link href="/judges/preview">
-              <Button className="gradient-bg-vibrant text-white px-8 py-4 text-lg font-semibold rounded-xl hover:shadow-xl transition-all animate-rainbow-glow">
-                See how Judge Pages work →
-              </Button>
-            </Link>
+          </div>
+
+          <div className="text-center group">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 gradient-bg-cool rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-110">
+              <Zap className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Quick Matching</h3>
+            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              Get matched with the perfect judges for your event in minutes using our intelligent matching system
+            </p>
+          </div>
+
+          <div className="text-center group">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 gradient-bg-warm rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-110">
+              <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Quality Assured</h3>
+            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              All judges are verified and committed to providing valuable, constructive feedback to help teams grow
+            </p>
           </div>
         </div>
-      </section>
-    </>
+
+        <div className="mt-12 sm:mt-16 text-center">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold gradient-bg bg-clip-text text-transparent mb-2">98%</div>
+                <div className="text-gray-600 text-sm sm:text-base">Judge Satisfaction</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold gradient-bg bg-clip-text text-transparent mb-2">24hrs</div>
+                <div className="text-gray-600 text-sm sm:text-base">Average Response Time</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold gradient-bg bg-clip-text text-transparent mb-2">99.9%</div>
+                <div className="text-gray-600 text-sm sm:text-base">Platform Uptime</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

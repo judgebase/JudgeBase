@@ -10,90 +10,50 @@ interface JudgeCardProps {
 }
 
 export function JudgeCard({ judge }: JudgeCardProps) {
-  const badgeColors = {
-    "judge of the month": "bg-purple-100 text-purple-800",
-    "participant favorite": "bg-blue-100 text-blue-800",
-    "rising judge": "bg-green-100 text-green-800",
-    "founder's pick": "bg-yellow-100 text-yellow-800",
-  };
-
   return (
-    <Card className="bg-white rounded-2xl shadow-lg card-hover animate-float">
-      <CardContent className="p-8">
-        <div className="text-center">
-          <Avatar className="w-20 h-20 mx-auto mb-6 animate-bounce-soft">
-            <AvatarImage
-              src={judge.avatar || undefined}
-              alt={`${judge.name} profile picture`}
-            />
-            <AvatarFallback className="text-2xl font-semibold gradient-bg-cool text-white">
-              {judge.name.split(" ").map(n => n[0]).join("")}
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] border border-gray-100">
+      <div className="p-6">
+        <div className="flex items-start mb-4">
+          <Avatar className="h-16 w-16 mr-4 ring-2 ring-purple-100">
+            <AvatarImage src={judge.avatar_url || undefined} alt={judge.name} />
+            <AvatarFallback className="gradient-bg text-white text-lg font-bold">
+              {judge.name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
-          
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            {judge.name}
-          </h3>
-          
-          {judge.badges && judge.badges.length > 0 && (
-            <div className="mb-2">
-              {judge.badges.map((badge) => (
-                <Badge
-                  key={badge}
-                  className={badgeColors[badge as keyof typeof badgeColors] || "bg-gray-100 text-gray-800"}
-                >
-                  {badge}
-                </Badge>
-              ))}
-            </div>
-          )}
-          
-          <p className="text-gray-600 mb-4">{judge.title}</p>
-          
-          {judge.bio && (
-            <p className="text-gray-600 mb-4 line-clamp-2">{judge.bio}</p>
-          )}
-          
-          {judge.judgingPhilosophy && (
-            <p className="text-sm text-gray-500 mb-6 line-clamp-3">
-              Judging Philosophy: {judge.judgingPhilosophy}
-            </p>
-          )}
-          
-          <div className="flex justify-center space-x-4">
-            {judge.linkedin && (
-              <a
-                href={judge.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-              >
-                <LinkedinIcon className="w-4 h-4 text-gray-600" />
-              </a>
-            )}
-            {judge.twitter && (
-              <a
-                href={judge.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-              >
-                <TwitterIcon className="w-4 h-4 text-gray-600" />
-              </a>
-            )}
-            {judge.website && (
-              <a
-                href={judge.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-              >
-                <Globe className="w-4 h-4 text-gray-600" />
-              </a>
-            )}
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xl font-bold text-gray-900 truncate">{judge.name}</h3>
+            <p className="text-gray-600 font-medium truncate">{judge.title}</p>
+            <p className="text-sm text-gray-500 truncate">{judge.company}</p>
           </div>
         </div>
-      </CardContent>
-    </Card>
+
+        <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">{judge.bio}</p>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          {judge.expertise.slice(0, 3).map((skill, index) => (
+            <Badge key={index} variant="secondary" className="bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors border border-purple-200">
+              {skill}
+            </Badge>
+          ))}
+          {judge.expertise.length > 3 && (
+            <Badge variant="secondary" className="bg-gray-50 text-gray-600 border border-gray-200">
+              +{judge.expertise.length - 3} more
+            </Badge>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+          <div className="flex items-center text-sm text-gray-500">
+            <MapPin className="h-4 w-4 mr-1 text-gray-400" />
+            <span className="truncate">{judge.location}</span>
+          </div>
+          <Link href={`/judges/${judge.slug}`}>
+            <Button variant="outline" size="sm" className="border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700 transition-all duration-200">
+              View Profile
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
