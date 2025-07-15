@@ -93,7 +93,11 @@ if (process.env.NODE_ENV === 'development') {
   try {
     const { createServer } = await import('vite');
     const vite = await createServer({
-      server: { middlewareMode: true },
+      server: { 
+        middlewareMode: true,
+        host: '0.0.0.0',
+        allowedHosts: 'all',
+      },
       appType: 'spa',
       configFile: path.resolve(process.cwd(), 'vite.config.ts'),
       root: path.resolve(process.cwd(), 'client'),
