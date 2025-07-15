@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
-const placeholderLogos = [
-  "Logo 1",
-  "Logo 2", 
-  "Logo 3",
-  "Logo 4",
-  "Logo 5",
-  "Logo 6"
+const companyLogos = [
+  { name: "Google", logo: "🔍" },
+  { name: "Apple", logo: "🍎" },
+  { name: "Meta", logo: "👥" },
+  { name: "Amazon", logo: "📦" },
+  { name: "Netflix", logo: "🎬" },
+  { name: "Microsoft", logo: "🪟" },
+  { name: "Tesla", logo: "⚡" },
+  { name: "OpenAI", logo: "🤖" }
 ];
 
 export function LogoCarousel() {
@@ -14,7 +16,7 @@ export function LogoCarousel() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % placeholderLogos.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % companyLogos.length);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -26,12 +28,12 @@ export function LogoCarousel() {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-200 shadow-md mb-8">
             <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">Trusted by</span>
+            <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">We have judges from</span>
           </div>
           
           {/* Desktop carousel */}
           <div className="hidden md:flex items-center justify-center space-x-8 mb-8">
-            {placeholderLogos.map((logo, index) => (
+            {companyLogos.map((company, index) => (
               <div
                 key={index}
                 className={`text-gray-400 font-medium text-base transition-all duration-500 ${
@@ -40,12 +42,13 @@ export function LogoCarousel() {
                     : 'hover:scale-105 hover:text-purple-400'
                 }`}
               >
-                <div className={`p-3 rounded-lg border transition-all duration-300 ${
+                <div className={`p-4 rounded-lg border transition-all duration-300 flex flex-col items-center space-y-2 ${
                   index === currentIndex 
                     ? 'border-purple-300 bg-purple-50 shadow-md' 
                     : 'border-gray-200 bg-white hover:border-purple-200'
                 }`}>
-                  {logo}
+                  <div className="text-2xl">{company.logo}</div>
+                  <div className="text-sm font-semibold">{company.name}</div>
                 </div>
               </div>
             ))}
@@ -54,15 +57,16 @@ export function LogoCarousel() {
           {/* Mobile carousel */}
           <div className="md:hidden flex items-center justify-center mb-8">
             <div className="text-purple-600 font-medium text-lg">
-              <div className="p-4 rounded-lg border-2 border-purple-300 bg-purple-50 shadow-md">
-                {placeholderLogos[currentIndex]}
+              <div className="p-4 rounded-lg border-2 border-purple-300 bg-purple-50 shadow-md flex flex-col items-center space-y-2">
+                <div className="text-3xl">{companyLogos[currentIndex].logo}</div>
+                <div className="text-lg font-semibold">{companyLogos[currentIndex].name}</div>
               </div>
             </div>
           </div>
           
           {/* Carousel indicators */}
           <div className="flex justify-center space-x-2 mb-8">
-            {placeholderLogos.map((_, index) => (
+            {companyLogos.map((_, index) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
@@ -71,17 +75,17 @@ export function LogoCarousel() {
                     : 'bg-gray-300 hover:bg-purple-300'
                 }`}
                 onClick={() => setCurrentIndex(index)}
-                aria-label={`Go to logo ${index + 1}`}
+                aria-label={`Go to company ${index + 1}`}
               />
             ))}
           </div>
           
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 shadow-md border border-purple-100">
             <p className="text-base md:text-lg font-semibold text-gray-700 mb-2">
-              🌟 Trusted by 500+ hackathons worldwide
+              🌟 Expert judges from top tech companies
             </p>
             <p className="text-sm text-gray-600">
-              Real partner logos coming soon — join our growing community!
+              Connect with industry leaders who've built products at scale
             </p>
           </div>
         </div>
