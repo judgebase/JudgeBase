@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Star, Users, Calendar, Check } from "lucide-react";
+import { LogoCarousel } from "./logo-carousel";
 
 export function HeroSection() {
   return (
@@ -83,15 +84,7 @@ export function HeroSection() {
       </div>
 
       {/* Trust Strip */}
-      <div className="text-center mb-12">
-        <p className="text-sm text-gray-500 mb-8 uppercase tracking-wide">Trusted by</p>
-        <div className="flex items-center justify-center space-x-8 opacity-60">
-          <div className="text-gray-400 font-semibold">Maximally</div>
-          <div className="text-gray-400 font-semibold">Masters' Union</div>
-          <div className="text-gray-400 font-semibold">DEVPOST</div>
-          <div className="text-gray-400 font-semibold">••••</div>
-        </div>
-      </div>
+      <LogoCarousel />
     </section>
   );
 }

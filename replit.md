@@ -133,5 +133,11 @@ The application follows a modern full-stack TypeScript approach with emphasis on
 - **Removed sample judges**: Kept only Rishul Chanana as featured judge, removed Sarah Chen and Marcus Rodriguez
 - **Created comprehensive add-a-judge.md guide**: Detailed instructions for adding new judges to the platform
 - **Set up Netlify deployment**: Created netlify.toml and deployment documentation
+- **Completed Replit migration**: Successfully migrated from Replit Agent to Replit environment
+- **Updated "Judge Guidelines" to "Judging Expectations"**: Replaced with clear, modern content covering what judges do, time commitments, and best practices
+- **Removed pricing functionality**: Deleted pricing page, removed /pricing route, and eliminated all pricing references
+- **Restructured navbar**: Made "Apply to Judge" the primary CTA button, streamlined navigation to Home, Find Judges, Resources, Apply to Judge
+- **Removed partner logos**: Eliminated hardcoded logos (Maximally, Masters' Union, DEVPOST) and replaced with rotating logo carousel
+- **Added logo carousel**: Created auto-scrolling placeholder carousel with "Trusted by 500+ hackathons worldwide" message
 - **Completed Replit migration**: Successfully migrated project from Replit Agent to Replit environment with clean security practices
 - **Updated Judge Guidelines to Judging Expectations**: Replaced generic content with clear, actionable guidance for hackathon judges
