@@ -11,6 +11,31 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+// Judge applications table for storing application data
+export const judgeApplications = pgTable('judge_applications', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  fullName: text('full_name').notNull(),
+  email: text('email').notNull(),
+  currentRole: text('current_role').notNull(),
+  linkedin: text('linkedin').notNull(),
+  twitterOrWebsite: text('twitter_or_website'),
+  avatar: text('avatar'), // file path
+  hasJudgedBefore: boolean('has_judged_before').notNull(),
+  previousExperience: text('previous_experience'),
+  expertise: text('expertise').array().notNull(),
+  otherExpertise: text('other_expertise'),
+  shortBio: text('short_bio').notNull(),
+  judgingPhilosophy: text('judging_philosophy').notNull(),
+  openToMentoring: text('open_to_mentoring').notNull(), // Yes/No/Depends
+  preferredFormat: text('preferred_format').array().notNull(),
+  whyJoinJudgeBase: text('why_join_judge_base'),
+  anythingElse: text('anything_else'),
+  consentAgreed: boolean('consent_agreed').notNull(),
+  status: text('status').notNull().default('pending'), // pending, approved, rejected
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 // Judges table for comprehensive judge profiles
 export const judges = pgTable('judges', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -65,6 +90,9 @@ export const judgeHackathons = pgTable('judge_hackathons', {
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true });
 export const selectUserSchema = createSelectSchema(users);
 
+export const insertJudgeApplicationSchema = createInsertSchema(judgeApplications).omit({ id: true, createdAt: true, updatedAt: true });
+export const selectJudgeApplicationSchema = createSelectSchema(judgeApplications);
+
 export const insertJudgeSchema = createInsertSchema(judges).omit({ id: true, createdAt: true, updatedAt: true });
 export const selectJudgeSchema = createSelectSchema(judges);
 
@@ -77,6 +105,9 @@ export const selectJudgeHackathonSchema = createSelectSchema(judgeHackathons);
 // Type exports
 export type User = typeof users.$inferSelect;
 export type NewUser = z.infer<typeof insertUserSchema>;
+
+export type JudgeApplication = typeof judgeApplications.$inferSelect;
+export type NewJudgeApplication = z.infer<typeof insertJudgeApplicationSchema>;
 
 export type Judge = typeof judges.$inferSelect;
 export type NewJudge = z.infer<typeof insertJudgeSchema>;

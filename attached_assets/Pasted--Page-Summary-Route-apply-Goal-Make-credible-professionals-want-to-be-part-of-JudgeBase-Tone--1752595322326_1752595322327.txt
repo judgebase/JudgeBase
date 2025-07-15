@@ -1,0 +1,158 @@
+🧠 Page Summary
+Route: /apply
+Goal: Make credible professionals want to be part of JudgeBase.
+Tone: Exclusive but welcoming. Not corporate. Not casual. Confident.
+Vibe: Topmate x Notion x Read.cv, but with the JudgeBase identity (purple-blue-green gradients, soft cards, big clean text)
+
+✅ Overall Page Structure
+mathematica
+Copy
+Edit
+🟪 Hero Section
+🟩 Why JudgeBase (Trust Block)
+🟨 Application Form (Core)
+🟦 What Happens After You Apply
+⬛ Final CTA
+🟪 Hero Section
+Headline:
+apply to join judgebase
+
+Subheadline:
+If you're an experienced builder, operator, engineer, or founder — and you're ready to support the next wave of innovation — you're in the right place.
+
+Visual:
+
+Soft gradient background (purple → blue)
+
+Floating cards / avatars of judges (blurred)
+
+Large CTA button scrolls to the form:
+→ Start Application
+
+🟩 Why JudgeBase (Optional Trust Block)
+3 soft cards explaining why this matters:
+
+Be Part of Real Panels
+Get invited to high-signal hackathons across India and beyond.
+
+Build Your Public Signal
+Get a personalized JudgeBase profile you can link anywhere.
+
+Recognized, Not Random
+This isn’t spammy or pay-to-play. Every application is reviewed.
+
+🟨 Application Form (Core)
+✨ Use a multi-step form OR animate sections in as the user scrolls
+Fields are clean, big spacing, floating labels, hover glows
+
+⚙️ Form Fields (Exact Wording)
+Section 1: About You
+
+Full Name (required)
+
+Email Address (required)
+
+Current Role & Company (e.g. Product @ Razorpay)
+
+LinkedIn Profile (required)
+
+Twitter or Personal Website (optional)
+
+Upload Your Photo (square headshot, required)
+→ Accept .jpg, .png, .webp
+
+Section 2: Your Experience
+
+Have you ever judged a hackathon before? (yes/no)
+
+If yes, which ones? (open text)
+
+Primary Areas of Expertise (multi-select checkboxes)
+
+AI & ML
+
+Web Dev
+
+Product
+
+Marketing
+
+Design
+
+Blockchain
+
+Cybersecurity
+
+EdTech
+
+Fintech
+
+Open-ended: “Other (type below)”
+
+Short Bio (2–3 lines about who you are)
+→ “Used in your JudgeBase profile if selected”
+
+Section 3: Judging Style
+
+What’s your judging philosophy? (open text)
+e.g. What do you value in a winning team? How do you evaluate early-stage ideas?
+
+Are you open to mentoring teams during or after the event? (Yes/No/Depends)
+
+Preferred Format (Checkboxes)
+
+Async only
+
+Live judging
+
+Flexible
+
+Section 4: Final
+
+Why do you want to join JudgeBase? (optional)
+
+Anything else we should know? (optional)
+
+✅ Consent Checkbox:
+
+I understand that only selected applicants will be listed and may be required to pay a listing fee to activate my JudgeBase profile.
+
+✅ Submit Button:
+Submit Application
+
+On success:
+Show a nice confirmation box
+“Thanks for applying. Applications are reviewed on the 15th of each month. If selected, you’ll be contacted via email to complete your profile.”
+
+🟦 What Happens After You Apply
+Below the form, add a transparent card section explaining the post-apply flow. Helps reduce confusion.
+
+Title: What Happens Next
+We review all applications manually on the 15th of each month.
+
+If you're selected, you'll get:
+
+A confirmation email
+
+Access to your JudgeBase profile setup
+
+Info on next steps and upcoming judging invites
+
+There may be a small listing fee to activate your profile (₹499–₹999).
+
+⬛ Final CTA
+Gradient block at the bottom:
+
+“Great judges aren’t found. They’re invited.”
+Join JudgeBase and be part of something real.
+→ Start Application
+
+🎨 Visual + UX Style
+Element	Style
+Form layout	Full-width on desktop, stacked on mobile
+Labels	Floating + fading in on focus
+Buttons	Glow or pulse hover effect
+Cards	Rounded, subtle shadows, hover lift
+Typography	Inter or Outfit, large line spacing
+Background	White with gradient headers, section dividers with blur glass
+Animations	Framer-motion fade/slide, smooth scroll

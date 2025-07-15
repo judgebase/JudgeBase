@@ -1,9 +1,16 @@
-import { Judge, NewJudge, Hackathon, NewHackathon, NewUser, User } from '@shared/schema';
+import { Judge, NewJudge, Hackathon, NewHackathon, NewUser, User, JudgeApplication, NewJudgeApplication } from '@shared/schema';
 
 export interface IStorage {
   // User operations
   createUser(user: NewUser): Promise<User>;
   getUserByUsername(username: string): Promise<User | null>;
+  
+  // Judge application operations
+  createJudgeApplication(application: NewJudgeApplication): Promise<JudgeApplication>;
+  getJudgeApplication(id: string): Promise<JudgeApplication | null>;
+  getAllJudgeApplications(): Promise<JudgeApplication[]>;
+  updateJudgeApplication(id: string, updates: Partial<JudgeApplication>): Promise<JudgeApplication>;
+  deleteJudgeApplication(id: string): Promise<void>;
   
   // Judge operations
   createJudge(judge: NewJudge): Promise<Judge>;
@@ -25,6 +32,7 @@ export interface IStorage {
 // Simple in-memory storage implementation
 export class MemStorage implements IStorage {
   private users: User[] = [];
+  private judgeApplications: JudgeApplication[] = [];
   private judges: Judge[] = [];
   private hackathons: Hackathon[] = [];
   private nextId = 1;
@@ -46,6 +54,49 @@ export class MemStorage implements IStorage {
 
   async getUserByUsername(username: string): Promise<User | null> {
     return this.users.find(u => u.username === username) || null;
+  }
+
+  async createJudgeApplication(application: NewJudgeApplication): Promise<JudgeApplication> {
+    const newApplication: JudgeApplication = {
+      id: this.generateId(),
+      ...application,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.judgeApplications.push(newApplication);
+    return newApplication;
+  }
+
+  async getJudgeApplication(id: string): Promise<JudgeApplication | null> {
+    return this.judgeApplications.find(a => a.id === id) || null;
+  }
+
+  async getAllJudgeApplications(): Promise<JudgeApplication[]> {
+    return [...this.judgeApplications];
+  }
+
+  async updateJudgeApplication(id: string, updates: Partial<JudgeApplication>): Promise<JudgeApplication> {
+    const index = this.judgeApplications.findIndex(a => a.id === id);
+    if (index === -1) {
+      throw new Error(`Judge application with id ${id} not found`);
+    }
+    
+    const updatedApplication = {
+      ...this.judgeApplications[index],
+      ...updates,
+      updatedAt: new Date(),
+    };
+    
+    this.judgeApplications[index] = updatedApplication;
+    return updatedApplication;
+  }
+
+  async deleteJudgeApplication(id: string): Promise<void> {
+    const index = this.judgeApplications.findIndex(a => a.id === id);
+    if (index === -1) {
+      throw new Error(`Judge application with id ${id} not found`);
+    }
+    this.judgeApplications.splice(index, 1);
   }
 
   async createJudge(judge: NewJudge): Promise<Judge> {

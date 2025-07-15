@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { IStorage } from './storage';
-import { insertJudgeSchema, insertHackathonSchema } from '@shared/schema';
+import { insertJudgeSchema, insertHackathonSchema, insertJudgeApplicationSchema } from '@shared/schema';
 import { z } from 'zod';
 import multer from 'multer';
 import path from 'path';
@@ -46,21 +46,48 @@ export function createRoutes(storage: IStorage) {
   // Submit judge application
   router.post('/api/judges/apply', upload.single('avatar'), async (req, res) => {
     try {
-      const judgeData = {
+      const applicationData = {
         ...req.body,
         expertise: req.body.expertise ? req.body.expertise.split(',').map((e: string) => e.trim()) : [],
+        preferredFormat: req.body.preferredFormat ? req.body.preferredFormat.split(',').map((f: string) => f.trim()) : [],
         avatar: req.file ? req.file.path : null,
+        hasJudgedBefore: req.body.hasJudgedBefore === 'true',
+        consentAgreed: req.body.consentAgreed === 'true',
       };
 
-      const validatedData = insertJudgeSchema.parse(judgeData);
-      const judge = await storage.createJudge(validatedData);
+      const validatedData = insertJudgeApplicationSchema.parse(applicationData);
+      const application = await storage.createJudgeApplication(validatedData);
       
-      res.status(201).json(judge);
+      res.status(201).json(application);
     } catch (error) {
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: 'Validation error', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to create judge application' });
+      }
+    }
+  });
+
+  // Get all judge applications (admin only)
+  router.get('/api/admin/judge-applications', async (req, res) => {
+    try {
+      const applications = await storage.getAllJudgeApplications();
+      res.json(applications);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch judge applications' });
+    }
+  });
+
+  // Update judge application (admin only)
+  router.patch('/api/admin/judge-applications/:id', async (req, res) => {
+    try {
+      const application = await storage.updateJudgeApplication(req.params.id, req.body);
+      res.json(application);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('not found')) {
+        res.status(404).json({ error: 'Judge application not found' });
+      } else {
+        res.status(500).json({ error: 'Failed to update judge application' });
       }
     }
   });
