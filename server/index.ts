@@ -95,8 +95,8 @@ if (process.env.NODE_ENV === 'development') {
     const vite = await createServer({
       server: { middlewareMode: true },
       appType: 'spa',
-      configFile: path.resolve(__dirname, '../vite.config.ts'),
-      root: path.resolve(__dirname, '../client'),
+      configFile: path.resolve(process.cwd(), 'vite.config.ts'),
+      root: path.resolve(process.cwd(), 'client'),
     });
     
     app.use(vite.ssrFixStacktrace);
@@ -106,9 +106,12 @@ if (process.env.NODE_ENV === 'development') {
     console.error('Failed to create Vite dev server:', error);
     console.error('Error details:', error.message);
     // Fallback to serving static files
-    app.use(express.static(path.join(__dirname, '../client')));
+    app.use(express.static(path.join(process.cwd(), 'client')));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/index.html'));
+      if (req.path.startsWith('/api/') || req.path === '/health') {
+        return; // Skip API routes
+      }
+      res.sendFile(path.join(process.cwd(), 'client/index.html'));
     });
   }
 } else {
