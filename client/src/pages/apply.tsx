@@ -668,7 +668,7 @@ export default function Apply() {
                             </FormControl>
                             <div className="space-y-1 leading-none">
                               <FormLabel>
-                                I understand that only selected applicants will be listed and may be required to pay a listing fee to activate my JudgeBase profile. *
+                                I understand that only selected applicants will be listed on JudgeBase after review. *
                               </FormLabel>
                             </div>
                             <FormMessage />
@@ -730,7 +730,7 @@ export default function Apply() {
                 </div>
                 
                 <p className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                  <strong>Note:</strong> There may be a small listing fee to activate your profile (₹499–₹999).
+                  <strong>Note:</strong> Selected judges get full access to their JudgeBase profile and judging opportunities.
                 </p>
               </div>
             </CardContent>
