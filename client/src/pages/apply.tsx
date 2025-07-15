@@ -127,6 +127,23 @@ export default function Apply() {
   });
 
   const onSubmit = (data: FormData) => {
+    console.log('Form submitted with data:', data);
+    console.log('Form errors:', form.formState.errors);
+    
+    // Check if all required fields are filled
+    const requiredFields = ['fullName', 'email', 'currentRole', 'linkedin', 'shortBio', 'judgingPhilosophy'];
+    const missingFields = requiredFields.filter(field => !data[field as keyof FormData]);
+    
+    if (missingFields.length > 0) {
+      console.error('Missing required fields:', missingFields);
+      toast({
+        title: "Missing required fields",
+        description: `Please fill in: ${missingFields.join(', ')}`,
+        variant: "destructive",
+      });
+      return;
+    }
+    
     submitMutation.mutate(data);
   };
 
@@ -290,7 +307,7 @@ export default function Apply() {
             
             <CardContent className="space-y-6">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
                   
                   {/* Step 1: About You */}
                   {currentStep === 1 && (
@@ -695,6 +712,18 @@ export default function Apply() {
                         type="submit" 
                         className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600"
                         disabled={submitMutation.isPending}
+                        onClick={(e) => {
+                          console.log('Submit button clicked');
+                          console.log('Form valid:', form.formState.isValid);
+                          console.log('Form errors:', form.formState.errors);
+                          
+                          // Don't prevent default - let form handle submission
+                          if (!form.formState.isValid) {
+                            console.log('Form is invalid, checking fields...');
+                            const values = form.getValues();
+                            console.log('Current form values:', values);
+                          }
+                        }}
                       >
                         {submitMutation.isPending ? "Submitting..." : "Submit Application"}
                       </Button>
