@@ -34,6 +34,7 @@
   --gradient-pink: hsl(329, 86%, 70%);
   --gradient-cyan: hsl(181, 84%, 62%);
   --gradient-yellow: hsl(48, 100%, 67%);
+  --gradient-red: hsl(0, 84%, 60%);
 }
 
 .dark {
@@ -151,6 +152,42 @@
   @keyframes fade-in {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-bounce-soft {
+    animation: bounce-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  .gradient-text-vibrant {
+    background: linear-gradient(135deg, var(--gradient-red) 0%, var(--gradient-orange) 25%, var(--gradient-yellow) 50%, var(--gradient-green) 75%, var(--gradient-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-cool {
+    background: linear-gradient(135deg, var(--gradient-cyan) 0%, var(--gradient-blue) 50%, var(--gradient-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .animate-slide-up {
