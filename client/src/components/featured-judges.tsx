@@ -56,7 +56,7 @@ export function FeaturedJudges() {
         <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">
           Featured Judges
         </h2>
-        
+
         <div className="grid md:grid-cols-3 gap-8">
           {featuredJudges?.map((judge) => (
             <JudgeCard key={judge.id} judge={judge} />
@@ -66,3 +66,4 @@ export function FeaturedJudges() {
     </section>
   );
 }
+```
