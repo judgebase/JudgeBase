@@ -99,13 +99,16 @@ judgebase/
 │   │   │   └── ...        # Feature-specific components
 │   │   ├── pages/         # Route-level components
 │   │   ├── hooks/         # Custom React hooks
+│   │   ├── data/          # Static data and type definitions
 │   │   └── lib/           # Utility functions
 ├── server/                # Backend Express application
 │   ├── db.ts             # Database configuration
 │   ├── routes.ts         # API route definitions
+│   ├── admin-routes.ts   # Admin-specific routes
 │   └── storage.ts        # File storage handling
 ├── shared/               # Shared TypeScript types
-└── package.json         # Dependencies and scripts
+├── drizzle/             # Database migrations
+└── uploads/             # File upload storage
 ```
 
 ## 🎨 Design System
@@ -145,19 +148,23 @@ JudgeBase features a modern gradient-based design system:
 - `PATCH /api/admin/judges/:id` - Update judge status/featured/badges
 - `GET /api/admin/hackathons` - List all hackathon requests
 
-## 🚀 SaaS Roadmap
+## 🚨 Known Issues & Fixes
 
-JudgeBase is rapidly evolving into a full SaaS platform. Check out our [SAAS_ROADMAP.md](SAAS_ROADMAP.md) for planned features including:
+### Current React Hook Errors
+The application is experiencing React hook-related errors. To fix:
 
-- **Subscription Tiers**: Basic ($99/mo), Pro ($299/mo), Enterprise (custom)
-- **Payment Integration**: Stripe-powered billing system
-- **AI Matching**: Smart judge-hackathon matching algorithms
-- **Mobile App**: React Native application
-- **White-Label**: Custom branding for enterprise clients
+1. **Ensure React consistency**: All components should use the same React instance
+2. **Check QueryClient setup**: Verify QueryClientProvider is properly wrapping the app
+3. **Validate component structure**: Ensure hooks are only called inside function components
+
+### Common Development Issues
+- **Database connection**: Ensure `DATABASE_URL` is properly set in environment variables
+- **File uploads**: Check that `uploads/` directory exists and has write permissions
+- **CORS issues**: Verify API endpoints are accessible from frontend
 
 ## 📝 Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (both frontend and backend)
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run check` - TypeScript type checking
@@ -166,12 +173,32 @@ JudgeBase is rapidly evolving into a full SaaS platform. Check out our [SAAS_ROA
 ## 🔧 Configuration
 
 ### Database Configuration
-The app uses Drizzle ORM with PostgreSQL. Configuration is in `drizzle.config.ts`.
+The app uses Drizzle ORM with PostgreSQL. Configuration is in `drizzle.config.json`.
 
 ### Build Configuration
-- **Vite** handles frontend builds
+- **Vite** handles frontend builds and development server
 - **ESBuild** handles backend builds
 - **TypeScript** provides type checking
+
+### Environment Variables
+```env
+DATABASE_URL=your_postgresql_connection_string
+NODE_ENV=development
+```
+
+## 🚀 Deployment
+
+### Replit Deployment
+The project is configured for Replit deployment:
+1. Ensure environment variables are set in Replit Secrets
+2. Run `npm run build` to create production build
+3. Use `npm run start` for production server
+
+### Manual Deployment
+1. Build the application: `npm run build`
+2. Set up PostgreSQL database
+3. Configure environment variables
+4. Start with `npm run start`
 
 ## 🤝 Contributing
 
@@ -181,24 +208,31 @@ The app uses Drizzle ORM with PostgreSQL. Configuration is in `drizzle.config.ts
 4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
-## 📄 License
+## 🆘 Troubleshooting
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Common Issues
+- **React Hook Errors**: Ensure all components properly import and use React hooks
+- **Database Connection**: Verify `DATABASE_URL` environment variable
+- **Build Failures**: Check TypeScript errors with `npm run check`
+- **Port Issues**: Application runs on port 5000 by default
 
-## 🆘 Support
-
-For support and questions:
+### Getting Help
 - Create an issue in the repository
-- Check out our documentation
-- Contact the development team
+- Check the console for specific error messages
+- Verify environment setup matches requirements
 
 ## 🎯 Next Steps
 
-1. **Authentication System**: Implement user registration and login
-2. **Payment Integration**: Add Stripe for subscription management  
-3. **Enhanced Matching**: Build AI-powered judge-hackathon matching
-4. **Mobile App**: Develop React Native companion app
-5. **Enterprise Features**: Add white-label and custom branding options
+1. **Fix React Hook Issues**: Resolve current component rendering errors
+2. **Authentication System**: Implement user registration and login
+3. **Payment Integration**: Add Stripe for subscription management  
+4. **Enhanced Matching**: Build AI-powered judge-hackathon matching
+5. **Mobile App**: Develop React Native companion app
+6. **Enterprise Features**: Add white-label and custom branding options
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
