@@ -96,11 +96,22 @@ if (process.env.NODE_ENV === 'development') {
       server: { 
         middlewareMode: true,
         host: '0.0.0.0',
-        allowedHosts: 'all',
+        allowedHosts: ['all', '.replit.dev', 'localhost'],
       },
       appType: 'spa',
-      configFile: path.resolve(process.cwd(), 'vite.config.ts'),
+      configFile: false, // Don't use config file to avoid conflicts
       root: path.resolve(process.cwd(), 'client'),
+      resolve: {
+        alias: {
+          "@": path.resolve(process.cwd(), "client", "src"),
+          "@shared": path.resolve(process.cwd(), "shared"),
+          "@assets": path.resolve(process.cwd(), "attached_assets"),
+        },
+      },
+      plugins: [
+        (await import('@vitejs/plugin-react')).default(),
+        (await import('@replit/vite-plugin-runtime-error-modal')).default(),
+      ],
     });
     
     // Use vite middleware for all non-API routes
