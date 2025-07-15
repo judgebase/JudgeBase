@@ -1,9 +1,9 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { eq, and, desc } from 'drizzle-orm';
-import { users, judges, judgeApplications, hackathons, judgeHackathons } from '@shared/schema';
+import { judges, judgeApplications, hackathons, judgeHackathons } from '@shared/schema';
 import type { IStorage } from './storage';
-import type { User, NewUser, Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon } from '@shared/schema';
+import type { Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon } from '@shared/schema';
 
 const connectionString = process.env.DATABASE_URL!;
 
@@ -12,17 +12,6 @@ const sql = postgres(connectionString);
 export const db = drizzle(sql);
 
 export class PostgresStorage implements IStorage {
-  // User operations
-  async createUser(user: NewUser): Promise<User> {
-    const [newUser] = await db.insert(users).values(user).returning();
-    return newUser;
-  }
-
-  async getUserByUsername(username: string): Promise<User | null> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || null;
-  }
-
   // Judge application operations
   async createJudgeApplication(application: NewJudgeApplication): Promise<JudgeApplication> {
     const [newApplication] = await db.insert(judgeApplications).values(application).returning();

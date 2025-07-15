@@ -1,13 +1,15 @@
 import { JudgeCard } from "./judge-card";
-import { getFeaturedJudges } from "@/data/judges";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
 
 export function FeaturedJudges() {
-  const featuredJudges = getFeaturedJudges();
-  const isLoading = false;
-  const error = null;
+  const { data: featuredJudges, isLoading, error } = useQuery({
+    queryKey: ['/api/judges/featured'],
+    queryFn: () => apiRequest('/api/judges/featured'),
+  });
 
   if (isLoading) {
     return (

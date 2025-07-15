@@ -2,14 +2,7 @@ import { pgTable, text, integer, timestamp, boolean, uuid } from 'drizzle-orm/pg
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-// Users table for authentication
-export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  username: text('username').notNull().unique(),
-  password: text('password').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
+// Users table removed - using hardcoded admin authentication
 
 // Judge applications table for storing application data
 export const judgeApplications = pgTable('judge_applications', {
@@ -87,9 +80,6 @@ export const judgeHackathons = pgTable('judge_hackathons', {
 });
 
 // Zod schemas for validation
-export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true });
-export const selectUserSchema = createSelectSchema(users);
-
 export const insertJudgeApplicationSchema = createInsertSchema(judgeApplications).omit({ id: true, createdAt: true, updatedAt: true });
 export const selectJudgeApplicationSchema = createSelectSchema(judgeApplications);
 
@@ -103,9 +93,6 @@ export const insertJudgeHackathonSchema = createInsertSchema(judgeHackathons).om
 export const selectJudgeHackathonSchema = createSelectSchema(judgeHackathons);
 
 // Type exports
-export type User = typeof users.$inferSelect;
-export type NewUser = z.infer<typeof insertUserSchema>;
-
 export type JudgeApplication = typeof judgeApplications.$inferSelect;
 export type NewJudgeApplication = z.infer<typeof insertJudgeApplicationSchema>;
 

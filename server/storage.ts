@@ -1,10 +1,6 @@
-import { Judge, NewJudge, Hackathon, NewHackathon, NewUser, User, JudgeApplication, NewJudgeApplication } from '@shared/schema';
+import { Judge, NewJudge, Hackathon, NewHackathon, JudgeApplication, NewJudgeApplication } from '@shared/schema';
 
 export interface IStorage {
-  // User operations
-  createUser(user: NewUser): Promise<User>;
-  getUserByUsername(username: string): Promise<User | null>;
-  
   // Judge application operations
   createJudgeApplication(application: NewJudgeApplication): Promise<JudgeApplication>;
   getJudgeApplication(id: string): Promise<JudgeApplication | null>;
@@ -31,7 +27,6 @@ export interface IStorage {
 
 // Simple in-memory storage implementation
 export class MemStorage implements IStorage {
-  private users: User[] = [];
   private judgeApplications: JudgeApplication[] = [];
   private judges: Judge[] = [];
   private hackathons: Hackathon[] = [];
@@ -39,21 +34,6 @@ export class MemStorage implements IStorage {
 
   private generateId(): string {
     return (this.nextId++).toString();
-  }
-
-  async createUser(user: NewUser): Promise<User> {
-    const newUser: User = {
-      id: this.generateId(),
-      ...user,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    this.users.push(newUser);
-    return newUser;
-  }
-
-  async getUserByUsername(username: string): Promise<User | null> {
-    return this.users.find(u => u.username === username) || null;
   }
 
   async createJudgeApplication(application: NewJudgeApplication): Promise<JudgeApplication> {

@@ -382,12 +382,15 @@ export default function Admin() {
                       <Button
                         size="sm"
                         variant="outline"
-                        asChild
+                        onClick={() => {
+                          const judge = judges?.find((j: any) => j.name === app.fullName);
+                          if (judge) {
+                            window.open(`/judges/${judge.slug}`, '_blank');
+                          }
+                        }}
                       >
-                        <a href={`/judges/${app.fullName.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20)}`}>
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Profile
-                        </a>
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Profile
                       </Button>
                     </div>
                   </CardContent>
