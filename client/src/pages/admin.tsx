@@ -3,11 +3,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AdminLogin } from "@/components/admin-login";
+import { EditApplicationModal } from "@/components/edit-application-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase, LogOut } from "lucide-react";
+import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase, LogOut, Edit3, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { SEO } from "@/components/seo";
@@ -16,6 +17,7 @@ import type { JudgeApplication } from "@shared/schema";
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingApplication, setEditingApplication] = useState<JudgeApplication | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -268,6 +270,13 @@ export default function Admin() {
                     
                     <div className="flex gap-2 pt-4">
                       <Button
+                        variant="outline"
+                        onClick={() => setEditingApplication(app)}
+                      >
+                        <Edit3 className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+                      <Button
                         onClick={() => approveMutation.mutate(app.id)}
                         disabled={approveMutation.isPending}
                         className="bg-green-600 hover:bg-green-700"
@@ -315,12 +324,16 @@ export default function Admin() {
                         <Mail className="w-4 h-4 text-gray-500" />
                         <span className="text-sm">{app.email}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-gray-500" />
-                        <a href={`/judges/${app.fullName.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20)}`} className="text-sm text-blue-600 hover:underline">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                      >
+                        <a href={`/judges/${app.fullName.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20)}`}>
+                          <Eye className="w-4 h-4 mr-2" />
                           View Profile
                         </a>
-                      </div>
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -371,6 +384,14 @@ export default function Admin() {
       </div>
       
       <Footer />
+      
+      {editingApplication && (
+        <EditApplicationModal
+          application={editingApplication}
+          isOpen={!!editingApplication}
+          onClose={() => setEditingApplication(null)}
+        />
+      )}
     </div>
   );
 }

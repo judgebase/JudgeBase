@@ -37,10 +37,18 @@ export function createAdminRoutes(storage: IStorage) {
         return res.status(404).json({ error: 'Judge application not found' });
       }
 
-      // Create slug from name
-      const slug = application.fullName.toLowerCase()
+      // Create unique slug from name
+      const baseSlug = application.fullName.toLowerCase()
         .replace(/[^a-z0-9]/g, '')
         .substring(0, 20);
+      
+      // Check if slug exists and make it unique
+      let slug = baseSlug;
+      let counter = 1;
+      while (await storage.getJudgeBySlug(slug)) {
+        slug = `${baseSlug}${counter}`;
+        counter++;
+      }
 
       // Create judge profile from application
       const judgeData = {
@@ -71,6 +79,33 @@ export function createAdminRoutes(storage: IStorage) {
     } catch (error) {
       console.error('Error approving judge:', error);
       res.status(500).json({ error: 'Failed to approve judge application' });
+    }
+  });
+
+  // Edit judge application
+  router.get('/api/admin/judge-applications/:id', async (req, res) => {
+    try {
+      const application = await storage.getJudgeApplication(req.params.id);
+      if (!application) {
+        return res.status(404).json({ error: 'Judge application not found' });
+      }
+      res.json(application);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch judge application' });
+    }
+  });
+
+  // Update judge application (for editing)
+  router.put('/api/admin/judge-applications/:id', async (req, res) => {
+    try {
+      const application = await storage.updateJudgeApplication(req.params.id, req.body);
+      res.json(application);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('not found')) {
+        res.status(404).json({ error: 'Judge application not found' });
+      } else {
+        res.status(500).json({ error: 'Failed to update judge application' });
+      }
     }
   });
 
