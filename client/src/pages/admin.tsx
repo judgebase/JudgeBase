@@ -40,6 +40,12 @@ export default function Admin() {
     enabled: isAuthenticated,
   });
 
+  const { data: judges, isLoading: judgesLoading } = useQuery({
+    queryKey: ['/api/admin/judges'],
+    queryFn: () => apiRequest('/api/admin/judges'),
+    enabled: isAuthenticated,
+  });
+
   const logoutMutation = useMutation({
     mutationFn: () => apiRequest('/api/auth/logout', { method: 'POST' }),
     onSuccess: () => {
@@ -94,6 +100,54 @@ export default function Admin() {
     onError: (error: any) => {
       toast({
         title: "Error updating status",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateJudgeMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: any }) => {
+      return apiRequest(`/api/admin/judges/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Judge updated successfully!",
+        description: "The judge information has been updated.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/judges'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/judges/featured'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error updating judge",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteJudgeMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiRequest(`/api/admin/judges/${id}`, {
+        method: 'DELETE',
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Judge removed successfully!",
+        description: "The judge has been removed from the platform.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/judges'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/judges/featured'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error removing judge",
         description: error.message || "Please try again later.",
         variant: "destructive",
       });
@@ -204,10 +258,11 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="pending" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="pending">Pending ({pendingApplications.length})</TabsTrigger>
             <TabsTrigger value="approved">Approved ({approvedApplications.length})</TabsTrigger>
             <TabsTrigger value="rejected">Rejected ({rejectedApplications.length})</TabsTrigger>
+            <TabsTrigger value="judges">Manage Judges ({judges?.length || 0})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pending" className="space-y-4">
@@ -373,6 +428,113 @@ export default function Admin() {
                         disabled={updateStatusMutation.isPending}
                       >
                         Review Again
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="judges" className="space-y-4">
+            {judgesLoading ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
+                  <p className="text-gray-500">Loading judges...</p>
+                </CardContent>
+              </Card>
+            ) : !judges || judges.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No judges found</p>
+                </CardContent>
+              </Card>
+            ) : (
+              judges.map((judge: any) => (
+                <Card key={judge.id} className="overflow-hidden">
+                  <CardHeader className="pb-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{judge.name}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{judge.title}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Badge variant={judge.featured ? "default" : "secondary"}>
+                          {judge.featured ? "Featured" : "Not Featured"}
+                        </Badge>
+                        <Badge variant="outline">{judge.status}</Badge>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Briefcase className="w-4 h-4 text-gray-500" />
+                          <span className="text-sm">{judge.company}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <ExternalLink className="w-4 h-4 text-gray-500" />
+                          <a href={judge.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                            LinkedIn Profile
+                          </a>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm"><strong>Location:</strong> {judge.location}</p>
+                        <p className="text-sm"><strong>Slug:</strong> {judge.slug}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Expertise Areas:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {judge.expertise.map((skill: string, index: number) => (
+                          <Badge key={index} variant="secondary" className="text-xs">{skill}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Bio:</p>
+                      <p className="text-sm text-gray-700">{judge.bio}</p>
+                    </div>
+                    
+                    <div className="flex gap-2 pt-4">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                      >
+                        <a href={`/judges/${judge.slug}`} target="_blank">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Profile
+                        </a>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={judge.featured ? "secondary" : "default"}
+                        onClick={() => updateJudgeMutation.mutate({ 
+                          id: judge.id, 
+                          updates: { featured: !judge.featured } 
+                        })}
+                        disabled={updateJudgeMutation.isPending}
+                      >
+                        {judge.featured ? "Remove from Featured" : "Make Featured"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          if (window.confirm(`Are you sure you want to remove ${judge.name} from the platform? This action cannot be undone.`)) {
+                            deleteJudgeMutation.mutate(judge.id);
+                          }
+                        }}
+                        disabled={deleteJudgeMutation.isPending}
+                      >
+                        <XCircle className="w-4 h-4 mr-2" />
+                        Remove Judge
                       </Button>
                     </div>
                   </CardContent>

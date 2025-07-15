@@ -50,6 +50,9 @@ export function createAdminRoutes(storage: IStorage) {
         counter++;
       }
 
+      // Get featured and badges from request body
+      const { featured = false, badges = [] } = req.body;
+
       // Create judge profile from application
       const judgeData = {
         name: application.fullName,
@@ -105,6 +108,44 @@ export function createAdminRoutes(storage: IStorage) {
         res.status(404).json({ error: 'Judge application not found' });
       } else {
         res.status(500).json({ error: 'Failed to update judge application' });
+      }
+    }
+  });
+
+  // Get all approved judges
+  router.get('/api/admin/judges', async (req, res) => {
+    try {
+      const judges = await storage.getAllJudges();
+      res.json(judges);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch judges' });
+    }
+  });
+
+  // Update judge (featured status, badges, etc.)
+  router.patch('/api/admin/judges/:id', async (req, res) => {
+    try {
+      const judge = await storage.updateJudge(req.params.id, req.body);
+      res.json(judge);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('not found')) {
+        res.status(404).json({ error: 'Judge not found' });
+      } else {
+        res.status(500).json({ error: 'Failed to update judge' });
+      }
+    }
+  });
+
+  // Delete judge
+  router.delete('/api/admin/judges/:id', async (req, res) => {
+    try {
+      await storage.deleteJudge(req.params.id);
+      res.json({ message: 'Judge deleted successfully' });
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('not found')) {
+        res.status(404).json({ error: 'Judge not found' });
+      } else {
+        res.status(500).json({ error: 'Failed to delete judge' });
       }
     }
   });
