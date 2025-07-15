@@ -1,6 +1,6 @@
 import express from 'express';
 import { createRoutes } from './routes';
-import { MemStorage } from './storage';
+import { PostgresStorage } from './db';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -15,30 +15,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Create storage instance
-const storage = new MemStorage();
+const storage = new PostgresStorage();
 
 // Seed some sample data for development
 if (process.env.NODE_ENV === 'development') {
-  // Only keeping Rishul Chanana as the primary judge
-
-  await storage.createJudge({
-    name: 'Rishul Chanana',
-    title: 'Founder & CEO',
-    company: 'Maximally',
-    location: 'Chandigarh, India',
-    bio: 'Rishul is a 16-year-old dropout-turned-founder from Zirakpur who\'s dead serious about one thing: execution. He runs Maximally, India\'s first high-stakes hackathon ecosystem designed for teenagers who\'d rather build than cram.\n\nHe doesn\'t do lectures or checkboxes. His events feel more like Red Bull meets YC — fast, chaotic, and real. His past hackathons have brought in thousands of young builders, and he\'s landed partnerships with orgs like Masters\' Union to back the movement.\n\nRishul\'s belief is simple: hackathons aren\'t events. They\'re engines. Engines for discovery, for proof, and for transformation.',
-    judgingPhilosophy: 'I reward speed, not theory. I care about clarity, not complexity. The best builds are sharp, raw, and unapologetically weird.\n\nRishul judges with a "ship-first" lens — he prioritizes MVPs over mockups, originality over polish, and founder energy over fancy slides.',
-    linkedin: 'https://linkedin.com/in/rishulchanana',
-    twitter: '',
-    website: 'https://maximally.in',
-    avatar: null,
-    expertise: ['Hackathons', 'Startup Ecosystem', 'Youth Entrepreneurship'],
-    experience: 'Head Judge – CodeQuest (India\'s largest school hackathon), Judge & Mentor – Maximally Startup Makeathon, Advisor – Startup World Tapri, Consultant – PurpleRain TechSafe, Builder – HackSkye (4000+ student event)',
-    slug: 'rishulchanana',
-    status: 'approved',
-    featured: true,
-    badges: ['Startup Mentor', 'Youth Leader', 'Hackathon Expert'],
-  });
+  // Only keeping Rishul Chanana as the primary judge - check if exists first
+  try {
+    const existingJudge = await storage.getJudgeBySlug('rishulchanana');
+    if (!existingJudge) {
+      await storage.createJudge({
+        name: 'Rishul Chanana',
+        title: 'Founder & CEO',
+        company: 'Maximally',
+        location: 'Chandigarh, India',
+        bio: 'Rishul is a 16-year-old dropout-turned-founder from Zirakpur who\'s dead serious about one thing: execution. He runs Maximally, India\'s first high-stakes hackathon ecosystem designed for teenagers who\'d rather build than cram.\n\nHe doesn\'t do lectures or checkboxes. His events feel more like Red Bull meets YC — fast, chaotic, and real. His past hackathons have brought in thousands of young builders, and he\'s landed partnerships with orgs like Masters\' Union to back the movement.\n\nRishul\'s belief is simple: hackathons aren\'t events. They\'re engines. Engines for discovery, for proof, and for transformation.',
+        judgingPhilosophy: 'I reward speed, not theory. I care about clarity, not complexity. The best builds are sharp, raw, and unapologetically weird.\n\nRishul judges with a "ship-first" lens — he prioritizes MVPs over mockups, originality over polish, and founder energy over fancy slides.',
+        linkedin: 'https://linkedin.com/in/rishulchanana',
+        twitter: '',
+        website: 'https://maximally.in',
+        avatar: null,
+        expertise: ['Hackathons', 'Startup Ecosystem', 'Youth Entrepreneurship'],
+        experience: 'Head Judge – CodeQuest (India\'s largest school hackathon), Judge & Mentor – Maximally Startup Makeathon, Advisor – Startup World Tapri, Consultant – PurpleRain TechSafe, Builder – HackSkye (4000+ student event)',
+        slug: 'rishulchanana',
+        status: 'approved',
+        featured: true,
+        badges: ['Startup Mentor', 'Youth Leader', 'Hackathon Expert'],
+      });
+    }
+  } catch (error) {
+    console.log('Sample judge data already exists, skipping seeding');
+  }
 }
 
 // API routes
