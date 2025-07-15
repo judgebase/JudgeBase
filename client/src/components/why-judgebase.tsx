@@ -96,8 +96,8 @@ export function WhyJudgeBase() {
                 </Button>
               </Link>
               <Link href="/find-judges">
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 text-lg font-bold rounded-xl transition-all duration-300">
-                  <span className="text-white">Find Judges</span>
+                <Button size="lg" variant="outline" className="border-2 border-white text-black hover:bg-white/10 px-8 py-3 text-lg font-bold rounded-xl transition-all duration-300">
+                  <span className="text-black">Find Judges</span>
                 </Button>
               </Link>
             </div>

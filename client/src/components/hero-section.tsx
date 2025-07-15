@@ -47,8 +47,8 @@ export function HeroSection() {
               </Button>
             </Link>
             <Link href="/find-judges">
-              <Button size="lg" variant="outline" className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-4 text-lg font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105">
-                <span className="text-purple-600">Find Judges</span>
+              <Button size="lg" variant="outline" className="border-2 border-purple-600 text-black hover:bg-purple-50 px-8 py-4 text-lg font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105">
+                <span className="text-black">Find Judges</span>
               </Button>
             </Link>
           </div>
