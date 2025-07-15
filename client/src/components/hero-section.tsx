@@ -2,7 +2,6 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Star, Users, Calendar, Check } from "lucide-react";
-import { LogoCarousel } from "./logo-carousel";
 
 export function HeroSection() {
   return (
