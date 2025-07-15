@@ -145,3 +145,7 @@ The application follows a modern full-stack TypeScript approach with emphasis on
 - **Repositioned logo carousel**: Moved logo carousel to appear directly beneath stats section (200+ Expert Judges, 24hr Response Time, 98% Success Rate)
 - **Enhanced mobile optimization**: Improved text sizing, spacing, and layout for better mobile experience across all sections
 - **Refined animations**: Reduced excessive sparkle effects and animations for cleaner, more professional appearance
+- **Fixed scroll-to-top navigation**: Added automatic scroll to top when navigating between pages
+- **Fixed button text visibility**: Resolved "Find Judges" button text display issues with explicit color classes
+- **Removed View All Judges button**: Cleaned up Featured Judges section by removing the CTA button
+- **Removed API Access functionality**: Completely removed API Access page, route, and navigation links

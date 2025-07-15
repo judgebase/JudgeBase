@@ -77,16 +77,6 @@ export function FeaturedJudges() {
             </div>
           ))}
         </div>
-        
-        {/* View All Judges CTA */}
-        <div className="text-center mt-12 md:mt-16">
-          <Link href="/find-judges">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
-              View All Judges
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );

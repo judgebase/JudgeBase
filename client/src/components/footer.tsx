@@ -66,11 +66,6 @@ export function Footer() {
                   Support
                 </Link>
               </li>
-              <li>
-                <Link href="/api-access" className="text-gray-400 hover:text-white transition-colors duration-200 hover:underline">
-                  API Access
-                </Link>
-              </li>
             </ul>
           </div>
         </div>

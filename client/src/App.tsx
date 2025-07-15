@@ -14,7 +14,6 @@ import JudgeGuidelines from "@/pages/judge-guidelines";
 import FAQ from "@/pages/faq";
 import Resources from "@/pages/resources";
 import Support from "@/pages/support";
-import ApiAccess from "@/pages/api-access";
 import NotFound from "@/pages/not-found";
 
 // Component to handle scroll to top on route change
@@ -45,7 +44,6 @@ function Router() {
         <Route path="/faq" component={FAQ} />
         <Route path="/resources" component={Resources} />
         <Route path="/support" component={Support} />
-        <Route path="/api-access" component={ApiAccess} />
         <Route component={NotFound} />
       </Switch>
     </>
