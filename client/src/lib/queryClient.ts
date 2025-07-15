@@ -14,9 +14,15 @@ export const queryClient = new QueryClient({
 
 // API request helper function
 export async function apiRequest(url: string, options: RequestInit = {}) {
+  // Don't add Content-Type header for FormData requests
+  const defaultHeaders: Record<string, string> = {};
+  if (!(options.body instanceof FormData)) {
+    defaultHeaders['Content-Type'] = 'application/json';
+  }
+
   const response = await fetch(url, {
     headers: {
-      'Content-Type': 'application/json',
+      ...defaultHeaders,
       ...options.headers,
     },
     ...options,

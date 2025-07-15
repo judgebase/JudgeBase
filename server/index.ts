@@ -2,6 +2,7 @@ import express from 'express';
 import { createRoutes } from './routes';
 import { createAdminRoutes } from './admin-routes';
 import { PostgresStorage } from './db';
+import { setupAuth, requireAuth } from './auth';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -12,11 +13,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Create storage instance
 const storage = new PostgresStorage();
+
+// Setup authentication
+setupAuth(app, storage);
 
 // Seed some sample data for development
 if (process.env.NODE_ENV === 'development') {
@@ -50,6 +54,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // API routes
 app.use(createRoutes(storage));
+
+// Protected admin routes
+app.use('/api/admin', requireAuth);
 app.use(createAdminRoutes(storage));
 
 // Serve static files from uploads directory

@@ -1,24 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { AdminLogin } from "@/components/admin-login";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase } from "lucide-react";
+import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { SEO } from "@/components/seo";
 import type { JudgeApplication } from "@shared/schema";
 
 export default function Admin() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Check authentication status
+  const { data: authStatus } = useQuery({
+    queryKey: ['/api/auth/status'],
+    queryFn: () => apiRequest('/api/auth/status'),
+  });
+
+  useEffect(() => {
+    if (authStatus !== undefined) {
+      setIsAuthenticated(authStatus.authenticated);
+      setIsLoading(false);
+    }
+  }, [authStatus]);
   
-  const { data: applications, isLoading } = useQuery({
+  const { data: applications, isLoading: applicationsLoading } = useQuery({
     queryKey: ['/api/admin/judge-applications'],
     queryFn: () => apiRequest('/api/admin/judge-applications'),
+    enabled: isAuthenticated,
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: () => apiRequest('/api/auth/logout', { method: 'POST' }),
+    onSuccess: () => {
+      setIsAuthenticated(false);
+      queryClient.clear();
+      toast({
+        title: "Logged out successfully",
+        description: "You have been signed out of the admin panel.",
+      });
+    },
   });
 
   const approveMutation = useMutation({
@@ -86,6 +115,18 @@ export default function Admin() {
 
   if (isLoading) {
     return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={() => setIsAuthenticated(true)} />;
+  }
+
+  if (applicationsLoading) {
+    return (
       <div className="min-h-screen bg-gray-50">
         <SEO title="Admin Dashboard - JudgeBase" description="Admin dashboard for managing judge applications" />
         <Navbar />
@@ -106,9 +147,20 @@ export default function Admin() {
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Manage judge applications and profiles</p>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+            <p className="text-gray-600">Manage judge applications and profiles</p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => logoutMutation.mutate()}
+            disabled={logoutMutation.isPending}
+            className="flex items-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
