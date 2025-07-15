@@ -1,0 +1,64 @@
+Create a full static web page section titled “Judging Expectations” to replace the old "Judge Guidelines" page on a hackathon judging platform. This section should be clear, modern, and informative. The tone should be confident, friendly, and concise. Avoid generic words like “empower” or “transform.” Instead, focus on clarity and usefulness.
+
+The purpose is to help first-time and experienced judges understand how hackathon judging works across various events. Include only general judging knowledge that applies across most formats, while noting that specific judging briefs will be shared per event.
+
+The structure should include the following sections:
+
+Judging Expectations (Page Title)
+1. What Judges Actually Do
+Judges evaluate submitted projects based on a set of event-specific criteria (e.g., creativity, execution, problem relevance).
+
+They provide written feedback to help participants improve.
+
+They help select winning entries, usually through a score-based rubric or ranking method.
+
+Note: Every event is different. You’ll receive a short judging brief with instructions, scoring sheets, and rubrics before the event starts.
+
+2. Time Commitment
+Most judging processes are remote and async. Here’s what to expect:
+
+Briefing: ~15–30 minutes before judging starts
+
+Judging: 1–4 hours depending on number of submissions
+
+Feedback: ~2–5 minutes per project
+
+Judges can usually complete the process at their own pace within a 1–2 day window.
+
+3. Judging Styles
+We support different types of judging formats:
+
+Synchronous (Live Demos): Judges attend live pitch sessions or demo calls. Typically used in final rounds.
+
+Asynchronous (Recorded or Submission-Based): Judges receive written submissions, links, videos, or GitHub repos. This is the most common style.
+
+Mixed Format: Some events combine live Q&A + async scoring.
+
+Most events are beginner-friendly and prioritize clear ideas over perfect polish.
+
+4. What Makes a Good Judge
+You ask smart questions that help the team reflect.
+
+You give actionable feedback (not just scores).
+
+You reward originality, risk-taking, and relevance — not just complexity.
+
+You stay neutral and unbiased across all entries.
+
+You value the journey (not just the end result).
+
+5. What Not to Do
+Don’t compare submissions to your own past projects.
+
+Don’t dismiss projects just because they used no-code or simple tech.
+
+Don’t ignore beginner teams or early-stage ideas.
+
+Don’t judge based on accent, grammar, or presentation polish alone.
+
+6. Code of Conduct (Short)
+Keep judging confidential.
+
+Flag any conflicts of interest before the event.
+
+Be respectful, professional, and constructive — even in critical feedback.
