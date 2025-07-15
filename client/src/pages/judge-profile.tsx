@@ -1,5 +1,5 @@
 import { useParams } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { getJudgeBySlug } from "@/data/judges";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -11,15 +11,9 @@ import { SEO } from "@/components/seo";
 export default function JudgeProfile() {
   const { slug } = useParams<{ slug: string }>();
   
-  const { data: judge, isLoading, error } = useQuery({
-    queryKey: ["/api/judges", slug],
-    queryFn: async () => {
-      const response = await fetch(`/api/judges/${slug}`);
-      if (!response.ok) throw new Error('Judge not found');
-      return response.json();
-    },
-    enabled: !!slug
-  });
+  const judge = slug ? getJudgeBySlug(slug) : null;
+  const isLoading = false;
+  const error = !judge;
 
   if (isLoading) {
     return (

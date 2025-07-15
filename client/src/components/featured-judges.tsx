@@ -1,18 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
 import { JudgeCard } from "./judge-card";
-import { Judge } from "@shared/schema";
+import { getFeaturedJudges } from "@/data/judges";
 
 export function FeaturedJudges() {
-  const { data: featuredJudges, isLoading, error } = useQuery({
-    queryKey: ['/api/judges/featured'],
-    queryFn: async () => {
-      const response = await fetch('/api/judges/featured');
-      if (!response.ok) {
-        throw new Error('Failed to fetch featured judges');
-      }
-      return response.json() as Promise<Judge[]>;
-    },
-  });
+  const featuredJudges = getFeaturedJudges();
+  const isLoading = false;
+  const error = null;
 
   if (isLoading) {
     return (

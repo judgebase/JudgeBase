@@ -38,10 +38,16 @@ export function Navbar() {
               Home
             </Link>
             <Link 
-              href="/blog" 
+              href="/apply" 
               className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
             >
-              Blog
+              Apply to Judge
+            </Link>
+            <Link 
+              href="/judge-guidelines" 
+              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+            >
+              Guidelines
             </Link>
             <Link 
               href="/find-judges" 
@@ -49,14 +55,18 @@ export function Navbar() {
             >
               Find Judges
             </Link>
-            <a 
-              href="https://teleform.app/example" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <Link 
+              href="/resources" 
+              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+            >
+              Resources
+            </Link>
+            <Link 
+              href="/pricing" 
               className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg hover:scale-105 transition-all duration-200 px-4 py-2 rounded-lg font-medium"
             >
-              Apply as Judge
-            </a>
+              Pricing
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -84,11 +94,18 @@ export function Navbar() {
                 Home
               </Link>
               <Link 
-                href="/blog" 
+                href="/apply" 
                 className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
                 onClick={handleLinkClick}
               >
-                Blog
+                Apply to Judge
+              </Link>
+              <Link 
+                href="/judge-guidelines" 
+                className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
+                onClick={handleLinkClick}
+              >
+                Guidelines
               </Link>
               <Link 
                 href="/find-judges" 
@@ -97,16 +114,35 @@ export function Navbar() {
               >
                 Find Judges
               </Link>
+              <Link 
+                href="/resources" 
+                className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
+                onClick={handleLinkClick}
+              >
+                Resources
+              </Link>
+              <Link 
+                href="/faq" 
+                className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
+                onClick={handleLinkClick}
+              >
+                FAQ
+              </Link>
+              <Link 
+                href="/support" 
+                className="block px-3 py-3 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-lg transition-all duration-200 font-medium"
+                onClick={handleLinkClick}
+              >
+                Support
+              </Link>
               <div className="px-3 py-3">
-                <a 
-                  href="https://teleform.app/example" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                <Link 
+                  href="/pricing"
                   className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700 text-white w-full font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-sm tracking-wide block text-center"
                   onClick={handleLinkClick}
                 >
-                  ✨ Apply as Judge
-                </a>
+                  ✨ Pricing
+                </Link>
               </div>
             </div>
           </div>

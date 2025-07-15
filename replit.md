@@ -16,19 +16,19 @@ UI style: topmate.io-inspired modern design with gradients and animations.
 
 ## System Architecture
 
-### Frontend Architecture
+### Frontend-Only Architecture
 - **Framework**: React with TypeScript
 - **Routing**: Wouter (lightweight client-side routing)
-- **State Management**: Static data (no server state management needed)
+- **State Management**: Static data imports (no API calls)
 - **Styling**: Tailwind CSS with custom gradient theme
 - **UI Components**: Radix UI primitives with shadcn/ui component library
 - **Build Tool**: Vite for fast development and optimized builds
 
 ### Project Structure
-- **Static Site**: Frontend-only application with no backend
-- **Data**: Hardcoded static data for featured judges
+- **Static Site**: Pure frontend application with no backend
+- **Data**: Static data in `client/src/data/judges.ts`
 - **Forms**: External form handling via Teleform
-- **Judge Profiles**: External links to judgebase.co domain
+- **Judge Profiles**: Internal routing with `/judges/{slug}` format
 
 ## Key Components
 
@@ -56,6 +56,12 @@ The application uses four main tables:
 5. **Pricing** (`/pricing`) - 3-tier pricing plans ($99-$299/month + Enterprise)
 6. **Judge Profile** (`/judges/:slug`) - Individual judge showcase pages
 7. **Admin** (`/admin`) - Administrative dashboard for judge intake management
+8. **Judge Guidelines** (`/judge-guidelines`) - Comprehensive guidelines for judges
+9. **FAQ** (`/faq`) - Frequently asked questions with categorized sections
+10. **Resources** (`/resources`) - Training materials, templates, and documentation
+11. **Support** (`/support`) - Help center with contact forms and system status
+12. **API Access** (`/api-access`) - Developer documentation and API information
+13. **Find Judges** (`/find-judges`) - Judge discovery and request interface
 
 ### Design System
 - **Typography**: Inter font family with large, breathable spacing
@@ -121,3 +127,9 @@ The application follows a modern full-stack TypeScript approach with emphasis on
 - **Added Rishul Chanana profile**: Added real judge data with complete bio, experience, and contact information
 - **Fixed Find Judges page**: Added missing Navbar and Footer components
 - **API endpoint working**: /api/judges/:slug endpoint properly serving judge data
+- **Converted to frontend-only application**: Removed backend dependencies and converted to static data
+- **Created all requested pages**: Added Judge Guidelines, FAQ, Resources, Support, API Access pages
+- **Updated navigation**: Added proper links to all new pages in navbar and footer
+- **Removed sample judges**: Kept only Rishul Chanana as featured judge, removed Sarah Chen and Marcus Rodriguez
+- **Created comprehensive add-a-judge.md guide**: Detailed instructions for adding new judges to the platform
+- **Set up Netlify deployment**: Created netlify.toml and deployment documentation
