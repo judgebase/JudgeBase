@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MapPin, Linkedin, Twitter, Globe } from "lucide-react";
+import { Link } from "wouter";
 
 interface Judge {
   id: number;
@@ -120,16 +121,11 @@ export function JudgeCard({ judge }: JudgeCardProps) {
             <span>{judge.location || 'Remote'}</span>
           </div>
 
-          <a 
-            href={`https://judgebase.co/${judge.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block"
-          >
+          <Link href={`/judges/${judge.slug}`}>
             <Button className="gradient-bg-cool text-white hover:shadow-lg transition-all duration-200">
               View Profile
             </Button>
-          </a>
+          </Link>
         </div>
       </CardContent>
     </Card>
