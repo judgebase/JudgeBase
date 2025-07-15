@@ -99,8 +99,14 @@ if (process.env.NODE_ENV === 'development') {
       root: path.resolve(process.cwd(), 'client'),
     });
     
-    app.use(vite.ssrFixStacktrace);
-    app.use(vite.middlewares);
+    // Use vite middleware for all non-API routes
+    app.use('/', (req, res, next) => {
+      if (req.path.startsWith('/api/') || req.path === '/health') {
+        return next();
+      }
+      vite.middlewares(req, res, next);
+    });
+    
     console.log('Vite dev server integrated successfully');
   } catch (error) {
     console.error('Failed to create Vite dev server:', error);
