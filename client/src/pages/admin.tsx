@@ -1,68 +1,321 @@
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Lock, Shield, Database } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import { SEO } from "@/components/seo";
+import type { JudgeApplication } from "@shared/schema";
 
 export default function Admin() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  const { data: applications, isLoading } = useQuery({
+    queryKey: ['/api/admin/judge-applications'],
+    queryFn: () => apiRequest('/api/admin/judge-applications'),
+  });
+
+  const approveMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiRequest(`/api/admin/judge-applications/${id}/approve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ featured: false, badges: [] }),
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Judge approved successfully!",
+        description: `${data.judge.name} has been approved and their profile is now live.`,
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/judge-applications'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error approving judge",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      return apiRequest(`/api/admin/judge-applications/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Status updated successfully!",
+        description: "Judge application status has been updated.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/judge-applications'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error updating status",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'approved':
+        return <Badge variant="default" className="bg-green-100 text-green-800"><CheckCircle className="w-3 h-3 mr-1" />Approved</Badge>;
+      case 'rejected':
+        return <Badge variant="destructive"><XCircle className="w-3 h-3 mr-1" />Rejected</Badge>;
+      default:
+        return <Badge variant="secondary"><Clock className="w-3 h-3 mr-1" />Pending</Badge>;
+    }
+  };
+
+  const pendingApplications = applications?.filter((app: JudgeApplication) => app.status === 'pending') || [];
+  const approvedApplications = applications?.filter((app: JudgeApplication) => app.status === 'approved') || [];
+  const rejectedApplications = applications?.filter((app: JudgeApplication) => app.status === 'rejected') || [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <SEO title="Admin Dashboard - JudgeBase" description="Admin dashboard for managing judge applications" />
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-6"></div>
+            <p className="text-gray-600">Loading applications...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <SEO
-        title="Admin - JudgeBase"
-        description="Admin access for JudgeBase platform management."
-        keywords="admin, management, judgebase"
-      />
-      
+      <SEO title="Admin Dashboard - JudgeBase" description="Admin dashboard for managing judge applications" />
       <Navbar />
       
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Card className="shadow-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-gray-900 flex items-center justify-center">
-              <Shield className="w-8 h-8 mr-3 text-purple-600" />
-              Admin Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center py-12">
-            <div className="mb-8">
-              <Lock className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 mb-6">
-                This is a static website. Admin functionality is not available in the current version.
-              </p>
-              <p className="text-sm text-gray-500 mb-8">
-                For administrative tasks, please contact the system administrator.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-gray-50 rounded-lg p-6">
-                <Database className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Judge Management</h3>
-                <p className="text-sm text-gray-600">
-                  Judge applications and approvals are handled externally through our forms system.
-                </p>
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+          <p className="text-gray-600">Manage judge applications and profiles</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Pending Applications</p>
+                  <p className="text-2xl font-bold text-orange-600">{pendingApplications.length}</p>
+                </div>
+                <Clock className="w-8 h-8 text-orange-600" />
               </div>
-              
-              <div className="bg-gray-50 rounded-lg p-6">
-                <Shield className="w-8 h-8 text-green-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Content Management</h3>
-                <p className="text-sm text-gray-600">
-                  Site content and featured judges are managed through the development process.
-                </p>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Approved Judges</p>
+                  <p className="text-2xl font-bold text-green-600">{approvedApplications.length}</p>
+                </div>
+                <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-            </div>
-            
-            <a 
-              href="mailto:admin@judgebase.co"
-              className="inline-block"
-            >
-              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">
-                Contact Administrator
-              </Button>
-            </a>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Rejected Applications</p>
+                  <p className="text-2xl font-bold text-red-600">{rejectedApplications.length}</p>
+                </div>
+                <XCircle className="w-8 h-8 text-red-600" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="pending" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="pending">Pending ({pendingApplications.length})</TabsTrigger>
+            <TabsTrigger value="approved">Approved ({approvedApplications.length})</TabsTrigger>
+            <TabsTrigger value="rejected">Rejected ({rejectedApplications.length})</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="pending" className="space-y-4">
+            {pendingApplications.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No pending applications</p>
+                </CardContent>
+              </Card>
+            ) : (
+              pendingApplications.map((app: JudgeApplication) => (
+                <Card key={app.id} className="overflow-hidden">
+                  <CardHeader className="pb-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{app.fullName}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{app.currentRole}</p>
+                      </div>
+                      {getStatusBadge(app.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Mail className="w-4 h-4 text-gray-500" />
+                          <span className="text-sm">{app.email}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <ExternalLink className="w-4 h-4 text-gray-500" />
+                          <a href={app.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                            LinkedIn Profile
+                          </a>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm"><strong>Has judged before:</strong> {app.hasJudgedBefore ? 'Yes' : 'No'}</p>
+                        <p className="text-sm"><strong>Open to mentoring:</strong> {app.openToMentoring}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Expertise Areas:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {app.expertise.map((skill, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">{skill}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Bio:</p>
+                      <p className="text-sm text-gray-700">{app.shortBio}</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Judging Philosophy:</p>
+                      <p className="text-sm text-gray-700">{app.judgingPhilosophy}</p>
+                    </div>
+                    
+                    <div className="flex gap-2 pt-4">
+                      <Button
+                        onClick={() => approveMutation.mutate(app.id)}
+                        disabled={approveMutation.isPending}
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        {approveMutation.isPending ? 'Approving...' : 'Approve & Create Profile'}
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={() => updateStatusMutation.mutate({ id: app.id, status: 'rejected' })}
+                        disabled={updateStatusMutation.isPending}
+                      >
+                        <XCircle className="w-4 h-4 mr-2" />
+                        Reject
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="approved" className="space-y-4">
+            {approvedApplications.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No approved applications</p>
+                </CardContent>
+              </Card>
+            ) : (
+              approvedApplications.map((app: JudgeApplication) => (
+                <Card key={app.id}>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{app.fullName}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{app.currentRole}</p>
+                      </div>
+                      {getStatusBadge(app.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-gray-500" />
+                        <span className="text-sm">{app.email}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-gray-500" />
+                        <a href={`/judges/${app.fullName.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20)}`} className="text-sm text-blue-600 hover:underline">
+                          View Profile
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="rejected" className="space-y-4">
+            {rejectedApplications.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No rejected applications</p>
+                </CardContent>
+              </Card>
+            ) : (
+              rejectedApplications.map((app: JudgeApplication) => (
+                <Card key={app.id}>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{app.fullName}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{app.currentRole}</p>
+                      </div>
+                      {getStatusBadge(app.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-gray-500" />
+                        <span className="text-sm">{app.email}</span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => updateStatusMutation.mutate({ id: app.id, status: 'pending' })}
+                        disabled={updateStatusMutation.isPending}
+                      >
+                        Review Again
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
       
       <Footer />

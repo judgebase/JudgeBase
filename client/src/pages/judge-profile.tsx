@@ -1,27 +1,35 @@
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
-import { getJudgeBySlug } from "@/data/judges";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, MapPin, Mail, Globe, Linkedin, Twitter } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, MapPin, Briefcase, Award, MessageCircle, Calendar } from "lucide-react";
 import { SEO } from "@/components/seo";
+import { apiRequest } from "@/lib/queryClient";
+import type { Judge } from "@shared/schema";
 
 export default function JudgeProfile() {
   const { slug } = useParams<{ slug: string }>();
   
-  const judge = slug ? getJudgeBySlug(slug) : null;
-  const isLoading = false;
-  const error = !judge;
+  const { data: judge, isLoading, error } = useQuery<Judge>({
+    queryKey: ['/api/judges', slug],
+    queryFn: () => apiRequest(`/api/judges/${slug}`),
+    enabled: !!slug,
+  });
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-6"></div>
+            <p className="text-gray-600">Loading judge profile...</p>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -30,13 +38,14 @@ export default function JudgeProfile() {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <Card>
-            <CardContent className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Judge Not Found</h2>
-              <p className="text-gray-600">The judge profile you're looking for doesn't exist.</p>
-            </CardContent>
-          </Card>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Judge Not Found</h1>
+            <p className="text-gray-600 mb-6">The judge profile you're looking for doesn't exist or has been removed.</p>
+            <Button asChild>
+              <a href="/find-judges">Browse All Judges</a>
+            </Button>
+          </div>
         </div>
         <Footer />
       </div>
@@ -45,161 +54,190 @@ export default function JudgeProfile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SEO
+      <SEO 
         title={`${judge.name} - Expert Judge | JudgeBase`}
-        description={`${judge.name}, ${judge.title} at ${judge.company}. ${judge.bio.split('.')[0]}.`}
-        keywords={`${judge.name}, judge, hackathon, ${judge.expertise.join(', ')}, judgebase`}
+        description={`${judge.name} is an expert judge at ${judge.company}. ${judge.bio.substring(0, 150)}...`}
+        ogTitle={`${judge.name} - Expert Judge`}
+        ogDescription={judge.bio.substring(0, 150)}
       />
-      
       <Navbar />
       
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero Banner */}
-        <Card className="mb-8 overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-8">
-            <div className="flex flex-col md:flex-row items-center gap-6">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-green-500 text-white">
+        <div className="max-w-6xl mx-auto px-4 py-16">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="flex-shrink-0">
               <div className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center text-4xl font-bold">
                 {judge.name.charAt(0)}
               </div>
-              <div className="text-center md:text-left flex-1">
-                <h1 className="text-4xl font-bold mb-2">{judge.name}</h1>
-                <p className="text-xl opacity-90 mb-2">{judge.title}</p>
-                <p className="text-lg opacity-80 mb-4">{judge.company}</p>
-                <div className="flex items-center justify-center md:justify-start gap-2 text-sm opacity-75">
-                  <MapPin className="w-4 h-4" />
-                  {judge.location}
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">{judge.name}</h1>
+              <p className="text-xl mb-4 text-white/90">{judge.title}</p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-5 h-5" />
+                  <span>{judge.company}</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  <span>{judge.location}</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                {judge.linkedin && (
+                  <Button variant="outline" size="sm" asChild className="bg-white/10 border-white/20 hover:bg-white/20">
+                    <a href={judge.linkedin} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      LinkedIn
+                    </a>
+                  </Button>
+                )}
+                {judge.twitter && (
+                  <Button variant="outline" size="sm" asChild className="bg-white/10 border-white/20 hover:bg-white/20">
+                    <a href={judge.twitter} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Twitter
+                    </a>
+                  </Button>
+                )}
+                {judge.website && (
+                  <Button variant="outline" size="sm" asChild className="bg-white/10 border-white/20 hover:bg-white/20">
+                    <a href={judge.website} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Website
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           </div>
-        </Card>
+        </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
             {/* About Section */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">About</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Award className="w-5 h-5" />
+                  About {judge.name}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose prose-gray max-w-none">
-                  {judge.bio.split('\n').map((paragraph: string, index: number) => (
-                    <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
-                  ))}
-                </div>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{judge.bio}</p>
               </CardContent>
             </Card>
 
             {/* Judging Philosophy */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Judging Philosophy</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  Judging Philosophy
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose prose-gray max-w-none">
-                  {judge.judgingPhilosophy.split('\n').map((paragraph: string, index: number) => (
-                    <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
-                  ))}
-                </div>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{judge.judgingPhilosophy}</p>
               </CardContent>
             </Card>
 
             {/* Experience */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Experience</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Experience
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {judge.experience.split(', ').map((exp: string, index: number) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{exp}</span>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{judge.experience}</p>
               </CardContent>
             </Card>
           </div>
 
+          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Highlight Badges */}
+            {/* Expertise Areas */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl">Expertise</CardTitle>
+                <CardTitle>Expertise Areas</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {judge.expertise.map((skill: string, index: number) => (
-                    <Badge key={index} variant="secondary" className="bg-purple-100 text-purple-800">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
                 <div className="flex flex-wrap gap-2">
-                  {judge.badges.map((badge: string, index: number) => (
-                    <Badge key={index} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                      {badge}
-                    </Badge>
+                  {judge.expertise.map((skill, index) => (
+                    <Badge key={index} variant="secondary" className="text-sm">{skill}</Badge>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            {/* Socials */}
+            {/* Badges */}
+            {judge.badges.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recognition</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {judge.badges.map((badge, index) => (
+                      <Badge key={index} variant="outline" className="w-full justify-center py-2">
+                        <Award className="w-4 h-4 mr-2" />
+                        {badge}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Quick Stats */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl">Connect</CardTitle>
+                <CardTitle>Quick Stats</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {judge.linkedin && (
-                  <a 
-                    href={judge.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                    LinkedIn
-                  </a>
-                )}
-                {judge.website && (
-                  <a 
-                    href={judge.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-green-600 hover:text-green-800 transition-colors"
-                  >
-                    <Globe className="w-4 h-4" />
-                    Website
-                  </a>
-                )}
-                {judge.twitter && (
-                  <a 
-                    href={judge.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-400 hover:text-blue-600 transition-colors"
-                  >
-                    <Twitter className="w-4 h-4" />
-                    Twitter
-                  </a>
-                )}
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Status</span>
+                  <Badge variant="default" className="bg-green-100 text-green-800">Active</Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Featured</span>
+                  <span className="text-gray-900">{judge.featured ? 'Yes' : 'No'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Joined</span>
+                  <span className="text-gray-900">{new Date(judge.createdAt).toLocaleDateString()}</span>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Call to Action */}
-            <Card>
-              <CardContent className="pt-6">
-                <a 
-                  href={`mailto:team@judgebase.co?subject=Judge%20Invite%20for%20${encodeURIComponent(judge.name)}`}
-                  className="block"
-                >
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Invite to Judge
+            {/* Contact Card */}
+            <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+              <CardHeader>
+                <CardTitle className="text-purple-900">Want to connect?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-purple-700 mb-4">
+                  Connect with {judge.name} on their professional networks or reach out through JudgeBase.
+                </p>
+                <div className="space-y-2">
+                  {judge.linkedin && (
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <a href={judge.linkedin} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        LinkedIn
+                      </a>
+                    </Button>
+                  )}
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700" asChild>
+                    <a href="/host">Request as Judge</a>
                   </Button>
-                </a>
+                </div>
               </CardContent>
             </Card>
           </div>

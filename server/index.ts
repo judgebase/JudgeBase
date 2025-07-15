@@ -1,5 +1,6 @@
 import express from 'express';
 import { createRoutes } from './routes';
+import { createAdminRoutes } from './admin-routes';
 import { PostgresStorage } from './db';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -49,6 +50,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // API routes
 app.use(createRoutes(storage));
+app.use(createAdminRoutes(storage));
 
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
