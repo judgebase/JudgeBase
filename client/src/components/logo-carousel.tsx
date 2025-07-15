@@ -1,12 +1,64 @@
 import { useEffect, useState } from "react";
 
-const placeholderLogos = [
-  "Logo 1",
-  "Logo 2", 
-  "Logo 3",
-  "Logo 4",
-  "Logo 5",
-  "Logo 6"
+const companyLogos = [
+  {
+    name: "Google",
+    svg: (
+      <svg viewBox="0 0 272 92" className="w-20 h-7">
+        <path fill="#4285F4" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/>
+        <path fill="#EA4335" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.86 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/>
+        <path fill="#FBBC05" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/>
+        <path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/>
+        <path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/>
+        <path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/>
+      </svg>
+    )
+  },
+  {
+    name: "Meta",
+    svg: (
+      <svg viewBox="0 0 1000 300" className="w-16 h-7">
+        <path fill="#0866FF" d="M124.1 77.8c-27.5 0-49.8 22.3-49.8 49.8v44.8c0 27.5 22.3 49.8 49.8 49.8 27.5 0 49.8-22.3 49.8-49.8v-44.8c0-27.5-22.3-49.8-49.8-49.8zm24.5 94.6c0 13.5-11 24.5-24.5 24.5s-24.5-11-24.5-24.5v-44.8c0-13.5 11-24.5 24.5-24.5s24.5 11 24.5 24.5v44.8z"/>
+        <path fill="#0866FF" d="M279.5 77.8c-27.5 0-49.8 22.3-49.8 49.8v44.8c0 27.5 22.3 49.8 49.8 49.8 27.5 0 49.8-22.3 49.8-49.8v-44.8c0-27.5-22.3-49.8-49.8-49.8zm24.5 94.6c0 13.5-11 24.5-24.5 24.5s-24.5-11-24.5-24.5v-44.8c0-13.5 11-24.5 24.5-24.5s24.5 11 24.5 24.5v44.8z"/>
+        <path fill="#0866FF" d="M427.8 77.8c-29.6 0-52.5 26.7-52.5 56.5v87.9h25.3v-87.9c0-16.4 11.9-31.2 27.2-31.2 15.3 0 27.2 14.8 27.2 31.2v87.9h25.3v-87.9c0-29.8-22.9-56.5-52.5-56.5z"/>
+        <path fill="#0866FF" d="M565.1 77.8c-17.3 0-32.3 8.5-41.6 21.6v-19.1h-25.3v141.9h25.3v-86.6c0-18.9 15.3-34.2 34.2-34.2s34.2 15.3 34.2 34.2v86.6h25.3v-86.6c0-32.7-26.6-57.8-52.1-57.8z"/>
+      </svg>
+    )
+  },
+  {
+    name: "Apple",
+    svg: (
+      <svg viewBox="0 0 170 170" className="w-7 h-7">
+        <path fill="#000" d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.083.17 2.166.17 3.24z"/>
+      </svg>
+    )
+  },
+  {
+    name: "Amazon",
+    svg: (
+      <svg viewBox="0 0 603 182" className="w-20 h-7">
+        <path fill="#FF9900" d="M374.1 120.4c-25.8 19.1-63.2 29.2-95.5 29.2-45.2 0-85.9-16.7-116.7-44.5-2.4-2.2-.3-5.2 2.7-3.5 33.8 19.7 75.5 31.5 118.7 31.5 29.1 0 61.1-6 90.5-18.4 4.4-1.9 8.1 2.9 4.3 5.7z"/>
+        <path fill="#FF9900" d="M387.5 104.5c-3.3-4.2-21.8-2-30.1-1s-27.4 5.1-24.4 10.1c1.1 1.8 2.9 1.4 11.1.2 8.2-1.2 26.4-3.9 30-1.4 3.6 2.5-6.6 24.4-8.5 27.7-1.9 3.3.8 4.6 4.2 2.2 8.5-6.1 16.7-19.6 18.9-26.3 2.3-6.7-.4-9.7-1.2-11.5z"/>
+        <path fill="#232F3E" d="M337.4 15.8v-8.5c0-1.3.9-2.1 2.1-2.1h37.8c1.2 0 2.2.9 2.2 2.1v7.3c0 1.2-.9 2.8-2.5 5.3L356 44.5c7-.2 14.4.9 20.7 4.4 1.4.8 1.8 2 1.9 3.2v9.1c0 1.2-1.3 2.6-2.7 1.9-11.2-5.9-26.1-6.6-38.5.1-1.3.7-2.6-.7-2.6-1.9v-8.6c0-1.4.2-3.8 1.4-5.9l20.3-29.1h-19.7c-1.2 0-2.1-.9-2.1-2.1v-.3z"/>
+      </svg>
+    )
+  },
+  {
+    name: "Netflix",
+    svg: (
+      <svg viewBox="0 0 1024 276.742" className="w-20 h-7">
+        <path fill="#E50914" d="M140.803 258.904c-15.404 2.705-31.079 3.516-47.294 5.676L44.051 119.724v151.073C28.647 272.418 14.594 274.58 0 276.742V0h44.051v101.716l50.202-101.716h44.051L90.342 148.331l54.455 110.573zm85.131-157.558c16.757 0 42.431-.811 57.835-.811v43.24c-19.189 0-41.619 0-57.835.811v64.322c25.405-1.621 50.809-3.785 76.482-4.596v41.617l-119.724 9.461V0h119.724v43.241H225.934v58.105z"/>
+      </svg>
+    )
+  },
+  {
+    name: "OpenAI",
+    svg: (
+      <svg viewBox="0 0 320 320" className="w-7 h-7">
+        <path fill="#10A37F" d="M297.06 130.61c7.26-17.38 4.19-37.3-7.99-51.35-12.17-14.05-30.16-18.66-46.91-12.02l-1.34-30.74c-1.94-18.62-15.93-33.27-34.88-36.5-18.95-3.23-37.91 5.86-47.24 22.64l-26.64-20.73c-15.28-11.9-36.81-10.24-50.32 3.87-13.51 14.11-15.85 35.77-5.46 50.42l-30.46 3.06c-17.46 1.75-31.25 15.72-34.35 34.78-3.1 19.06 5.02 38.064 20.23 47.44l.15 33.32c.09 18.68 14.02 34.27 34.7 38.87 20.68 4.6 41.57-4.17 52.08-21.89l26.64 20.73c15.28 11.9 36.81 10.24 50.32-3.87 13.51-14.11 15.85-35.77 5.46-50.42l30.46-3.06c17.46-1.75 31.25-15.72 34.35-34.78 3.1-19.06-5.02-38.064-20.23-47.44zm-89.66 58.31c-46.71 0-84.58-37.87-84.58-84.58s37.87-84.58 84.58-84.58 84.58 37.87 84.58 84.58-37.87 84.58-84.58 84.58z"/>
+      </svg>
+    )
+  }
 ];
 
 export function LogoCarousel() {
@@ -14,7 +66,7 @@ export function LogoCarousel() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % placeholderLogos.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % companyLogos.length);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -26,26 +78,26 @@ export function LogoCarousel() {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-200 shadow-md mb-8">
             <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">Trusted by</span>
+            <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">Trusted by judges from</span>
           </div>
           
           {/* Desktop carousel */}
           <div className="hidden md:flex items-center justify-center space-x-8 mb-8">
-            {placeholderLogos.map((logo, index) => (
+            {companyLogos.map((company, index) => (
               <div
                 key={index}
-                className={`text-gray-400 font-medium text-base transition-all duration-500 ${
+                className={`transition-all duration-500 ${
                   index === currentIndex 
-                    ? 'scale-110 text-purple-600' 
-                    : 'hover:scale-105 hover:text-purple-400'
+                    ? 'scale-110 opacity-100' 
+                    : 'opacity-70 hover:opacity-100 hover:scale-105'
                 }`}
               >
-                <div className={`p-3 rounded-lg border transition-all duration-300 ${
+                <div className={`p-4 rounded-lg border transition-all duration-300 ${
                   index === currentIndex 
                     ? 'border-purple-300 bg-purple-50 shadow-md' 
                     : 'border-gray-200 bg-white hover:border-purple-200'
                 }`}>
-                  {logo}
+                  {company.svg}
                 </div>
               </div>
             ))}
@@ -53,16 +105,16 @@ export function LogoCarousel() {
           
           {/* Mobile carousel */}
           <div className="md:hidden flex items-center justify-center mb-8">
-            <div className="text-purple-600 font-medium text-lg">
+            <div className="transition-all duration-500">
               <div className="p-4 rounded-lg border-2 border-purple-300 bg-purple-50 shadow-md">
-                {placeholderLogos[currentIndex]}
+                {companyLogos[currentIndex].svg}
               </div>
             </div>
           </div>
           
           {/* Carousel indicators */}
           <div className="flex justify-center space-x-2 mb-8">
-            {placeholderLogos.map((_, index) => (
+            {companyLogos.map((_, index) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
@@ -71,7 +123,7 @@ export function LogoCarousel() {
                     : 'bg-gray-300 hover:bg-purple-300'
                 }`}
                 onClick={() => setCurrentIndex(index)}
-                aria-label={`Go to logo ${index + 1}`}
+                aria-label={`Go to ${companyLogos[index].name} logo`}
               />
             ))}
           </div>
@@ -81,7 +133,7 @@ export function LogoCarousel() {
               🌟 Trusted by 500+ hackathons worldwide
             </p>
             <p className="text-sm text-gray-600">
-              Real partner logos coming soon — join our growing community!
+              Expert judges from top tech companies — join our growing community!
             </p>
           </div>
         </div>
