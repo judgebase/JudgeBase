@@ -1,4 +1,5 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
@@ -16,24 +17,38 @@ import Support from "@/pages/support";
 import ApiAccess from "@/pages/api-access";
 import NotFound from "@/pages/not-found";
 
+// Component to handle scroll to top on route change
+function ScrollToTop() {
+  const [location] = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  
+  return null;
+}
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/apply" component={Apply} />
-      <Route path="/host" component={Host} />
-      <Route path="/find-judges" component={FindJudges} />
-      <Route path="/blog" component={Blog} />
+    <>
+      <ScrollToTop />
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/apply" component={Apply} />
+        <Route path="/host" component={Host} />
+        <Route path="/find-judges" component={FindJudges} />
+        <Route path="/blog" component={Blog} />
 
-      <Route path="/judges/:slug" component={JudgeProfile} />
-      <Route path="/admin" component={Admin} />
-      <Route path="/judge-guidelines" component={JudgeGuidelines} />
-      <Route path="/faq" component={FAQ} />
-      <Route path="/resources" component={Resources} />
-      <Route path="/support" component={Support} />
-      <Route path="/api-access" component={ApiAccess} />
-      <Route component={NotFound} />
-    </Switch>
+        <Route path="/judges/:slug" component={JudgeProfile} />
+        <Route path="/admin" component={Admin} />
+        <Route path="/judge-guidelines" component={JudgeGuidelines} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/resources" component={Resources} />
+        <Route path="/support" component={Support} />
+        <Route path="/api-access" component={ApiAccess} />
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
 }
 
