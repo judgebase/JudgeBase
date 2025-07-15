@@ -1,0 +1,214 @@
+perfect, you're now designing the **/host** flow — a private intake + access system for hackathon organizers.
+
+this is how real SaaS platforms work: clean public entry, gated backend, approval flow. you're not just collecting forms, you're building **controlled trust pipes** to your judge database.
+
+---
+
+## 🧠 overview of `/host` page
+
+**audience**: hackathon organizers looking to request judges
+**goal**: collect high-quality event info
+**action**: if approved → give private access to `/judges`
+**vibe**: premium, clean, respectful of their event
+
+---
+
+## ✅ `/host` Page Structure
+
+```
+🟪 Hero Section
+🟩 Why JudgeBase (value prop for hackathons)
+🟨 Hackathon Intake Form (with all questions)
+🟦 What Happens Next (post-submission)
+⬛ Final CTA
+```
+
+---
+
+## 🟪 Hero Section
+
+**Headline**
+`find judges for your hackathon`
+
+**Subheadline**
+*we connect credible events with experienced professionals across domains like AI, product, design, web3, and more.*
+
+**Button (scrolls to form)**
+`submit your event`
+
+Visuals:
+
+* judge avatars in a grid
+* floating event logos
+* subtle motion
+
+---
+
+## 🟩 Why JudgeBase (for organizers)
+
+3 columns, soft card style:
+
+* **Vetted Panelists Only**
+  All our judges are approved by hand — no open marketplace.
+
+* **Async or Live Formats**
+  We match judges based on your event format and domain.
+
+* **Fast Response Times**
+  We reply within 48 hours — usually faster.
+
+---
+
+## 🟨 Hackathon Intake Form
+
+Use a clean multi-section form design.
+Each field is styled like a floating input or dropdown, with breathing room.
+
+### ⚙️ Form Fields (Exact Wording + Logic)
+
+---
+
+**Section 1: Organizer Info**
+
+* **Your Full Name** *(required)*
+* **Your Email** *(required)*
+* **Organization Name** *(required)*
+* **Your Role** *(e.g. Campus Lead, Developer Relations, etc)*
+* **Website / LinkedIn** *(optional)*
+
+---
+
+**Section 2: Hackathon Details**
+
+* **Name of Your Hackathon** *(required)*
+
+* **Link to Hackathon Website / Devpost / Tally Page** *(required)*
+
+* **Platform** *(dropdown)*
+
+  * Devpost
+  * DoraHacks
+  * Notion
+  * Tally
+  * Custom Website
+  * Other
+
+* **Dates of the Hackathon** *(required)*
+
+* **Deadline for Judges to Confirm** *(required)*
+
+* **Event Format** *(multi-select checkboxes)*
+
+  * Fully Async
+  * Fully Live
+  * Hybrid
+
+* **Expected Number of Participants** *(dropdown or text)*
+
+* **Is This a First-Time Hackathon?** *(yes/no)*
+
+---
+
+**Section 3: Theme & Domains**
+
+* **What’s the theme or title of this hackathon?** *(required)*
+
+* **Which domains will be judged?** *(multi-select checkboxes)*
+
+  * AI/ML
+  * Web Development
+  * Product
+  * Design
+  * Blockchain
+  * Fintech
+  * EdTech
+  * Game Dev
+  * Other (write-in)
+
+* **Brief Summary of the Event** *(3–5 lines)*
+  *→ what makes it special, who it’s for, anything we should know*
+
+* **Do You Need Mentors As Well?** *(yes / no / maybe)*
+
+* **Do You Have Any Judges Already Onboarded?** *(yes / no / in progress)*
+
+---
+
+**Section 4: Logistics**
+
+* **What Deliverables Will You Provide to Judges?** *(multi-select checkboxes)*
+
+  * Certificate
+  * Official Letter of Invite
+  * Judge Page Mention
+  * Post on LinkedIn or Website
+  * Not Sure Yet
+
+* **How Many Judges Do You Need?** *(required)*
+
+* **What Is the Expected Time Commitment?** *(required)*
+  *e.g. “Review 15 projects asynchronously over 48 hrs”*
+
+---
+
+**Section 5: Final Notes**
+
+* **Why Do You Want to Use JudgeBase?** *(optional)*
+
+* **Anything Else We Should Know?** *(optional)*
+
+* ✅ Consent Checkbox:
+  *I understand that my event will be reviewed manually before being granted access to the judge list.*
+
+---
+
+### ✅ Submit Button
+
+`Submit Hackathon Request`
+
+→ On success, show a confirmation card:
+*“Thanks! We’ll review your event within 48 hours. If approved, you’ll receive private access to our panel.”*
+
+---
+
+## 🟦 What Happens Next (Info Block)
+
+> This section builds clarity and trust after the form.
+
+**Title:** What Happens After You Submit
+
+* Your request is reviewed by the JudgeBase team.
+* If approved, you’ll get a private link to `/judges` with access to our panel.
+* You’ll be asked to confirm deliverables for the judges.
+* From there, we’ll start shortlisting based on your theme and format.
+
+---
+
+## ⬛ Final CTA
+
+Large bottom bar:
+
+**"Build your panel the right way."**
+No scraping. No random invites. Just handpicked talent.
+→ *Submit Your Event*
+
+---
+
+## 🛠 backend logic (for now)
+
+* all submissions go into Airtable or Google Sheet via Tally
+* you review manually
+* you flip a toggle in `/admin` = permission granted
+* if `event.status === approved`, that event email gets access to `/judges`
+
+you’ll gate `/judges` behind a simple access check later. for now, it’s manual.
+
+---
+
+want me to:
+
+* design the form in Tailwind?
+* create the `/admin` approval toggle system?
+* write the `/judges` access gating logic?
+
+say the word. this is your B2B frontend layer done right.
