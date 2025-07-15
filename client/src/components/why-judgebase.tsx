@@ -31,76 +31,72 @@ export function WhyJudgeBase() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-40 left-40 w-64 h-64 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full opacity-5 blur-3xl animate-float"></div>
-        <div className="absolute bottom-40 right-40 w-48 h-48 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full opacity-5 blur-3xl animate-bounce-soft"></div>
-      </div>
+    <section className="py-16 md:py-20 bg-white relative overflow-hidden">
+      {/* Subtle Background Elements */}
+      <div className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full opacity-5 blur-2xl animate-float"></div>
+      <div className="absolute bottom-20 right-20 w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full opacity-5 blur-2xl animate-bounce-soft"></div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-200 shadow-lg mb-6">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 md:mb-16">
+          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-200 shadow-md mb-6">
             <CheckCircle className="h-4 w-4 text-green-500" />
-            <span className="text-sm font-semibold text-gray-700">Why Choose Us</span>
+            <span className="text-sm font-medium text-gray-700">Why Choose Us</span>
           </div>
           
-          <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-8 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
             Why Choose{" "}
-            <span className="gradient-text-vibrant relative">
+            <span className="gradient-text-vibrant">
               JudgeBase
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-ping"></div>
             </span>
             ?
           </h2>
           
-          <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We connect you with the <span className="text-purple-600 font-semibold">right experts</span> to make your hackathon a <span className="text-blue-600 font-semibold">success</span>
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {features.map((feature, index) => (
             <div key={index} className={`text-center group ${feature.animation}`}>
-              <div className="relative mb-8">
-                <div className={`w-24 h-24 mx-auto ${feature.iconBg} rounded-full flex items-center justify-center shadow-2xl group-hover:shadow-3xl transition-all duration-500 transform group-hover:scale-110`}>
-                  <feature.icon className="h-12 w-12 text-white" />
+              <div className="relative mb-6">
+                <div className={`w-16 h-16 md:w-20 md:h-20 mx-auto ${feature.iconBg} rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-110`}>
+                  <feature.icon className="h-8 w-8 md:h-10 md:w-10 text-white" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-0 group-hover:opacity-80 transition-opacity animate-pulse"></div>
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
                 {feature.title}
               </h3>
               
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <p className="text-gray-600 leading-relaxed text-base md:text-lg">
                 {feature.description}
               </p>
               
-              <div className="mt-6 flex justify-center">
-                <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <div className="mt-4 flex justify-center">
+                <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </div>
             </div>
           ))}
         </div>
         
         {/* CTA Section */}
-        <div className="text-center mt-20">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 shadow-2xl">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <div className="text-center mt-16 md:mt-20">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl md:rounded-3xl p-8 md:p-12 shadow-xl">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
               Ready to Get Started?
             </h3>
-            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of successful hackathons that trust JudgeBase for their judging needs
+            <p className="text-lg md:text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+              Join thousands of successful hackathons that trust JudgeBase
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/apply">
-                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 text-lg font-bold rounded-xl transition-all duration-300 transform hover:scale-105">
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-3 text-lg font-bold rounded-xl transition-all duration-300 transform hover:scale-105">
                   Apply as Judge
                 </Button>
               </Link>
               <Link href="/find-judges">
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-bold rounded-xl transition-all duration-300">
+                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 px-8 py-3 text-lg font-bold rounded-xl transition-all duration-300">
                   Find Judges
                 </Button>
               </Link>
