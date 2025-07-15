@@ -179,5 +179,3 @@ The application follows a modern full-stack TypeScript approach with emphasis on
 - **Built hackathon admin management**: Added admin dashboard tab for reviewing, approving, and rejecting hackathon applications
 - **Completed hackathon API endpoints**: Full CRUD operations for hackathons, status updates, and judge invitation system
 - **Added judge invitation framework**: Database structure and API endpoints ready for connecting judges to approved hackathons
-- **Implemented FAANG company logos**: Added real company logos (Google, Meta, Apple, Amazon, Netflix, OpenAI) to logo carousel to showcase judge credibility
-- **Seeded FAANG judges database**: Created 8 comprehensive judge profiles from top tech companies to authenticate the company logos and build platform credibility
