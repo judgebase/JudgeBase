@@ -19,43 +19,7 @@ const storage = new MemStorage();
 
 // Seed some sample data for development
 if (process.env.NODE_ENV === 'development') {
-  await storage.createJudge({
-    name: 'Sarah Chen',
-    title: 'Senior Product Manager',
-    company: 'Google',
-    location: 'San Francisco, CA',
-    bio: 'Passionate about AI and machine learning applications in consumer products.',
-    judgingPhilosophy: 'I focus on user impact, technical innovation, and market potential.',
-    linkedin: 'https://linkedin.com/in/sarahchen',
-    twitter: 'https://twitter.com/sarahchen',
-    website: 'https://sarahchen.dev',
-    avatar: null,
-    expertise: ['AI/ML', 'Product Management', 'Mobile Apps'],
-    experience: '8 years',
-    slug: 'sarah-chen',
-    status: 'approved',
-    featured: true,
-    badges: ['AI Expert', 'Product Leader'],
-  });
-
-  await storage.createJudge({
-    name: 'Marcus Rodriguez',
-    title: 'CTO',
-    company: 'TechFlow',
-    location: 'Austin, TX',
-    bio: 'Full-stack developer turned CTO with expertise in scalable systems.',
-    judgingPhilosophy: 'I evaluate technical excellence, scalability, and code quality.',
-    linkedin: 'https://linkedin.com/in/marcusrodriguez',
-    twitter: 'https://twitter.com/marcusrod',
-    website: 'https://marcusrodriguez.com',
-    avatar: null,
-    expertise: ['Full Stack', 'System Architecture', 'DevOps'],
-    experience: '12 years',
-    slug: 'marcus-rodriguez',
-    status: 'approved',
-    featured: true,
-    badges: ['Tech Leader', 'Startup Mentor'],
-  });
+  // Only keeping Rishul Chanana as the primary judge
 
   await storage.createJudge({
     name: 'Rishul Chanana',
