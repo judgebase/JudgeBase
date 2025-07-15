@@ -3,7 +3,7 @@ import postgres from 'postgres';
 import { eq, and, desc } from 'drizzle-orm';
 import { judges, judgeApplications, hackathons, judgeHackathons } from '@shared/schema';
 import type { IStorage } from './storage';
-import type { Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon } from '@shared/schema';
+import type { Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon, JudgeHackathon, NewJudgeHackathon } from '@shared/schema';
 
 const connectionString = process.env.DATABASE_URL!;
 
@@ -117,5 +117,28 @@ export class PostgresStorage implements IStorage {
 
   async deleteHackathon(id: string): Promise<void> {
     await db.delete(hackathons).where(eq(hackathons.id, id));
+  }
+
+  // Judge-Hackathon invitation operations
+  async createJudgeHackathonInvitation(invitation: NewJudgeHackathon): Promise<JudgeHackathon> {
+    const [newInvitation] = await db.insert(judgeHackathons).values(invitation).returning();
+    return newInvitation;
+  }
+
+  async getHackathonInvitations(hackathonId: string): Promise<JudgeHackathon[]> {
+    return await db.select().from(judgeHackathons).where(eq(judgeHackathons.hackathonId, hackathonId));
+  }
+
+  async updateInvitationStatus(invitationId: string, status: string): Promise<JudgeHackathon> {
+    const [updatedInvitation] = await db.update(judgeHackathons)
+      .set({ invitationStatus: status, respondedAt: new Date() })
+      .where(eq(judgeHackathons.id, invitationId))
+      .returning();
+    
+    if (!updatedInvitation) {
+      throw new Error(`Invitation with id ${invitationId} not found`);
+    }
+    
+    return updatedInvitation;
   }
 }

@@ -1,4 +1,4 @@
-import { Judge, NewJudge, Hackathon, NewHackathon, JudgeApplication, NewJudgeApplication } from '@shared/schema';
+import { Judge, NewJudge, Hackathon, NewHackathon, JudgeApplication, NewJudgeApplication, JudgeHackathon, NewJudgeHackathon } from '@shared/schema';
 
 export interface IStorage {
   // Judge application operations
@@ -23,6 +23,11 @@ export interface IStorage {
   getAllHackathons(): Promise<Hackathon[]>;
   updateHackathon(id: string, updates: Partial<Hackathon>): Promise<Hackathon>;
   deleteHackathon(id: string): Promise<void>;
+  
+  // Judge-Hackathon invitation operations
+  createJudgeHackathonInvitation(invitation: NewJudgeHackathon): Promise<JudgeHackathon>;
+  getHackathonInvitations(hackathonId: string): Promise<JudgeHackathon[]>;
+  updateInvitationStatus(invitationId: string, status: string): Promise<JudgeHackathon>;
 }
 
 // Simple in-memory storage implementation

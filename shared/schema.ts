@@ -55,27 +55,52 @@ export const judges = pgTable('judges', {
 // Hackathons table for hackathon applications
 export const hackathons = pgTable('hackathons', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull(),
+  // Organizer Info
   organizerName: text('organizer_name').notNull(),
   organizerEmail: text('organizer_email').notNull(),
-  organizerPhone: text('organizer_phone').notNull(),
-  hackathonType: text('hackathon_type').notNull(),
-  participantCount: integer('participant_count').notNull(),
-  date: timestamp('date').notNull(),
-  location: text('location').notNull(),
-  description: text('description').notNull(),
-  judgingCriteria: text('judging_criteria').notNull(),
-  prizes: text('prizes').notNull(),
+  organizationName: text('organization_name').notNull(),
+  organizerRole: text('organizer_role'),
+  organizerWebsite: text('organizer_website'),
+  
+  // Hackathon Details
+  hackathonName: text('hackathon_name').notNull(),
+  hackathonWebsite: text('hackathon_website').notNull(),
+  platform: text('platform').notNull(),
+  hackathonDates: text('hackathon_dates').notNull(),
+  judgeDeadline: text('judge_deadline').notNull(),
+  eventFormat: text('event_format').array().notNull(),
+  participantCount: text('participant_count').notNull(),
+  isFirstTime: text('is_first_time').notNull(),
+  
+  // Theme & Domains
+  theme: text('theme').notNull(),
+  domains: text('domains').array().notNull(),
+  eventSummary: text('event_summary').notNull(),
+  needMentors: text('need_mentors').notNull(),
+  hasExistingJudges: text('has_existing_judges').notNull(),
+  
+  // Logistics
+  deliverables: text('deliverables').array().notNull(),
+  judgeCount: text('judge_count').notNull(),
+  timeCommitment: text('time_commitment').notNull(),
+  
+  // Final Notes
+  whyJudgeBase: text('why_judge_base'),
+  additionalNotes: text('additional_notes'),
+  
   status: text('status').notNull().default('pending'), // pending, approved, rejected
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-// Junction table for judge-hackathon relationships
+// Junction table for judge-hackathon relationships and invitations
 export const judgeHackathons = pgTable('judge_hackathons', {
   id: uuid('id').primaryKey().defaultRandom(),
-  judgeId: uuid('judge_id').notNull().references(() => judges.id),
-  hackathonId: uuid('hackathon_id').notNull().references(() => hackathons.id),
+  judgeId: uuid('judge_id').notNull().references(() => judges.id, { onDelete: 'cascade' }),
+  hackathonId: uuid('hackathon_id').notNull().references(() => hackathons.id, { onDelete: 'cascade' }),
+  invitationStatus: text('invitation_status').notNull().default('pending'), // pending, accepted, declined
+  invitedAt: timestamp('invited_at').defaultNow().notNull(),
+  respondedAt: timestamp('responded_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
