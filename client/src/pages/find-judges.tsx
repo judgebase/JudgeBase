@@ -1,3 +1,5 @@
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 
 export default function FindJudges() {
@@ -8,6 +10,8 @@ export default function FindJudges() {
         description="Find expert judges for your hackathon or competition. Connect with qualified professionals to evaluate your event."
         keywords="find judges, hackathon judges, competition judges, expert evaluators"
       />
+      
+      <Navbar />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
@@ -100,6 +104,8 @@ export default function FindJudges() {
           </a>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

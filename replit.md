@@ -112,3 +112,12 @@ The application uses four main tables:
 - **Replit Integration**: Special handling for Replit environment with development banner
 
 The application follows a modern full-stack TypeScript approach with emphasis on type safety, developer experience, and clean separation of concerns between frontend and backend logic.
+
+## Recent Changes: Latest modifications with dates
+
+### July 15, 2025
+- **Fixed Vite server host blocking**: Resolved "Blocked request" error by configuring allowedHosts in Vite dev server
+- **Created comprehensive judge profile page**: Implemented full judge profile with hero, about, philosophy, experience, and contact sections
+- **Added Rishul Chanana profile**: Added real judge data with complete bio, experience, and contact information
+- **Fixed Find Judges page**: Added missing Navbar and Footer components
+- **API endpoint working**: /api/judges/:slug endpoint properly serving judge data
