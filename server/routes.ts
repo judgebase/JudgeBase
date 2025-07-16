@@ -20,6 +20,16 @@ export function createRoutes(storage: IStorage) {
     }
   });
 
+  // Get all judges (public API for judging page)
+  router.get('/api/judges', async (req, res) => {
+    try {
+      const judges = await storage.getAllJudges();
+      res.json({ success: true, data: judges });
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Failed to fetch judges' });
+    }
+  });
+
   // Get all judges (admin only)
   router.get('/api/admin/judges', async (req, res) => {
     try {
@@ -135,6 +145,16 @@ export function createRoutes(storage: IStorage) {
       } else {
         res.status(500).json({ error: 'Failed to create hackathon request' });
       }
+    }
+  });
+
+  // Get all hackathons (public API for judging page)
+  router.get('/api/hackathons', async (req, res) => {
+    try {
+      const hackathons = await storage.getAllHackathons();
+      res.json({ success: true, data: hackathons });
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Failed to fetch hackathons' });
     }
   });
 
