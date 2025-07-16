@@ -4,6 +4,7 @@ import { createRoutes } from './routes';
 import { createAdminRoutes } from './admin-routes';
 import { PostgresStorage } from './db';
 import { setupAuth, requireAuth } from './auth';
+import { createCleanupRoute } from './cleanup-route';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -37,6 +38,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // API routes
 app.use(createRoutes(storage));
+
+// Cleanup route for database maintenance
+app.use('/api', createCleanupRoute());
 
 // Protected admin routes
 app.use('/api/admin', requireAuth);
