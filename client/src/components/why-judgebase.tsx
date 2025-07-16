@@ -5,25 +5,25 @@ import { CheckCircle, Clock, Star, Users, Zap, Shield } from "lucide-react";
 export function WhyJudgeBase() {
   const features = [
     {
-      icon: Users,
-      title: "Curated Experts",
-      description: "Hand-picked judges with proven experience in their fields, ensuring quality feedback for your participants",
+      icon: Shield,
+      title: "Vetted Panelists",
+      description: "Every judge is manually approved. No fluff, no filler.",
       gradient: "from-purple-50 to-blue-50",
       iconBg: "gradient-bg",
       animation: "animate-bounce-soft"
     },
     {
-      icon: Zap,
-      title: "Quick Matching",
-      description: "Get matched with the perfect judges for your event in minutes using our intelligent matching system",
+      icon: Clock,
+      title: "Async-Ready",
+      description: "Most judges evaluate remotely. No timezone headaches.",
       gradient: "from-blue-50 to-green-50",
       iconBg: "gradient-bg-cool",
       animation: "animate-float"
     },
     {
-      icon: Shield,
-      title: "Quality Assured",
-      description: "All judges are verified and committed to providing valuable, constructive feedback to help teams grow",
+      icon: Star,
+      title: "Signal, Not Noise",
+      description: "This isn't just a signup list. It's a high-trust layer for the hackathon space.",
       gradient: "from-green-50 to-purple-50",
       iconBg: "gradient-bg-warm",
       animation: "animate-pulse-glow"
@@ -31,50 +31,40 @@ export function WhyJudgeBase() {
   ];
 
   return (
-    <section className="py-16 md:py-20 bg-white relative overflow-hidden">
+    <section className="py-20 md:py-32 bg-white relative overflow-hidden">
       {/* Subtle Background Elements */}
-      <div className="absolute top-20 left-20 w-24 h-24 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full opacity-5 blur-2xl animate-float"></div>
-      <div className="absolute bottom-20 right-20 w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full opacity-5 blur-2xl animate-bounce-soft"></div>
+      <div className="absolute top-20 left-20 w-60 h-60 bg-gradient-to-br from-purple-400/10 to-blue-400/10 rounded-full opacity-40 blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-pink-400/10 to-purple-400/10 rounded-full opacity-40 blur-3xl animate-bounce-soft"></div>
       
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-200 shadow-md mb-6">
-            <CheckCircle className="h-4 w-4 text-green-500" />
-            <span className="text-sm font-medium text-gray-700">Why Choose Us</span>
-          </div>
-          
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-            Why Choose{" "}
-            <span className="gradient-text-vibrant">
-              JudgeBase
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 mb-8 leading-tight">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-600 block mb-2">why it</span>
+            <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 bg-clip-text text-transparent">
+              matters
             </span>
-            ?
           </h2>
-          
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            We connect you with the <span className="text-purple-600 font-semibold">right experts</span> to make your hackathon a <span className="text-blue-600 font-semibold">success</span>
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {features.map((feature, index) => (
             <div key={index} className={`text-center group ${feature.animation}`}>
-              <div className="relative mb-6">
-                <div className={`w-16 h-16 md:w-20 md:h-20 mx-auto ${feature.iconBg} rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-110`}>
-                  <feature.icon className="h-8 w-8 md:h-10 md:w-10 text-white" />
+              <div className="relative mb-8">
+                <div className={`w-24 h-24 mx-auto ${feature.iconBg} rounded-3xl flex items-center justify-center shadow-2xl group-hover:shadow-3xl transition-all duration-300 transform group-hover:scale-110`}>
+                  <feature.icon className="h-12 w-12 text-white" />
                 </div>
               </div>
               
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 group-hover:text-purple-600 transition-colors">
                 {feature.title}
               </h3>
               
-              <p className="text-gray-600 leading-relaxed text-base md:text-lg">
+              <p className="text-gray-700 leading-relaxed text-lg md:text-xl font-medium">
                 {feature.description}
               </p>
               
-              <div className="mt-4 flex justify-center">
-                <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <div className="mt-6 flex justify-center">
+                <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </div>
             </div>
           ))}

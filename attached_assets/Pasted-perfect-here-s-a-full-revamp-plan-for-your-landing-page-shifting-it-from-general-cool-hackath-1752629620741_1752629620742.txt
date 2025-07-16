@@ -1,0 +1,149 @@
+perfect. here’s a full **revamp plan for your landing page**, shifting it from general “cool hackathon brand” to a **judge-first platform** while still keeping the vibe and exclusivity.
+
+---
+
+## 🧠 core positioning shift
+
+Old vibe:
+
+> “Maximally-style, Gen Z-coded hackathon ecosystem”
+
+New vibe:
+
+> **“The platform for serious hackathon judges. Trusted by real events. Built for professionals.”**
+
+Your homepage now becomes the public face of JudgeBase — it should:
+
+* speak to judges (your main supply)
+* impress hackathon organizers (your demand)
+* feel curated, clean, high-end
+
+---
+
+## ✅ new page structure (Judge-Centric Landing)
+
+```
+🟪 Hero Section
+🟩 Who Is JudgeBase For
+🟨 Why It Matters (For Judges + For Events)
+🟦 Featured Judges
+🟧 How It Works (Split by Role)
+⬛ Call to Action (Apply or Request Judges)
+```
+
+---
+
+### 🟪 Hero Section
+
+**Headline:**
+`real judges. real hackathons.`
+
+**Subtext:**
+*JudgeBase is a curated panel of experienced professionals who evaluate hackathons, mentor builders, and support innovation — async or live.*
+
+**2 CTA buttons:**
+
+* *Apply to Judge* → `/apply`
+* *Request Judges for Your Event* → `/host`
+
+**Visual:**
+
+* grid of judge avatars with subtle blur
+* soft gradient background
+* logos of supported hackathons floating/fading
+
+---
+
+### 🟩 Who Is JudgeBase For
+
+**Headline:**
+`who uses judgebase?`
+
+**Two cards side by side:**
+
+🟦 **Judges**
+
+* Experienced builders, founders, engineers, and creators
+* Looking to share their expertise in high-signal events
+* Get public profile, async judging access, and community
+
+🟨 **Hackathon Organizers**
+
+* Events that care about quality evaluation
+* Looking for vetted judges across domains
+* Get access to curated panels with no spam or cold outreach
+
+---
+
+### 🟨 Why It Matters (3–card layout)
+
+| Card Title            | Description                                                                     |
+| --------------------- | ------------------------------------------------------------------------------- |
+| **Vetted Panelists**  | Every judge is manually approved. No fluff, no filler.                          |
+| **Async-Ready**       | Most judges evaluate remotely. No timezone headaches.                           |
+| **Signal, Not Noise** | This isn’t just a signup list. It’s a high-trust layer for the hackathon space. |
+
+---
+
+### 🟦 Featured Judges (3–4 Cards)
+
+Pull your top 3–4 judges manually (use dummy data if needed).
+Each card includes:
+
+* Photo
+* Name + Role (e.g. PM @ Razorpay)
+* “Judge of the Month” or other badge
+* Link to their `/judges/slug` page
+* 1-line judging philosophy (quote style)
+
+---
+
+### 🟧 How It Works (Split Section)
+
+**Left: I want to judge**
+
+* Apply via `/apply`
+* Reviewed on 15th of every month
+* If selected, you pay a listing fee and get a public profile
+* Get invited to real events
+
+**Right: I need judges**
+
+* Submit your event at `/host`
+* We review and approve
+* If accepted, you get access to our judge list
+* You provide certs + letters, we provide panelists
+
+Icons, light animation, clear headings
+
+---
+
+### ⬛ Final CTA Banner
+
+**Headline:**
+`you’ve judged before. now do it properly.`
+
+**Subtext:**
+Join the fastest-growing judge panel for real events.
+→ \[Apply to Join]
+→ \[Request Judges]
+
+---
+
+## 🎨 style recommendations
+
+* full white background with floating colored sections (purples/blues)
+* big soft type, lots of spacing
+* Topmate energy but more B2B
+* use logos and judge avatars as primary trust signals
+* remove any references to “school hackathons” — this is professional now
+
+---
+
+want me to:
+
+* write the HTML structure for this page?
+* design the judge cards in Tailwind or Figma?
+* build the hero in responsive code?
+
+you’re 90% there. this revamp will make JudgeBase feel like the real deal.

@@ -1,9 +1,11 @@
 import { Navbar } from "@/components/navbar";
 import { HeroSection } from "@/components/hero-section";
-import { FeaturedJudges } from "@/components/featured-judges";
-import { BeOnPanel } from "@/components/be-on-panel";
-import { WhyJudgeBase } from "@/components/why-judgebase";
 import { LogoCarousel } from "@/components/logo-carousel";
+import { WhoIsJudgeBaseFor } from "@/components/who-is-judgebase-for";
+import { WhyJudgeBase } from "@/components/why-judgebase";
+import { FeaturedJudges } from "@/components/featured-judges";
+import { HowItWorks } from "@/components/how-it-works";
+import { FinalCTA } from "@/components/final-cta";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 
@@ -22,22 +24,24 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <SEO
-        title="Expert Judge Network for Hackathons"
-        description="Connect with vetted industry experts for your hackathon. Access 200+ professional judges, get 24hr response, and achieve 98% success rate."
-        keywords="hackathon judges, expert judges, hackathon judging, judge network, hackathon platform, tech event judges"
-        ogTitle="JudgeBase - Expert Judge Network for Hackathons"
-        ogDescription="Connect with vetted industry experts for your hackathon. Access 200+ professional judges, get 24hr response, and achieve 98% success rate."
+        title="Real Judges. Real Hackathons. - JudgeBase"
+        description="JudgeBase is a curated panel of experienced professionals who evaluate hackathons, mentor builders, and support innovation — async or live."
+        keywords="hackathon judges, expert judges, hackathon judging, judge network, hackathon platform, tech event judges, professional judges"
+        ogTitle="JudgeBase - Real Judges. Real Hackathons."
+        ogDescription="JudgeBase is a curated panel of experienced professionals who evaluate hackathons, mentor builders, and support innovation — async or live."
         structuredData={structuredData}
         canonical="https://judgebase.com"
       />
       <Navbar />
       <HeroSection />
       <LogoCarousel />
-      <FeaturedJudges />
-      <BeOnPanel />
+      <WhoIsJudgeBaseFor />
       <WhyJudgeBase />
+      <FeaturedJudges />
+      <HowItWorks />
+      <FinalCTA />
       <Footer />
     </div>
   );
