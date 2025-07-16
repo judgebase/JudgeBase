@@ -61,7 +61,7 @@ export function createAdminRoutes(storage: IStorage) {
         email: application.email,
         title: application.currentRole,
         company: application.currentRole.split(' @ ')[1] || 'Independent',
-        location: 'India', // Default location
+        location: application.location || 'Not specified',
         bio: application.shortBio,
         judgingPhilosophy: application.judgingPhilosophy,
         linkedin: application.linkedin,

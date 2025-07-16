@@ -12,32 +12,29 @@ Adding a judge involves:
 
 ## Step-by-Step Guide
 
-### 1. Add Judge Data to Server Storage
+# Judge Management System
 
-**File to edit:** `server/index.ts`
+## Important Note
+**All judge data is now managed through the database via the admin panel. Do not add judges manually to code.**
 
-Look for the development section where judges are created (around line 45-100). Add your new judge data in the same format:
+## How to Add New Judges
 
-```typescript
-await storage.createJudge({
-  name: 'Judge Full Name',
-  title: 'Job Title',
-  company: 'Company Name',
-  location: 'City, State/Country',
-  bio: 'Detailed bio about the judge. This can be multiple paragraphs describing their background, achievements, and experience. Keep it engaging and professional.',
-  judgingPhilosophy: 'Describe their judging philosophy. What do they look for in projects? What criteria do they use? This helps participants understand what to expect.',
-  linkedin: 'https://linkedin.com/in/username',
-  twitter: 'https://twitter.com/username', // Can be empty string if not available
-  website: 'https://judgewebsite.com',
-  avatar: null, // Set to null for now, or path to image file
-  expertise: ['Skill 1', 'Skill 2', 'Skill 3'], // Array of expertise areas
-  experience: 'Brief summary of their professional experience and achievements',
-  slug: 'judge-url-slug', // URL-friendly version of name (lowercase, hyphens)
-  status: 'approved', // 'pending', 'approved', or 'rejected'
-  featured: true, // true to show on homepage, false to hide
-  badges: ['Badge 1', 'Badge 2'], // Array of achievement badges
-});
-```
+### 1. Application Process
+New judges must apply through the standard application form at `/apply`. This ensures proper data validation and completeness.
+
+### 2. Admin Approval
+Use the admin dashboard at `/admin` to:
+- Review pending applications
+- Approve qualified applicants  
+- Set featured status and badges
+- Manage existing judge profiles
+
+### 3. Automatic Profile Creation
+When an application is approved, the system automatically:
+- Creates a judge profile with unique slug
+- Generates public profile page at `/judges/[slug]`
+- Adds to searchable judge database
+- Enables featured status management
 
 ### 2. Required Fields Explanation
 

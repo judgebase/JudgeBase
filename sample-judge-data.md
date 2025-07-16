@@ -1,23 +1,23 @@
-# Sample Judge Application Data
+# Judge Application System
 
-Use this data to test the judge application form. Simply copy and paste these values into the form fields or use them for API testing.
+The judge application system is fully integrated with Supabase PostgreSQL database. All judge data comes from real applications submitted through the `/apply` form.
 
-## How to Test the Complete System
+## System Overview
 
-1. **Submit Application**: Use the sample data below to fill out the form at `/apply`
-2. **View in Admin**: Go to `/admin` to see pending applications
-3. **Approve Judge**: Click "Approve & Create Profile" to convert application to judge
-4. **View Profile**: Visit `/judges/[slug]` to see the generated judge profile page
-
-## Current System Status
-
-✅ **Application Form**: Multi-step form with validation and file upload
-✅ **Database Storage**: Applications stored in Supabase PostgreSQL  
-✅ **Admin Dashboard**: Review, approve, and reject applications
-✅ **Judge Profiles**: Automatic profile generation with unique URLs
+✅ **Application Form**: Multi-step form with validation and file upload at `/apply`
+✅ **Database Storage**: All applications stored in Supabase PostgreSQL  
+✅ **Admin Dashboard**: Review, approve, and reject applications at `/admin`
+✅ **Judge Profiles**: Automatic profile generation with unique URLs at `/judges/[slug]`
 ✅ **API Endpoints**: Complete CRUD operations for judges and applications
 
-## Test Data for Form Submission
+## Admin Workflow
+
+1. **Review Applications**: Pending applications appear in admin dashboard
+2. **Approve/Reject**: Use admin controls to manage application status  
+3. **Create Profiles**: Approved applications automatically generate judge profiles
+4. **Manage Judges**: Use "Manage Judges" tab to control featured status and remove judges
+
+No mock or sample data is used - all content comes from real database entries. Submission
 
 ## Sample Application 1: Tech Startup Founder
 
