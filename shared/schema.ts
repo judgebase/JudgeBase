@@ -33,6 +33,7 @@ export const judgeApplications = pgTable('judge_applications', {
 export const judges = pgTable('judges', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
+  email: text('email').notNull(),
   title: text('title').notNull(),
   company: text('company').notNull(),
   location: text('location').notNull(),

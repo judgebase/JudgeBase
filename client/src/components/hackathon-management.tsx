@@ -4,11 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CheckCircle, XCircle, Clock, Mail, Users, Calendar, MapPin, Send } from "lucide-react";
+import { CheckCircle, XCircle, Clock, Mail, Users, Calendar, MapPin, Send, Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { EditHackathonModal } from "./edit-hackathon-modal";
 import type { Hackathon, Judge } from "@shared/schema";
 
 interface HackathonManagementProps {
@@ -20,6 +21,8 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
   const [selectedJudges, setSelectedJudges] = useState<string[]>([]);
   const [selectedHackathon, setSelectedHackathon] = useState<Hackathon | null>(null);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [editingHackathon, setEditingHackathon] = useState<Hackathon | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -146,21 +149,36 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
           </div>
           <div className="flex flex-col items-end gap-2">
             {getStatusBadge(hackathon.status)}
-            {hackathon.status === 'approved' && (
-              <Dialog open={isInviteModalOpen} onOpenChange={setIsInviteModalOpen}>
-                <DialogTrigger asChild>
-                  <Button 
-                    size="sm" 
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                    onClick={() => setSelectedHackathon(hackathon)}
-                  >
-                    <Mail className="h-4 w-4 mr-1" />
-                    Invite Judges
-                  </Button>
-                </DialogTrigger>
+            <div className="flex gap-2">
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={() => {
+                  setEditingHackathon(hackathon);
+                  setIsEditModalOpen(true);
+                }}
+              >
+                <Edit className="h-4 w-4 mr-1" />
+                Edit
+              </Button>
+              {hackathon.status === 'approved' && (
+                <Dialog open={isInviteModalOpen} onOpenChange={setIsInviteModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      size="sm" 
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                      onClick={() => setSelectedHackathon(hackathon)}
+                    >
+                      <Mail className="h-4 w-4 mr-1" />
+                      Invite Judges
+                    </Button>
+                  </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>Invite Judges to {hackathon.hackathonName}</DialogTitle>
+                    <DialogDescription>
+                      Select judges to invite via email. They will receive details about the hackathon.
+                    </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4">
                     <p className="text-sm text-gray-600">
@@ -213,6 +231,7 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
                 </DialogContent>
               </Dialog>
             )}
+            </div>
           </div>
         </div>
       </CardHeader>
@@ -351,6 +370,18 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
           )}
         </div>
       </div>
+      
+      {/* Edit Hackathon Modal */}
+      {editingHackathon && (
+        <EditHackathonModal 
+          hackathon={editingHackathon}
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditingHackathon(null);
+          }}
+        />
+      )}
     </div>
   );
 }

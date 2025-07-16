@@ -11,21 +11,23 @@ export class EmailService {
       await resend.emails.send({
         from: this.fromEmail,
         to: hackathon.organizerEmail,
-        subject: `🎉 Your hackathon "${hackathon.name}" has been approved!`,
+        subject: `🎉 Your hackathon "${hackathon.hackathonName}" has been approved!`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1 style="color: #7c3aed; margin-bottom: 20px;">Congratulations! Your hackathon has been approved</h1>
             
             <p>Hi ${hackathon.organizerName},</p>
             
-            <p>Great news! Your hackathon <strong>"${hackathon.name}"</strong> has been approved by the JudgeBase team.</p>
+            <p>Great news! Your hackathon <strong>"${hackathon.hackathonName}"</strong> has been approved by the JudgeBase team.</p>
             
             <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="color: #374151; margin-top: 0;">Event Details:</h3>
-              <p><strong>Event:</strong> ${hackathon.name}</p>
-              <p><strong>Date:</strong> ${new Date(hackathon.eventDate).toLocaleDateString()}</p>
-              <p><strong>Location:</strong> ${hackathon.location}</p>
-              <p><strong>Expected Participants:</strong> ${hackathon.expectedParticipants}</p>
+              <p><strong>Event:</strong> ${hackathon.hackathonName}</p>
+              <p><strong>Organization:</strong> ${hackathon.organizationName}</p>
+              <p><strong>Dates:</strong> ${hackathon.hackathonDates}</p>
+              <p><strong>Platform:</strong> ${hackathon.platform}</p>
+              <p><strong>Expected Participants:</strong> ${hackathon.participantCount}</p>
+              <p><strong>Theme:</strong> ${hackathon.theme}</p>
             </div>
             
             <h3 style="color: #374151;">Next Steps:</h3>
@@ -58,21 +60,24 @@ export class EmailService {
       await resend.emails.send({
         from: this.fromEmail,
         to: judge.email,
-        subject: `Judge invitation: ${hackathon.name}`,
+        subject: `Judge invitation: ${hackathon.hackathonName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1 style="color: #7c3aed; margin-bottom: 20px;">You're invited to judge a hackathon!</h1>
             
             <p>Hi ${judge.name},</p>
             
-            <p>You've been invited to judge <strong>"${hackathon.name}"</strong> - a hackathon that has been approved by JudgeBase.</p>
+            <p>You've been invited to judge <strong>"${hackathon.hackathonName}"</strong> - a hackathon that has been approved by JudgeBase.</p>
             
             <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="color: #374151; margin-top: 0;">Event Details:</h3>
-              <p><strong>Event:</strong> ${hackathon.name}</p>
+              <p><strong>Event:</strong> ${hackathon.hackathonName}</p>
+              <p><strong>Organization:</strong> ${hackathon.organizationName}</p>
               <p><strong>Organizer:</strong> ${hackathon.organizerName}</p>
-              <p><strong>Date:</strong> ${new Date(hackathon.eventDate).toLocaleDateString()}</p>
-              <p><strong>Location:</strong> ${hackathon.location}</p>
+              <p><strong>Dates:</strong> ${hackathon.hackathonDates}</p>
+              <p><strong>Platform:</strong> ${hackathon.platform}</p>
+              <p><strong>Theme:</strong> ${hackathon.theme}</p>
+              <p><strong>Judge Deadline:</strong> ${hackathon.judgeDeadline}</p>
               <p><strong>Expected Participants:</strong> ${hackathon.expectedParticipants}</p>
               <p><strong>Judging Format:</strong> ${hackathon.judgingFormat}</p>
             </div>

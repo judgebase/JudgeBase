@@ -57,6 +57,7 @@ export function createAdminRoutes(storage: IStorage) {
       // Create judge profile from application
       const judgeData = {
         name: application.fullName,
+        email: application.email,
         title: application.currentRole,
         company: application.currentRole.split(' @ ')[1] || 'Independent',
         location: 'India', // Default location
