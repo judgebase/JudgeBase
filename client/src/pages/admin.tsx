@@ -277,6 +277,16 @@ export default function Admin() {
                             <h3 className="font-semibold text-lg">{judge.name}</h3>
                             <p className="text-gray-600">{judge.title} @ {judge.company}</p>
                             <p className="text-sm text-gray-500 mt-1">{judge.location}</p>
+                            
+                            {/* Login Credentials */}
+                            <div className="mt-2 p-2 bg-gray-50 rounded border">
+                              <p className="text-xs text-gray-600">Login Credentials:</p>
+                              <p className="text-sm font-mono text-gray-800">Email: {judge.email}</p>
+                              <p className="text-sm font-mono text-gray-800">
+                                Password: {judge.authPassword || 'Not set'}
+                              </p>
+                            </div>
+                            
                             <div className="flex flex-wrap gap-1 mt-2">
                               {judge.badges?.map((badge: string, index: number) => (
                                 <Badge key={index} variant="secondary" className="text-xs">{badge}</Badge>

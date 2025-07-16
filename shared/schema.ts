@@ -49,7 +49,7 @@ export const judges = pgTable('judges', {
   status: text('status').notNull().default('pending'), // pending, approved, rejected
   featured: boolean('featured').default(false),
   badges: text('badges').array().default([]),
-  authPassword: text('auth_password'), // Generated password for approved judges
+  authPassword: text('auth_password'), // Generated password for Supabase Auth
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
