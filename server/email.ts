@@ -1,12 +1,16 @@
 import { Resend } from 'resend';
 import type { Hackathon, Judge } from '@shared/schema';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export class EmailService {
   private fromEmail = 'noreply@judgebase.com';
 
   async sendHackathonApprovalEmail(hackathon: Hackathon): Promise<void> {
+    if (!resend) {
+      console.warn('Email service not configured - RESEND_API_KEY not found');
+      return;
+    }
     try {
       await resend.emails.send({
         from: this.fromEmail,
@@ -56,6 +60,10 @@ export class EmailService {
   }
 
   async sendJudgeInvitationEmail(judge: Judge, hackathon: Hackathon): Promise<void> {
+    if (!resend) {
+      console.warn('Email service not configured - RESEND_API_KEY not found');
+      return;
+    }
     try {
       await resend.emails.send({
         from: this.fromEmail,
