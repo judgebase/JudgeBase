@@ -35,6 +35,7 @@ export class MemStorage implements IStorage {
   private judgeApplications: JudgeApplication[] = [];
   private judges: Judge[] = [];
   private hackathons: Hackathon[] = [];
+  private judgeHackathons: JudgeHackathon[] = [];
   private nextId = 1;
 
   private generateId(): string {
