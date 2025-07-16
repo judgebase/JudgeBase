@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test JudgeBase Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Test Login for JudgeBase</h1>
+    <div id="result"></div>
+    
+    <script>
+        // Test login with the credentials
+        async function testLogin() {
+            try {
+                const { createClient } = supabase;
+                
+                // Using your actual Supabase credentials
+                const supabaseUrl = 'https://ahhmqoxnlqowrbcuwekw.supabase.co';
+                const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFoaG1xb3hibHFvd3JiY3V3ZWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5NzIxNzYsImV4cCI6MjA1MjU0ODE3Nn0.3lP3rUQQVfNJLRLCVYhPJHdJ3xVHZLyJlBd0IUqU8VM';
+                
+                const client = createClient(supabaseUrl, supabaseKey);
+                
+                console.log('Attempting login...');
+                
+                const { data, error } = await client.auth.signInWithPassword({
+                    email: 'test@judgebase.com',
+                    password: 'TestJudge123!'
+                });
+                
+                if (error) {
+                    document.getElementById('result').innerHTML = `
+                        <div style="color: red;">
+                            <h3>❌ Login Failed</h3>
+                            <p>Error: ${error.message}</p>
+                            <p>Code: ${error.status}</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('result').innerHTML = `
+                        <div style="color: green;">
+                            <h3>✅ Login Successful!</h3>
+                            <p>User: ${data.user.email}</p>
+                            <p>ID: ${data.user.id}</p>
+                            <p><strong>You can now use these credentials to log in to /judging</strong></p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                document.getElementById('result').innerHTML = `
+                    <div style="color: red;">
+                        <h3>❌ Connection Error</h3>
+                        <p>${err.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Test on page load
+        testLogin();
+    </script>
+</body>
+</html>
