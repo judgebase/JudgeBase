@@ -55,71 +55,101 @@ export function createCleanupRoute() {
     }
   });
 
-  router.post('/restore-sample-data', async (req, res) => {
+  router.post('/add-rishul-data', async (req, res) => {
     try {
-      console.log('🔄 Restoring sample judge data...');
+      console.log('🔄 Adding Rishul Chanana to database...');
       
-      // Create a sample judge application first
+      // Create Rishul's judge application
       const [application] = await db.insert(judgeApplications).values({
-        fullName: 'Sarah Johnson',
-        email: 'sarah.johnson@techstartup.com',
-        currentRole: 'Senior Software Engineer @ TechCorp',
-        linkedin: 'https://linkedin.com/in/sarah-johnson-dev',
-        twitterOrWebsite: 'https://sarah-codes.dev',
+        fullName: 'Rishul Chanana',
+        email: 'rishulchanana@maximally.in',
+        currentRole: 'Founder @ Maximally',
+        linkedin: 'https://www.linkedin.com/in/rishul-chanana/',
+        twitterOrWebsite: 'https://www.rishulchanana.com',
         avatar: null,
         hasJudgedBefore: true,
-        previousExperience: 'Judged 5+ hackathons including TechCrunch Disrupt, AngelHack, and local university events',
-        expertise: ['Full Stack Development', 'React/Node.js', 'AI/ML', 'Product Strategy'],
-        otherExpertise: 'Cloud architecture and DevOps',
-        shortBio: 'Experienced full-stack developer with 8 years in tech, specializing in React, Node.js, and AI integration. Passionate about mentoring emerging developers and evaluating innovative solutions.',
-        judgingPhilosophy: 'I evaluate projects based on technical execution, innovation, and practical impact. I look for clean code, creative problem-solving, and solutions that address real user needs.',
+        previousExperience: 'Founded Maximally - a team that designs live hackathon competitions where builders meet, collaborate, and create under pressure',
+        expertise: ['Hackathon Organization', 'Startup Founding', 'Product Strategy', 'Community Building'],
+        otherExpertise: 'Live competition design and execution',
+        shortBio: "I'm the founder of maximally — a team that lives and breathes hackathons. We design live competitions where builders meet, collaborate, and create under pressure. Code meets creativity. People meet ideas. And everything moves fast.",
+        judgingPhilosophy: 'My judging philosophy is simple: execution > ideas. I care more about what someone built in the given time than how fancy their pitch sounds. A half-working prototype that solves a real problem beats a perfect slide deck with no code behind it.',
         openToMentoring: 'Yes',
         preferredFormat: ['Virtual', 'In-Person'],
-        whyJoinJudgeBase: 'I want to help emerging developers showcase their talents and provide constructive feedback to help them grow.',
-        anythingElse: 'Available for follow-up mentoring with promising teams.',
+        whyJoinJudgeBase: 'To help builders create impactful prototypes and focus on execution over presentation.',
+        anythingElse: 'Passionate about connecting builders and fostering innovation through hackathons.',
         consentAgreed: true,
         status: 'approved'
       }).returning();
 
-      // Create the corresponding judge profile
+      // Create Rishul's judge profile
       const [judge] = await db.insert(judges).values({
-        name: 'Sarah Johnson',
-        email: 'sarah.johnson@techstartup.com',
-        title: 'Senior Software Engineer',
-        company: 'TechCorp',
-        location: 'San Francisco, CA',
-        bio: 'Experienced full-stack developer with 8 years in tech, specializing in React, Node.js, and AI integration. Passionate about mentoring emerging developers and evaluating innovative solutions. Has judged 5+ major hackathons including TechCrunch Disrupt.',
-        judgingPhilosophy: 'I evaluate projects based on technical execution, innovation, and practical impact. I look for clean code, creative problem-solving, and solutions that address real user needs.',
-        linkedin: 'https://linkedin.com/in/sarah-johnson-dev',
-        twitter: 'https://twitter.com/sarahcodes',
-        website: 'https://sarah-codes.dev',
+        name: 'Rishul Chanana',
+        email: 'rishulchanana@maximally.in',
+        title: 'Founder',
+        company: 'Maximally',
+        location: 'India',
+        bio: "I'm the founder of maximally — a team that lives and breathes hackathons. We design live competitions where builders meet, collaborate, and create under pressure. Code meets creativity. People meet ideas. And everything moves fast.",
+        judgingPhilosophy: 'My judging philosophy is simple: execution > ideas. I care more about what someone built in the given time than how fancy their pitch sounds. A half-working prototype that solves a real problem beats a perfect slide deck with no code behind it.',
+        linkedin: 'https://www.linkedin.com/in/rishul-chanana/',
+        twitter: '',
+        website: 'https://www.rishulchanana.com',
         avatar: null,
-        expertise: ['Full Stack Development', 'React/Node.js', 'AI/ML', 'Product Strategy'],
-        experience: 'Judged 5+ hackathons including TechCrunch Disrupt, AngelHack, and local university events',
-        slug: 'sarah-johnson',
+        expertise: ['Hackathon Organization', 'Startup Founding', 'Product Strategy', 'Community Building'],
+        experience: 'Founded Maximally - a team that designs live hackathon competitions where builders meet, collaborate, and create under pressure',
+        slug: 'rishul-chanana',
         status: 'approved',
         featured: true,
-        badges: ['Top Judge', 'AI Expert']
+        badges: ['Founder', 'Hackathon Expert']
       }).returning();
 
-      console.log('✅ Sample data restored successfully!');
+      // Create a sample hackathon
+      const [hackathon] = await db.insert(hackathons).values({
+        organizerName: 'Alex Rodriguez',
+        organizerEmail: 'alex@techuniversity.edu',
+        organizationName: 'Tech University',
+        organizerRole: 'Director of Innovation',
+        organizerWebsite: 'https://techuniversity.edu',
+        hackathonName: 'TechU Innovation Challenge 2025',
+        hackathonWebsite: 'https://techu-hack.com',
+        platform: 'Devpost',
+        hackathonDates: 'March 15-17, 2025',
+        judgeDeadline: 'March 20, 2025',
+        eventFormat: ['Virtual'],
+        participantCount: '150-300',
+        isFirstTime: 'No',
+        theme: 'AI for Social Good',
+        domains: ['Artificial Intelligence', 'Social Impact', 'Machine Learning'],
+        eventSummary: 'A 48-hour hackathon focused on building AI solutions that address social challenges and improve communities.',
+        needMentors: 'Yes',
+        hasExistingJudges: 'No',
+        deliverables: ['Working prototype', 'Pitch presentation', 'Source code repository'],
+        judgeCount: '8-12',
+        timeCommitment: '4-6 hours total over judging period',
+        whyJudgeBase: 'Looking for experienced judges who understand both technical excellence and social impact potential',
+        additionalNotes: 'First time using JudgeBase - excited to work with expert judges',
+        status: 'pending'
+      }).returning();
+
+      console.log('✅ Rishul data and sample hackathon added successfully!');
       console.log(`   Created application: ${application.id}`);
       console.log(`   Created judge: ${judge.id}`);
+      console.log(`   Created hackathon: ${hackathon.id}`);
       
       res.json({
         success: true,
-        message: 'Sample data restored successfully',
+        message: 'Rishul data and sample hackathon added successfully',
         data: {
           application: application.id,
-          judge: judge.id
+          judge: judge.id,
+          hackathon: hackathon.id
         }
       });
       
     } catch (error) {
-      console.error('❌ Failed to restore sample data:', error);
+      console.error('❌ Failed to add Rishul data:', error);
       res.status(500).json({ 
         success: false, 
-        message: 'Failed to restore sample data', 
+        message: 'Failed to add Rishul data', 
         error: error.message 
       });
     }
