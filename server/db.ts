@@ -22,6 +22,20 @@ const sql = postgres(connectionString, {
 export const db = drizzle(sql);
 
 export class PostgresStorage implements IStorage {
+  constructor() {
+    // Test the database connection
+    this.testConnection();
+  }
+
+  private async testConnection() {
+    try {
+      await sql`SELECT 1`;
+      console.log('Database connection test successful');
+    } catch (error) {
+      console.error('Database connection test failed:', error);
+      throw error;
+    }
+  }
   // Judge application operations
   async createJudgeApplication(application: NewJudgeApplication): Promise<JudgeApplication> {
     const [newApplication] = await db.insert(judgeApplications).values(application).returning();

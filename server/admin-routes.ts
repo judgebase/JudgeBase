@@ -12,6 +12,7 @@ export function createAdminRoutes(storage: IStorage) {
       const applications = await storage.getAllJudgeApplications();
       res.json(applications);
     } catch (error) {
+      console.error('Error fetching judge applications:', error);
       res.status(500).json({ error: 'Failed to fetch judge applications' });
     }
   });
@@ -120,6 +121,7 @@ export function createAdminRoutes(storage: IStorage) {
       const judges = await storage.getAllJudges();
       res.json(judges);
     } catch (error) {
+      console.error('Error fetching judges:', error);
       res.status(500).json({ error: 'Failed to fetch judges' });
     }
   });
