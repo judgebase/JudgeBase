@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import { createRoutes } from './routes';
 import { createAdminRoutes } from './admin-routes';
@@ -16,8 +17,15 @@ const port = process.env.PORT || 5000;
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Create storage instance
-const storage = new PostgresStorage();
+// Create storage instance with error handling
+let storage: PostgresStorage;
+try {
+  storage = new PostgresStorage();
+  console.log('Database connection established successfully');
+} catch (error) {
+  console.error('Failed to create database connection:', error);
+  process.exit(1);
+}
 
 // Setup authentication
 setupAuth(app, storage);

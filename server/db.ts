@@ -5,10 +5,20 @@ import { judges, judgeApplications, hackathons, judgeHackathons } from '@shared/
 import type { IStorage } from './storage';
 import type { Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon, JudgeHackathon, NewJudgeHackathon } from '@shared/schema';
 
-const connectionString = process.env.DATABASE_URL!;
+const connectionString = process.env.DATABASE_URL;
 
-// Create the postgres connection
-const sql = postgres(connectionString);
+if (!connectionString) {
+  throw new Error('DATABASE_URL environment variable is required');
+}
+
+// Create the postgres connection with error handling
+const sql = postgres(connectionString, {
+  onnotice: () => {}, // Suppress notices
+  max: 10, // Maximum number of connections
+  idle_timeout: 20, // Close connections after 20 seconds
+  connect_timeout: 10, // Connection timeout in seconds
+});
+
 export const db = drizzle(sql);
 
 export class PostgresStorage implements IStorage {
