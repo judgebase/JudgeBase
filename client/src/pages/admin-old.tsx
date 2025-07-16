@@ -3,12 +3,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AdminLogin } from "@/components/admin-login";
+import { EditApplicationModal } from "@/components/edit-application-modal";
 import { HackathonManagement } from "@/components/hackathon-management";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase, LogOut, Eye } from "lucide-react";
+import { CheckCircle, XCircle, Clock, ExternalLink, User, Mail, Briefcase, LogOut, Edit3, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { SEO } from "@/components/seo";
@@ -17,6 +18,7 @@ import type { JudgeApplication, Hackathon } from "@shared/schema";
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingApplication, setEditingApplication] = useState<JudgeApplication | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -71,18 +73,16 @@ export default function Admin() {
         body: JSON.stringify({ featured: false, badges: [] }),
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
-        title: "Application approved!",
-        description: "Judge profile has been created successfully.",
+        title: "Judge approved successfully!",
+        description: `${data.judge.name} has been approved and their profile is now live.`,
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/judge-applications'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/judges'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/judges/featured'] });
     },
     onError: (error: any) => {
       toast({
-        title: "Error approving application",
+        title: "Error approving judge",
         description: error.message || "Please try again later.",
         variant: "destructive",
       });
@@ -99,15 +99,22 @@ export default function Admin() {
     },
     onSuccess: () => {
       toast({
-        title: "Status updated",
-        description: "Application status has been updated successfully.",
+        title: "Status updated successfully!",
+        description: "Judge application status has been updated.",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/judge-applications'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error updating status",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
     },
   });
 
   const updateJudgeMutation = useMutation({
-    mutationFn: async ({ id, ...updates }: { id: string; [key: string]: any }) => {
+    mutationFn: async ({ id, updates }: { id: string; updates: any }) => {
       return apiRequest(`/api/admin/judges/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -154,6 +161,23 @@ export default function Admin() {
     },
   });
 
+  const updateHackathonStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      return apiRequest(`/api/admin/hackathons/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Hackathon status updated",
+        description: "The hackathon status has been updated successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/hackathons'] });
+    },
+  });
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
@@ -164,6 +188,14 @@ export default function Admin() {
         return <Badge variant="secondary"><Clock className="w-3 h-3 mr-1" />Pending</Badge>;
     }
   };
+
+  const pendingApplications = applications?.filter((app: JudgeApplication) => app.status === 'pending') || [];
+  const approvedApplications = applications?.filter((app: JudgeApplication) => app.status === 'approved') || [];
+  const rejectedApplications = applications?.filter((app: JudgeApplication) => app.status === 'rejected') || [];
+  
+  const pendingHackathons = hackathons?.filter((hack: Hackathon) => hack.status === 'pending') || [];
+  const approvedHackathons = hackathons?.filter((hack: Hackathon) => hack.status === 'approved') || [];
+  const rejectedHackathons = hackathons?.filter((hack: Hackathon) => hack.status === 'rejected') || [];
 
   if (isLoading) {
     return (
@@ -177,6 +209,22 @@ export default function Admin() {
     return <AdminLogin onLogin={() => setIsAuthenticated(true)} />;
   }
 
+  if (applicationsLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <SEO title="Admin Dashboard - JudgeBase" description="Admin dashboard for managing judge applications" />
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-6"></div>
+            <p className="text-gray-600">Loading applications...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <SEO title="Admin Dashboard - JudgeBase" description="Admin dashboard for managing judge applications" />
@@ -186,7 +234,7 @@ export default function Admin() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-            <p className="text-gray-600">Manage judges, applications, and hackathons</p>
+            <p className="text-gray-600">Manage judge applications and profiles</p>
           </div>
           <Button
             variant="outline"
@@ -204,10 +252,10 @@ export default function Admin() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Judges</p>
-                  <p className="text-2xl font-bold text-purple-600">{judges?.length || 0}</p>
+                  <p className="text-sm font-medium text-gray-600">Pending Applications</p>
+                  <p className="text-2xl font-bold text-orange-600">{pendingApplications.length}</p>
                 </div>
-                <User className="w-8 h-8 text-purple-600" />
+                <Clock className="w-8 h-8 text-orange-600" />
               </div>
             </CardContent>
           </Card>
@@ -216,10 +264,10 @@ export default function Admin() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Applications</p>
-                  <p className="text-2xl font-bold text-blue-600">{applications?.length || 0}</p>
+                  <p className="text-sm font-medium text-gray-600">Approved Judges</p>
+                  <p className="text-2xl font-bold text-green-600">{approvedApplications.length}</p>
                 </div>
-                <Mail className="w-8 h-8 text-blue-600" />
+                <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
             </CardContent>
           </Card>
@@ -228,10 +276,10 @@ export default function Admin() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Hackathons</p>
-                  <p className="text-2xl font-bold text-green-600">{hackathons?.length || 0}</p>
+                  <p className="text-sm font-medium text-gray-600">Rejected Applications</p>
+                  <p className="text-2xl font-bold text-red-600">{rejectedApplications.length}</p>
                 </div>
-                <Briefcase className="w-8 h-8 text-green-600" />
+                <XCircle className="w-8 h-8 text-red-600" />
               </div>
             </CardContent>
           </Card>
@@ -247,16 +295,11 @@ export default function Admin() {
           <TabsContent value="judges" className="space-y-4">
             <div className="bg-white rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">Judge Management</h2>
+                <h2 className="text-lg font-semibold text-gray-900">Approved Judges</h2>
                 <p className="text-sm text-gray-600">Manage active judge profiles on the platform</p>
               </div>
               <div className="p-6">
-                {judgesLoading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                    <p className="text-gray-500">Loading judges...</p>
-                  </div>
-                ) : judges?.length === 0 ? (
+                {judges?.length === 0 ? (
                   <div className="text-center py-8">
                     <User className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-500">No judges found</p>
@@ -318,12 +361,7 @@ export default function Admin() {
                 <p className="text-sm text-gray-600">Review and manage incoming judge applications</p>
               </div>
               <div className="p-6">
-                {applicationsLoading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                    <p className="text-gray-500">Loading applications...</p>
-                  </div>
-                ) : applications?.length === 0 ? (
+                {applications?.length === 0 ? (
                   <div className="text-center py-8">
                     <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-500">No applications found</p>
@@ -374,11 +412,203 @@ export default function Admin() {
                           </div>
                         )}
                       </div>
-                    ))}
+                    ))
                   </div>
                 )}
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="approved" className="space-y-4">
+            {approvedApplications.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No approved applications</p>
+                </CardContent>
+              </Card>
+            ) : (
+              approvedApplications.map((app: JudgeApplication) => (
+                <Card key={app.id}>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{app.fullName}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{app.currentRole}</p>
+                      </div>
+                      {getStatusBadge(app.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-gray-500" />
+                        <span className="text-sm">{app.email}</span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          const judge = judges?.find((j: any) => j.name === app.fullName);
+                          if (judge) {
+                            window.open(`/judges/${judge.slug}`, '_blank');
+                          }
+                        }}
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Profile
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="rejected" className="space-y-4">
+            {rejectedApplications.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No rejected applications</p>
+                </CardContent>
+              </Card>
+            ) : (
+              rejectedApplications.map((app: JudgeApplication) => (
+                <Card key={app.id}>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{app.fullName}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{app.currentRole}</p>
+                      </div>
+                      {getStatusBadge(app.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-gray-500" />
+                        <span className="text-sm">{app.email}</span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => updateStatusMutation.mutate({ id: app.id, status: 'pending' })}
+                        disabled={updateStatusMutation.isPending}
+                      >
+                        Review Again
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="judges" className="space-y-4">
+            {judgesLoading ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
+                  <p className="text-gray-500">Loading judges...</p>
+                </CardContent>
+              </Card>
+            ) : !judges || judges.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <p className="text-gray-500">No judges found</p>
+                </CardContent>
+              </Card>
+            ) : (
+              judges.map((judge: any) => (
+                <Card key={judge.id} className="overflow-hidden">
+                  <CardHeader className="pb-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">{judge.name}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{judge.title}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Badge variant={judge.featured ? "default" : "secondary"}>
+                          {judge.featured ? "Featured" : "Not Featured"}
+                        </Badge>
+                        <Badge variant="outline">{judge.status}</Badge>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Briefcase className="w-4 h-4 text-gray-500" />
+                          <span className="text-sm">{judge.company}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <ExternalLink className="w-4 h-4 text-gray-500" />
+                          <a href={judge.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                            LinkedIn Profile
+                          </a>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm"><strong>Location:</strong> {judge.location}</p>
+                        <p className="text-sm"><strong>Slug:</strong> {judge.slug}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Expertise Areas:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {judge.expertise.map((skill: string, index: number) => (
+                          <Badge key={index} variant="secondary" className="text-xs">{skill}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Bio:</p>
+                      <p className="text-sm text-gray-700">{judge.bio}</p>
+                    </div>
+                    
+                    <div className="flex gap-2 pt-4">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                      >
+                        <a href={`/judges/${judge.slug}`} target="_blank">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Profile
+                        </a>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={judge.featured ? "secondary" : "default"}
+                        onClick={() => updateJudgeMutation.mutate({ 
+                          id: judge.id, 
+                          updates: { featured: !judge.featured } 
+                        })}
+                        disabled={updateJudgeMutation.isPending}
+                      >
+                        {judge.featured ? "Remove from Featured" : "Make Featured"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          if (window.confirm(`Are you sure you want to remove ${judge.name} from the platform? This action cannot be undone.`)) {
+                            deleteJudgeMutation.mutate(judge.id);
+                          }
+                        }}
+                        disabled={deleteJudgeMutation.isPending}
+                      >
+                        <XCircle className="w-4 h-4 mr-2" />
+                        Remove Judge
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </TabsContent>
 
           <TabsContent value="hackathons" className="space-y-4">
@@ -389,8 +619,16 @@ export default function Admin() {
           </TabsContent>
         </Tabs>
       </div>
-
+      
       <Footer />
+      
+      {editingApplication && (
+        <EditApplicationModal
+          application={editingApplication}
+          isOpen={!!editingApplication}
+          onClose={() => setEditingApplication(null)}
+        />
+      )}
     </div>
   );
 }

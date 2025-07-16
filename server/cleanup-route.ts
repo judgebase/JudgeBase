@@ -1,6 +1,7 @@
 import express from 'express';
 import { db } from './db';
 import { judgeHackathons, judges, judgeApplications, hackathons } from '@shared/schema';
+import { eq } from 'drizzle-orm';
 
 export function createCleanupRoute() {
   const router = express.Router();
@@ -55,11 +56,33 @@ export function createCleanupRoute() {
     }
   });
 
-  router.post('/add-rishul-data', async (req, res) => {
+  router.post('/clean-and-setup', async (req, res) => {
     try {
-      console.log('🔄 Adding Rishul Chanana to database...');
+      console.log('🔄 Cleaning duplicates and setting up proper data...');
       
-      // Create Rishul's judge application
+      // First, clean up any Sarah Johnson entries
+      await db.delete(judges).where(eq(judges.name, 'Sarah Johnson'));
+      await db.delete(judgeApplications).where(eq(judgeApplications.fullName, 'Sarah Johnson'));
+      
+      // Remove duplicate Rishul entries (keep only one)
+      const rishulJudges = await db.select().from(judges).where(eq(judges.name, 'Rishul Chanana'));
+      const rishulApps = await db.select().from(judgeApplications).where(eq(judgeApplications.fullName, 'Rishul Chanana'));
+      
+      // Keep the first one, delete the rest
+      if (rishulJudges.length > 1) {
+        for (let i = 1; i < rishulJudges.length; i++) {
+          await db.delete(judges).where(eq(judges.id, rishulJudges[i].id));
+        }
+      }
+      if (rishulApps.length > 1) {
+        for (let i = 1; i < rishulApps.length; i++) {
+          await db.delete(judgeApplications).where(eq(judgeApplications.id, rishulApps[i].id));
+        }
+      }
+      
+      // If no Rishul data exists, create it
+      if (rishulJudges.length === 0) {
+        // Create Rishul's judge application
       const [application] = await db.insert(judgeApplications).values({
         fullName: 'Rishul Chanana',
         email: 'rishulchanana@maximally.in',
@@ -101,8 +124,9 @@ export function createCleanupRoute() {
         featured: true,
         badges: ['Founder', 'Hackathon Expert']
       }).returning();
+      }
 
-      // Create a sample hackathon
+      // Create a sample hackathon for testing
       const [hackathon] = await db.insert(hackathons).values({
         organizerName: 'Alex Rodriguez',
         organizerEmail: 'alex@techuniversity.edu',
@@ -130,26 +154,22 @@ export function createCleanupRoute() {
         status: 'pending'
       }).returning();
 
-      console.log('✅ Rishul data and sample hackathon added successfully!');
-      console.log(`   Created application: ${application.id}`);
-      console.log(`   Created judge: ${judge.id}`);
+      console.log('✅ Database cleaned and sample hackathon added successfully!');
       console.log(`   Created hackathon: ${hackathon.id}`);
       
       res.json({
         success: true,
-        message: 'Rishul data and sample hackathon added successfully',
+        message: 'Database cleaned and sample hackathon added successfully',
         data: {
-          application: application.id,
-          judge: judge.id,
           hackathon: hackathon.id
         }
       });
       
     } catch (error) {
-      console.error('❌ Failed to add Rishul data:', error);
+      console.error('❌ Failed to clean and setup data:', error);
       res.status(500).json({ 
         success: false, 
-        message: 'Failed to add Rishul data', 
+        message: 'Failed to clean and setup data', 
         error: error.message 
       });
     }
