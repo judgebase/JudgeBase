@@ -4,6 +4,10 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://ahhmqoxnlqowrbcuwekw.supabase.co'
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
+if (!supabaseServiceKey) {
+  console.warn('SUPABASE_SERVICE_ROLE_KEY not found - admin functions will be limited')
+}
+
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
   auth: {
     autoRefreshToken: false,
