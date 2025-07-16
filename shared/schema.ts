@@ -105,6 +105,14 @@ export const judgeHackathons = pgTable('judge_hackathons', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// Table for tracking judge interest in hackathons
+export const judgingInterest = pgTable('judging_interest', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  judgeId: uuid('judge_id').notNull().references(() => judges.id, { onDelete: 'cascade' }),
+  hackathonId: uuid('hackathon_id').notNull().references(() => hackathons.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 // Zod schemas for validation
 export const insertJudgeApplicationSchema = createInsertSchema(judgeApplications).omit({ id: true, createdAt: true, updatedAt: true });
 export const selectJudgeApplicationSchema = createSelectSchema(judgeApplications);
@@ -118,6 +126,9 @@ export const selectHackathonSchema = createSelectSchema(hackathons);
 export const insertJudgeHackathonSchema = createInsertSchema(judgeHackathons).omit({ id: true, createdAt: true });
 export const selectJudgeHackathonSchema = createSelectSchema(judgeHackathons);
 
+export const insertJudgingInterestSchema = createInsertSchema(judgingInterest).omit({ id: true, createdAt: true });
+export const selectJudgingInterestSchema = createSelectSchema(judgingInterest);
+
 // Type exports
 export type JudgeApplication = typeof judgeApplications.$inferSelect;
 export type NewJudgeApplication = z.infer<typeof insertJudgeApplicationSchema>;
@@ -130,3 +141,6 @@ export type NewHackathon = z.infer<typeof insertHackathonSchema>;
 
 export type JudgeHackathon = typeof judgeHackathons.$inferSelect;
 export type NewJudgeHackathon = z.infer<typeof insertJudgeHackathonSchema>;
+
+export type JudgingInterest = typeof judgingInterest.$inferSelect;
+export type NewJudgingInterest = z.infer<typeof insertJudgingInterestSchema>;

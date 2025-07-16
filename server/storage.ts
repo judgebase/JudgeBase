@@ -1,4 +1,4 @@
-import { Judge, NewJudge, Hackathon, NewHackathon, JudgeApplication, NewJudgeApplication, JudgeHackathon, NewJudgeHackathon } from '@shared/schema';
+import { Judge, NewJudge, Hackathon, NewHackathon, JudgeApplication, NewJudgeApplication, JudgeHackathon, NewJudgeHackathon, JudgingInterest, NewJudgingInterest } from '@shared/schema';
 
 export interface IStorage {
   // Judge application operations
@@ -28,6 +28,11 @@ export interface IStorage {
   createJudgeHackathonInvitation(invitation: NewJudgeHackathon): Promise<JudgeHackathon>;
   getHackathonInvitations(hackathonId: string): Promise<JudgeHackathon[]>;
   updateInvitationStatus(invitationId: string, status: string): Promise<JudgeHackathon>;
+  
+  // Judging interest operations
+  createJudgingInterest(interest: NewJudgingInterest): Promise<JudgingInterest>;
+  getJudgingInterestsByJudge(judgeId: string): Promise<JudgingInterest[]>;
+  hasJudgeExpressedInterest(judgeId: string, hackathonId: string): Promise<boolean>;
 }
 
 // Simple in-memory storage implementation
@@ -175,5 +180,54 @@ export class MemStorage implements IStorage {
       throw new Error('Hackathon not found');
     }
     this.hackathons.splice(index, 1);
+  }
+
+  // Judge-Hackathon invitation operations
+  async createJudgeHackathonInvitation(invitation: NewJudgeHackathon): Promise<JudgeHackathon> {
+    const newInvitation: JudgeHackathon = {
+      id: this.generateId(),
+      ...invitation,
+      createdAt: new Date(),
+    };
+    this.judgeHackathons.push(newInvitation);
+    return newInvitation;
+  }
+
+  async getHackathonInvitations(hackathonId: string): Promise<JudgeHackathon[]> {
+    return this.judgeHackathons.filter(jh => jh.hackathonId === hackathonId);
+  }
+
+  async updateInvitationStatus(invitationId: string, status: string): Promise<JudgeHackathon> {
+    const index = this.judgeHackathons.findIndex(jh => jh.id === invitationId);
+    if (index === -1) {
+      throw new Error('Invitation not found');
+    }
+    
+    this.judgeHackathons[index] = {
+      ...this.judgeHackathons[index],
+      invitationStatus: status,
+      respondedAt: new Date(),
+    };
+    
+    return this.judgeHackathons[index];
+  }
+
+  // Judging interest operations
+  async createJudgingInterest(interest: NewJudgingInterest): Promise<JudgingInterest> {
+    const newInterest: JudgingInterest = {
+      id: this.generateId(),
+      ...interest,
+      createdAt: new Date(),
+    };
+    this.judgeHackathons.push(newInterest as any);
+    return newInterest;
+  }
+
+  async getJudgingInterestsByJudge(judgeId: string): Promise<JudgingInterest[]> {
+    return this.judgeHackathons.filter((ji: any) => ji.judgeId === judgeId && ji.hackathonId) as JudgingInterest[];
+  }
+
+  async hasJudgeExpressedInterest(judgeId: string, hackathonId: string): Promise<boolean> {
+    return this.judgeHackathons.some((ji: any) => ji.judgeId === judgeId && ji.hackathonId === hackathonId);
   }
 }

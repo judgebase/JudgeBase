@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { createRoutes } from './routes';
 import { createAdminRoutes } from './admin-routes';
+import { createJudgingRoutes } from './judging-routes';
 import { PostgresStorage } from './db';
 import { setupAuth, requireAuth } from './auth';
 import { createCleanupRoute } from './cleanup-route';
@@ -38,6 +39,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // API routes
 app.use(createRoutes(storage));
+
+// Judging routes
+app.use('/api', createJudgingRoutes(storage));
 
 // Cleanup route for database maintenance
 app.use('/api', createCleanupRoute());

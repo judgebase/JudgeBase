@@ -1,9 +1,9 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { eq, and, desc } from 'drizzle-orm';
-import { judges, judgeApplications, hackathons, judgeHackathons } from '@shared/schema';
+import { judges, judgeApplications, hackathons, judgeHackathons, judgingInterest } from '@shared/schema';
 import type { IStorage } from './storage';
-import type { Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon, JudgeHackathon, NewJudgeHackathon } from '@shared/schema';
+import type { Judge, NewJudge, JudgeApplication, NewJudgeApplication, Hackathon, NewHackathon, JudgeHackathon, NewJudgeHackathon, JudgingInterest, NewJudgingInterest } from '@shared/schema';
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -164,5 +164,22 @@ export class PostgresStorage implements IStorage {
     }
     
     return updatedInvitation;
+  }
+
+  // Judging interest operations
+  async createJudgingInterest(interest: NewJudgingInterest): Promise<JudgingInterest> {
+    const [newInterest] = await db.insert(judgingInterest).values(interest).returning();
+    return newInterest;
+  }
+
+  async getJudgingInterestsByJudge(judgeId: string): Promise<JudgingInterest[]> {
+    return await db.select().from(judgingInterest).where(eq(judgingInterest.judgeId, judgeId));
+  }
+
+  async hasJudgeExpressedInterest(judgeId: string, hackathonId: string): Promise<boolean> {
+    const result = await db.select().from(judgingInterest)
+      .where(and(eq(judgingInterest.judgeId, judgeId), eq(judgingInterest.hackathonId, hackathonId)))
+      .limit(1);
+    return result.length > 0;
   }
 }

@@ -9,6 +9,7 @@ import Apply from "@/pages/apply";
 import Host from "@/pages/host";
 import FindJudges from "@/pages/find-judges";
 import Blog from "@/pages/blog";
+import { JudgingPage } from "@/pages/judging";
 
 import JudgeProfile from "@/pages/judge-profile";
 import Admin from "@/pages/admin";
@@ -39,6 +40,7 @@ function Router() {
         <Route path="/host" component={Host} />
         <Route path="/find-judges" component={FindJudges} />
         <Route path="/blog" component={Blog} />
+        <Route path="/judging" component={JudgingPage} />
 
         <Route path="/judges/:slug" component={JudgeProfile} />
         <Route path="/admin" component={Admin} />

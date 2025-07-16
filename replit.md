@@ -122,6 +122,16 @@ The application follows a modern full-stack TypeScript approach with emphasis on
 ## Recent Changes: Latest modifications with dates
 
 ### July 16, 2025
+- **Built /judging page for approved judges**: Complete implementation with Supabase Auth integration and judge dashboard
+- **Added judging_interest table**: New database table to track judge interest in hackathons with full CRUD operations
+- **Implemented Supabase Auth**: Email/password login system for approved judges only
+- **Created judge dashboard**: Clean interface showing approved hackathons with interest tracking and contact options
+- **Added Express Interest functionality**: Judges can express interest in hackathons, stored in database with duplicate prevention
+- **Integrated Contact Organizer**: Direct mailto links for judges to contact hackathon organizers
+- **Added proper authentication flow**: Login form, session management, and access control for approved judges
+- **Enhanced database schema**: Added missing judging interest operations to PostgresStorage class
+- **Completed full-stack implementation**: Frontend React components, backend API routes, and database integration
+- **Successfully completed Replit Agent to Replit environment migration**: Full migration completed with proper security practices and client/server separation
 - **Successfully completed Replit Agent to Replit environment migration**: Full migration completed with proper security practices and client/server separation
 - **Integrated Supabase database**: Connected PostgreSQL database with proper environment variables and connection handling
 - **Added Resend email service**: Configured email service with proper API key handling and graceful fallbacks
