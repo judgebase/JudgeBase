@@ -2,6 +2,7 @@ import { Router } from 'express';
 import type { IStorage } from './storage';
 import { z } from 'zod';
 import { emailService } from './email';
+import { createJudgeAuthUser, generatePassword } from './supabase-admin';
 
 export function createAdminRoutes(storage: IStorage) {
   const router = Router();
@@ -55,6 +56,17 @@ export function createAdminRoutes(storage: IStorage) {
       // Get featured and badges from request body
       const { featured = false, badges = [] } = req.body;
 
+      // Generate password for the judge
+      const generatedPassword = generatePassword();
+      
+      // Create Supabase Auth user
+      const authResult = await createJudgeAuthUser(application.email, generatedPassword);
+      
+      if (!authResult.success) {
+        console.error('Failed to create auth user:', authResult.error);
+        // Continue with judge creation even if auth fails
+      }
+
       // Create judge profile from application
       const judgeData = {
         name: application.fullName,
@@ -74,6 +86,7 @@ export function createAdminRoutes(storage: IStorage) {
         status: 'approved' as const,
         featured: req.body.featured || false,
         badges: req.body.badges || [],
+        authPassword: generatedPassword, // Store the generated password
       };
 
       const judge = await storage.createJudge(judgeData);
@@ -81,7 +94,12 @@ export function createAdminRoutes(storage: IStorage) {
       // Update application status to approved
       await storage.updateJudgeApplication(req.params.id, { status: 'approved' });
 
-      res.json({ judge, message: 'Judge approved and profile created' });
+      res.json({ 
+        judge, 
+        password: generatedPassword, 
+        message: 'Judge approved and profile created with login credentials',
+        authUser: authResult.success ? authResult.user : null
+      });
     } catch (error) {
       console.error('Error approving judge:', error);
       res.status(500).json({ error: 'Failed to approve judge application' });

@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AdminLogin } from "@/components/admin-login";
 import { HackathonManagement } from "@/components/hackathon-management";
+import { JudgePasswordDisplay } from "@/components/judge-password-display";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +18,8 @@ import type { JudgeApplication, Hackathon } from "@shared/schema";
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [approvedJudge, setApprovedJudge] = useState<any>(null);
+  const [judgePassword, setJudgePassword] = useState<string>('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -71,10 +74,14 @@ export default function Admin() {
         body: JSON.stringify({ featured: false, badges: [] }),
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Display the judge password
+      setApprovedJudge(data.judge);
+      setJudgePassword(data.password);
+      
       toast({
         title: "Application approved!",
-        description: "Judge profile has been created successfully.",
+        description: "Judge profile has been created with login credentials.",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/judge-applications'] });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/judges'] });
@@ -391,6 +398,22 @@ export default function Admin() {
       </div>
 
       <Footer />
+
+      {/* Password Display Modal */}
+      {approvedJudge && judgePassword && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
+            <JudgePasswordDisplay 
+              judge={approvedJudge} 
+              password={judgePassword} 
+              onClose={() => {
+                setApprovedJudge(null);
+                setJudgePassword('');
+              }} 
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
