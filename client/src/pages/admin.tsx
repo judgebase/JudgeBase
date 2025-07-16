@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AdminLogin } from "@/components/admin-login";
 import { EditApplicationModal } from "@/components/edit-application-modal";
+import { HackathonManagement } from "@/components/hackathon-management";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -575,110 +576,10 @@ export default function Admin() {
           </TabsContent>
 
           <TabsContent value="hackathons" className="space-y-4">
-            {hackathonsLoading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading hackathons...</p>
-              </div>
-            ) : hackathons?.length === 0 ? (
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <p className="text-gray-500">No hackathon applications yet</p>
-                </CardContent>
-              </Card>
-            ) : (
-              hackathons?.map((hackathon: Hackathon) => (
-                <Card key={hackathon.id} className="overflow-hidden">
-                  <CardHeader className="pb-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-lg">{hackathon.hackathonName}</CardTitle>
-                        <p className="text-sm text-gray-600 mt-1">{hackathon.organizationName}</p>
-                      </div>
-                      {getStatusBadge(hackathon.status)}
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm">{hackathon.organizerEmail}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <User className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm">{hackathon.organizerName}</span>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <p className="text-sm"><strong>Type:</strong> {hackathon.hackathonType}</p>
-                        <p className="text-sm"><strong>Participants:</strong> {hackathon.participantCount}</p>
-                        <p className="text-sm"><strong>Date:</strong> {new Date(hackathon.date).toLocaleDateString()}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">Domains:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {hackathon.domains.map((domain, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">{domain}</Badge>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">Description:</p>
-                      <p className="text-sm text-gray-700">{hackathon.description}</p>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">Judging Criteria:</p>
-                      <p className="text-sm text-gray-700">{hackathon.judgingCriteria}</p>
-                    </div>
-                    
-                    <div className="flex gap-2 pt-4">
-                      {hackathon.status === 'pending' && (
-                        <>
-                          <Button
-                            size="sm"
-                            onClick={() => updateHackathonStatusMutation.mutate({ id: hackathon.id, status: 'approved' })}
-                            disabled={updateHackathonStatusMutation.isPending}
-                          >
-                            <CheckCircle className="w-4 h-4 mr-2" />
-                            Approve
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => updateHackathonStatusMutation.mutate({ id: hackathon.id, status: 'rejected' })}
-                            disabled={updateHackathonStatusMutation.isPending}
-                          >
-                            <XCircle className="w-4 h-4 mr-2" />
-                            Reject
-                          </Button>
-                        </>
-                      )}
-                      {hackathon.status === 'approved' && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            // TODO: Implement judge invitation modal
-                            toast({
-                              title: "Feature Coming Soon",
-                              description: "Judge invitation feature will be implemented next.",
-                            });
-                          }}
-                        >
-                          <User className="w-4 h-4 mr-2" />
-                          Invite Judges
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            )}
+            <HackathonManagement 
+              hackathons={hackathons || []} 
+              isLoading={hackathonsLoading} 
+            />
           </TabsContent>
         </Tabs>
       </div>

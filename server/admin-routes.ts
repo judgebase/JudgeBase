@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import type { IStorage } from './storage';
 import { z } from 'zod';
+import { emailService } from './email';
 
 export function createAdminRoutes(storage: IStorage) {
   const router = Router();
@@ -147,6 +148,121 @@ export function createAdminRoutes(storage: IStorage) {
       } else {
         res.status(500).json({ error: 'Failed to delete judge' });
       }
+    }
+  });
+
+  // Get all hackathons
+  router.get('/api/admin/hackathons', async (req, res) => {
+    try {
+      const hackathons = await storage.getAllHackathons();
+      res.json(hackathons);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch hackathons' });
+    }
+  });
+
+  // Update hackathon status with email notification
+  router.patch('/api/admin/hackathons/:id', async (req, res) => {
+    try {
+      const hackathon = await storage.updateHackathon(req.params.id, req.body);
+      
+      // Send email notification if hackathon is approved
+      if (req.body.status === 'approved') {
+        try {
+          await emailService.sendHackathonApprovalEmail(hackathon);
+        } catch (emailError) {
+          console.error('Failed to send approval email:', emailError);
+          // Continue with success response even if email fails
+        }
+      }
+      
+      res.json(hackathon);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('not found')) {
+        res.status(404).json({ error: 'Hackathon not found' });
+      } else {
+        res.status(500).json({ error: 'Failed to update hackathon' });
+      }
+    }
+  });
+
+  // Get approved judges for hackathon invitations
+  router.get('/api/admin/hackathons/:id/available-judges', async (req, res) => {
+    try {
+      const judges = await storage.getAllJudges();
+      const approvedJudges = judges.filter(judge => judge.status === 'approved');
+      res.json(approvedJudges);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch available judges' });
+    }
+  });
+
+  // Send invitations to selected judges
+  router.post('/api/admin/hackathons/:id/invite-judges', async (req, res) => {
+    try {
+      const { judgeIds } = req.body;
+      
+      if (!judgeIds || !Array.isArray(judgeIds) || judgeIds.length === 0) {
+        return res.status(400).json({ error: 'Please select at least one judge' });
+      }
+
+      const hackathon = await storage.getHackathon(req.params.id);
+      if (!hackathon) {
+        return res.status(404).json({ error: 'Hackathon not found' });
+      }
+
+      if (hackathon.status !== 'approved') {
+        return res.status(400).json({ error: 'Hackathon must be approved before inviting judges' });
+      }
+
+      // Get selected judges
+      const selectedJudges = [];
+      for (const judgeId of judgeIds) {
+        const judge = await storage.getJudge(judgeId);
+        if (judge && judge.status === 'approved') {
+          selectedJudges.push(judge);
+        }
+      }
+
+      if (selectedJudges.length === 0) {
+        return res.status(400).json({ error: 'No valid judges found' });
+      }
+
+      // Send bulk invitations
+      const result = await emailService.sendBulkJudgeInvitations(selectedJudges, hackathon);
+
+      // Create invitation records in database
+      for (const judge of selectedJudges) {
+        try {
+          await storage.createJudgeHackathonInvitation({
+            judgeId: judge.id,
+            hackathonId: hackathon.id,
+            status: 'pending'
+          });
+        } catch (error) {
+          console.error('Failed to create invitation record:', error);
+        }
+      }
+
+      res.json({
+        message: `Invitations sent to ${result.success} judges`,
+        success: result.success,
+        failed: result.failed,
+        totalSelected: selectedJudges.length
+      });
+    } catch (error) {
+      console.error('Failed to send invitations:', error);
+      res.status(500).json({ error: 'Failed to send invitations' });
+    }
+  });
+
+  // Get hackathon invitations
+  router.get('/api/admin/hackathons/:id/invitations', async (req, res) => {
+    try {
+      const invitations = await storage.getHackathonInvitations(req.params.id);
+      res.json(invitations);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch invitations' });
     }
   });
 
