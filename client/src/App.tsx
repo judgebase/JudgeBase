@@ -10,6 +10,7 @@ import Host from "@/pages/host";
 import FindJudges from "@/pages/find-judges";
 import Blog from "@/pages/blog";
 import { JudgingPage } from "@/pages/judging";
+import Hackathons from "@/pages/hackathons";
 
 import JudgeProfile from "@/pages/judge-profile";
 import Admin from "@/pages/admin";
@@ -41,6 +42,7 @@ function Router() {
         <Route path="/find-judges" component={FindJudges} />
         <Route path="/blog" component={Blog} />
         <Route path="/judging" component={JudgingPage} />
+        <Route path="/hackathons" component={Hackathons} />
 
         <Route path="/judges/:slug" component={JudgeProfile} />
         <Route path="/admin" component={Admin} />

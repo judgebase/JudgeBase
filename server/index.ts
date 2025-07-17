@@ -3,6 +3,7 @@ import express from 'express';
 import { createRoutes } from './routes';
 import { createAdminRoutes } from './admin-routes';
 import { createJudgingRoutes } from './judging-routes';
+import { createHackathonRoutes } from './hackathon-routes';
 import { PostgresStorage } from './db';
 import { setupAuth, requireAuth } from './auth';
 import { createCleanupRoute } from './cleanup-route';
@@ -42,6 +43,9 @@ app.use(createRoutes(storage));
 
 // Judging routes
 app.use('/api', createJudgingRoutes(storage));
+
+// Hackathon routes
+app.use(createHackathonRoutes(storage));
 
 // Cleanup route for database maintenance
 app.use('/api', createCleanupRoute());

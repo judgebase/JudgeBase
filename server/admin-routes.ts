@@ -3,6 +3,7 @@ import type { IStorage } from './storage';
 import { z } from 'zod';
 import { emailService } from './email';
 import { createJudgeAuthUser, generatePassword } from './supabase-admin';
+import { createHackathonAuthUser, generateHackathonPassword } from './hackathon-auth';
 
 export function createAdminRoutes(storage: IStorage) {
   const router = Router();
@@ -204,6 +205,46 @@ export function createAdminRoutes(storage: IStorage) {
       } else {
         res.status(500).json({ error: 'Failed to update hackathon' });
       }
+    }
+  });
+
+  // Approve hackathon and generate credentials
+  router.post('/api/admin/hackathons/:id/approve', async (req, res) => {
+    try {
+      const hackathon = await storage.getHackathon(req.params.id);
+      if (!hackathon) {
+        return res.status(404).json({ error: 'Hackathon not found' });
+      }
+
+      // Generate password for hackathon organizer
+      const generatedPassword = generateHackathonPassword();
+      
+      // Create auth user (optional, for future use)
+      const authResult = await createHackathonAuthUser(hackathon.organizerEmail, generatedPassword);
+      
+      // Update hackathon with approval and credentials
+      const updatedHackathon = await storage.updateHackathon(req.params.id, {
+        status: 'approved',
+        authPassword: generatedPassword
+      });
+
+      // Send approval email
+      try {
+        await emailService.sendHackathonApprovalEmail(updatedHackathon);
+      } catch (emailError) {
+        console.error('Failed to send approval email:', emailError);
+        // Continue even if email fails
+      }
+      
+      res.json({ 
+        hackathon: updatedHackathon, 
+        password: generatedPassword, 
+        message: 'Hackathon approved and credentials generated',
+        authUser: authResult.success ? authResult.user : null
+      });
+    } catch (error) {
+      console.error('Error approving hackathon:', error);
+      res.status(500).json({ error: 'Failed to approve hackathon' });
     }
   });
 

@@ -90,6 +90,9 @@ export const hackathons = pgTable('hackathons', {
   whyJudgeBase: text('why_judge_base'),
   additionalNotes: text('additional_notes'),
   
+  // Authentication for hackathon organizers
+  authPassword: text('auth_password'), // Generated password for hackathon organizer access
+  
   status: text('status').notNull().default('pending'), // pending, approved, rejected
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
@@ -111,6 +114,8 @@ export const judgingInterest = pgTable('judging_interest', {
   id: uuid('id').primaryKey().defaultRandom(),
   judgeId: uuid('judge_id').notNull().references(() => judges.id, { onDelete: 'cascade' }),
   hackathonId: uuid('hackathon_id').notNull().references(() => hackathons.id, { onDelete: 'cascade' }),
+  status: text('status').notNull().default('pending'), // pending, accepted, rejected
+  respondedAt: timestamp('responded_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

@@ -32,7 +32,13 @@ export interface IStorage {
   // Judging interest operations
   createJudgingInterest(interest: NewJudgingInterest): Promise<JudgingInterest>;
   getJudgingInterestsByJudge(judgeId: string): Promise<JudgingInterest[]>;
+  getJudgingInterestsByHackathon(hackathonId: string): Promise<JudgingInterest[]>;
+  updateJudgingInterestStatus(judgeId: string, hackathonId: string, status: string): Promise<JudgingInterest>;
   hasJudgeExpressedInterest(judgeId: string, hackathonId: string): Promise<boolean>;
+  
+  // Additional helper methods
+  getJudgeById(id: string): Promise<Judge | null>;
+  getHackathonById(id: string): Promise<Hackathon | null>;
 }
 
 // Simple in-memory storage implementation

@@ -10,6 +10,7 @@ import { CheckCircle, XCircle, Clock, Mail, Users, Calendar, MapPin, Send, Edit 
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { EditHackathonModal } from "./edit-hackathon-modal";
+import { HackathonPasswordDisplay } from "./hackathon-password-display";
 import type { Hackathon, Judge } from "@shared/schema";
 
 interface HackathonManagementProps {
@@ -23,6 +24,8 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [editingHackathon, setEditingHackathon] = useState<Hackathon | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [approvedHackathon, setApprovedHackathon] = useState<Hackathon | null>(null);
+  const [hackathonPassword, setHackathonPassword] = useState<string>('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -57,6 +60,31 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
     onError: (error: any) => {
       toast({
         title: "Error updating hackathon",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const approveHackathonMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiRequest(`/api/admin/hackathons/${id}/approve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+    },
+    onSuccess: (data) => {
+      setApprovedHackathon(data.hackathon);
+      setHackathonPassword(data.password);
+      toast({
+        title: "Hackathon approved!",
+        description: "Organizer credentials have been generated.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/hackathons'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error approving hackathon",
         description: error.message || "Please try again later.",
         variant: "destructive",
       });
@@ -270,11 +298,11 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
               <Button 
                 size="sm" 
                 className="bg-green-600 hover:bg-green-700 text-white"
-                onClick={() => updateHackathonMutation.mutate({ id: hackathon.id, status: 'approved' })}
-                disabled={updateHackathonMutation.isPending}
+                onClick={() => approveHackathonMutation.mutate(hackathon.id)}
+                disabled={approveHackathonMutation.isPending}
               >
                 <CheckCircle className="h-4 w-4 mr-1" />
-                Approve & Send Email
+                {approveHackathonMutation.isPending ? 'Approving...' : 'Approve & Generate Access'}
               </Button>
               <Button 
                 size="sm" 
@@ -379,6 +407,19 @@ export function HackathonManagement({ hackathons, isLoading }: HackathonManageme
           onClose={() => {
             setIsEditModalOpen(false);
             setEditingHackathon(null);
+          }}
+        />
+      )}
+
+      {/* Hackathon Password Display Modal */}
+      {approvedHackathon && hackathonPassword && (
+        <HackathonPasswordDisplay
+          hackathon={approvedHackathon}
+          password={hackathonPassword}
+          isOpen={true}
+          onClose={() => {
+            setApprovedHackathon(null);
+            setHackathonPassword('');
           }}
         />
       )}

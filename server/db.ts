@@ -182,4 +182,39 @@ export class PostgresStorage implements IStorage {
       .limit(1);
     return result.length > 0;
   }
+
+  async getJudgingInterestsByHackathon(hackathonId: string): Promise<JudgingInterest[]> {
+    return await db.select().from(judgingInterest)
+      .where(eq(judgingInterest.hackathonId, hackathonId))
+      .orderBy(judgingInterest.createdAt);
+  }
+
+  async updateJudgingInterestStatus(judgeId: string, hackathonId: string, status: string): Promise<JudgingInterest> {
+    const result = await db.update(judgingInterest)
+      .set({ 
+        status, 
+        respondedAt: new Date() 
+      })
+      .where(and(
+        eq(judgingInterest.judgeId, judgeId), 
+        eq(judgingInterest.hackathonId, hackathonId)
+      ))
+      .returning();
+    
+    if (result.length === 0) {
+      throw new Error('Judging interest not found');
+    }
+    
+    return result[0];
+  }
+
+  async getJudgeById(id: string): Promise<Judge | null> {
+    const result = await db.select().from(judges).where(eq(judges.id, id)).limit(1);
+    return result[0] || null;
+  }
+
+  async getHackathonById(id: string): Promise<Hackathon | null> {
+    const result = await db.select().from(hackathons).where(eq(hackathons.id, id)).limit(1);
+    return result[0] || null;
+  }
 }
