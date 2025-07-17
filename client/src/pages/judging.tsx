@@ -126,6 +126,13 @@ export function JudgingPage() {
         <div className="text-center text-white">
           <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
           <p className="mb-4">You must be an approved judge to access this page.</p>
+          {user && (
+            <div className="mb-4 p-4 bg-white/10 rounded-lg">
+              <p className="text-sm">Logged in as: {user.email}</p>
+              <p className="text-sm">Debug: No matching approved judge found in database</p>
+              <p className="text-xs mt-2">Note: A judge application for this email needs to be approved in the admin panel first.</p>
+            </div>
+          )}
           <Button onClick={signOut} variant="outline">
             Sign Out
           </Button>
