@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Server-side Supabase client with service role key for admin operations
-const supabaseUrl = 'https://ahhmqoxnlqowrbcuwekw.supabase.co'
+const supabaseUrl = process.env.SUPABASE_URL || 'https://ahhmqoxnlqowrbcuwekw.supabase.co'
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
-if (!supabaseServiceKey) {
-  console.warn('SUPABASE_SERVICE_ROLE_KEY not found - admin functions will be limited')
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.warn('SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not found - admin functions will be limited')
 }
 
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
