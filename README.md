@@ -1,241 +1,52 @@
+# JudgeBase
 
-# JudgeBase 🚀
+A curated platform connecting hackathon organizers with qualified judges.
 
-> **Expert Judge Network for Hackathons**
+## Quick Start for New Contributors
 
-JudgeBase is a modern SaaS platform that connects hackathon organizers with curated industry experts who serve as judges. Our platform streamlines the judge application process, provides organizers with vetted professionals, and includes a comprehensive admin dashboard for managing the entire ecosystem.
+When importing this project to Replit, you'll need to set up environment variables:
 
-## ✨ Features
-
-### For Judges
-- **Easy Application Process**: Simple form-based application with file upload support
-- **Professional Profiles**: Showcase expertise, experience, and achievements
-- **Badge System**: Recognition for different areas of expertise
-- **Social Media Integration**: Connect your professional profiles
-
-### For Hackathon Organizers
-- **Quick Judge Requests**: Submit hackathon requirements and get matched with expert judges
-- **Curated Expert Network**: Access to vetted, experienced professionals
-- **24hr Response Time**: Fast matching and confirmation process
-- **Flexible Judging**: Async judging that works across time zones
-
-### For Admins
-- **Judge Management**: Approve/reject applications and manage judge status
-- **Featured Judge Control**: Set which judges appear on the homepage
-- **Badge Assignment**: Award expertise badges to qualified judges
-- **Hackathon Oversight**: Monitor and manage hackathon requests
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **React** with TypeScript for type safety
-- **Wouter** for lightweight client-side routing
-- **TanStack Query** for server state management
-- **Tailwind CSS** with custom gradient design system
-- **Radix UI** + **shadcn/ui** for accessible components
-- **Framer Motion** for smooth animations
-- **Vite** for fast development and optimized builds
-
-### Backend
-- **Express.js** with TypeScript
-- **PostgreSQL** with **Drizzle ORM** for type-safe database operations
-- **Neon Database** for serverless PostgreSQL hosting
-- **Multer** for file upload handling
-- **Zod** for runtime type validation
-
-### Development Tools
-- **TypeScript** for end-to-end type safety
-- **ESBuild** for fast production builds
-- **Drizzle Kit** for database migrations
-- **React Query DevTools** for debugging
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn
-- PostgreSQL database (we recommend Neon)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd judgebase
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables**
-   Create a `.env` file in the root directory:
-   ```env
-   DATABASE_URL=your_postgresql_connection_string
-   NODE_ENV=development
-   ```
-
-4. **Set up the database**
-   ```bash
-   npm run db:push
-   ```
-
-5. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-   The application will be available at `http://localhost:5000`
-
-## 📁 Project Structure
-
-```
-judgebase/
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   │   ├── ui/        # Base UI components (shadcn/ui)
-│   │   │   └── ...        # Feature-specific components
-│   │   ├── pages/         # Route-level components
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── data/          # Static data and type definitions
-│   │   └── lib/           # Utility functions
-├── server/                # Backend Express application
-│   ├── db.ts             # Database configuration
-│   ├── routes.ts         # API route definitions
-│   ├── admin-routes.ts   # Admin-specific routes
-│   └── storage.ts        # File storage handling
-├── shared/               # Shared TypeScript types
-├── drizzle/             # Database migrations
-└── uploads/             # File upload storage
+### 1. Run the setup script:
+```bash
+node setup-env.js
 ```
 
-## 🎨 Design System
+This will guide you through setting up:
+- Supabase database credentials
+- Email service configuration (optional)
+- Admin settings
 
-JudgeBase features a modern gradient-based design system:
+### 2. Or manually add to Replit Secrets:
+- `DATABASE_URL` - Your Supabase PostgreSQL connection string
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_ANON_KEY` - Public anonymous key
+- `SUPABASE_SERVICE_ROLE_KEY` - Service role secret key
+- `RESEND_API_KEY` - (Optional) For email notifications
 
-- **Primary Colors**: Purple (#8B5CF6) to Blue (#3B82F6) to Green (#10B981)
-- **Typography**: Inter/Outfit fonts with large, readable text
-- **Animations**: Smooth transitions and micro-interactions
-- **Components**: Accessible, modern UI components with hover states
-- **Layout**: Mobile-first responsive design
-
-## 📊 Database Schema
-
-### Core Tables
-- **`judges`**: Judge profiles, applications, and status
-- **`hackathons`**: Hackathon requests and requirements
-- **`users`**: Basic authentication (admin users)
-- **`judge_hackathons`**: Many-to-many relationships
-
-### Key Features
-- **Status Management**: Pending, approved, rejected states
-- **Featured System**: Highlighted judges on homepage
-- **Badge System**: Expertise categories and recognition
-- **File Storage**: Avatar and document uploads
-
-## 🔗 API Endpoints
-
-### Public Endpoints
-- `GET /api/judges/featured` - Get featured judges for homepage
-- `GET /api/judges/:slug` - Get individual judge profile
-- `POST /api/judges/apply` - Submit judge application
-- `POST /api/hackathons/apply` - Submit hackathon request
-
-### Admin Endpoints
-- `GET /api/admin/judges` - List all judges
-- `PATCH /api/admin/judges/:id` - Update judge status/featured/badges
-- `GET /api/admin/hackathons` - List all hackathon requests
-
-## 🚨 Known Issues & Fixes
-
-### Current React Hook Errors
-The application is experiencing React hook-related errors. To fix:
-
-1. **Ensure React consistency**: All components should use the same React instance
-2. **Check QueryClient setup**: Verify QueryClientProvider is properly wrapping the app
-3. **Validate component structure**: Ensure hooks are only called inside function components
-
-### Common Development Issues
-- **Database connection**: Ensure `DATABASE_URL` is properly set in environment variables
-- **File uploads**: Check that `uploads/` directory exists and has write permissions
-- **CORS issues**: Verify API endpoints are accessible from frontend
-
-## 📝 Available Scripts
-
-- `npm run dev` - Start development server (both frontend and backend)
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run check` - TypeScript type checking
-- `npm run db:push` - Push database schema changes
-
-## 🔧 Configuration
-
-### Database Configuration
-The app uses Drizzle ORM with PostgreSQL. Configuration is in `drizzle.config.json`.
-
-### Build Configuration
-- **Vite** handles frontend builds and development server
-- **ESBuild** handles backend builds
-- **TypeScript** provides type checking
-
-### Environment Variables
-```env
-DATABASE_URL=your_postgresql_connection_string
-NODE_ENV=development
+### 3. Start the application:
+```bash
+npm run dev
 ```
 
-## 🚀 Deployment
+## Test Accounts
 
-### Replit Deployment
-The project is configured for Replit deployment:
-1. Ensure environment variables are set in Replit Secrets
-2. Run `npm run build` to create production build
-3. Use `npm run start` for production server
+- **Admin Panel**: `/admin` (username: `admin`, password: `judgebase2024`)
+- **Test Judge**: `/judging` (email: `test@judgebase.com`, password: `TestJudge123!`)
 
-### Manual Deployment
-1. Build the application: `npm run build`
-2. Set up PostgreSQL database
-3. Configure environment variables
-4. Start with `npm run start`
+## Key Features
 
-## 🤝 Contributing
+- Judge application and approval system
+- Hackathon management dashboard
+- Authentication with Supabase
+- Email notifications with Resend
+- Modern UI with Tailwind CSS
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+## Development
 
-## 🆘 Troubleshooting
+- Frontend: React + TypeScript + Vite
+- Backend: Express + TypeScript
+- Database: PostgreSQL (Supabase)
+- Authentication: Supabase Auth
+- Styling: Tailwind CSS + shadcn/ui
 
-### Common Issues
-- **React Hook Errors**: Ensure all components properly import and use React hooks
-- **Database Connection**: Verify `DATABASE_URL` environment variable
-- **Build Failures**: Check TypeScript errors with `npm run check`
-- **Port Issues**: Application runs on port 5000 by default
-
-### Getting Help
-- Create an issue in the repository
-- Check the console for specific error messages
-- Verify environment setup matches requirements
-
-## 🎯 Next Steps
-
-1. **Fix React Hook Issues**: Resolve current component rendering errors
-2. **Authentication System**: Implement user registration and login
-3. **Payment Integration**: Add Stripe for subscription management  
-4. **Enhanced Matching**: Build AI-powered judge-hackathon matching
-5. **Mobile App**: Develop React Native companion app
-6. **Enterprise Features**: Add white-label and custom branding options
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**Built with ❤️ by the JudgeBase team**
-
-*Making hackathon judging simple, efficient, and effective.*
+For detailed setup instructions, see [SETUP.md](./SETUP.md).

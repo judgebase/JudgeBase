@@ -41,7 +41,10 @@ export function JudgingPage() {
           if (!currentJudge) {
             console.log('Judge lookup failed:', {
               userEmail: user.email,
-              availableJudges: judges.map(j => ({ email: j.email, status: j.status, hasPassword: !!j.authPassword }))
+              availableJudges: judges.map(j => ({ email: j.email, status: j.status, hasPassword: !!j.authPassword })),
+              exactMatches: judges.filter(j => j.email === user.email),
+              caseInsensitiveMatches: judges.filter(j => j.email.toLowerCase() === user.email.toLowerCase()),
+              approvedJudges: judges.filter(j => j.status === 'approved')
             });
           } else {
             console.log('Judge found:', currentJudge.name, currentJudge.email);
