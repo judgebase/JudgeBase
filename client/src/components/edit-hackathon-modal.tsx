@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,27 +51,50 @@ export function EditHackathonModal({ hackathon, isOpen, onClose }: EditHackathon
   const form = useForm<EditHackathonFormData>({
     resolver: zodResolver(editHackathonSchema),
     defaultValues: {
-      hackathonName: hackathon.hackathonName,
-      organizationName: hackathon.organizationName,
-      organizerName: hackathon.organizerName,
-      organizerEmail: hackathon.organizerEmail,
-      hackathonWebsite: hackathon.hackathonWebsite,
-      platform: hackathon.platform,
-      hackathonDates: hackathon.hackathonDates,
-      judgeDeadline: hackathon.judgeDeadline,
-      participantCount: hackathon.participantCount,
-      theme: hackathon.theme,
-      eventSummary: hackathon.eventSummary,
-      judgeCount: hackathon.judgeCount,
-      timeCommitment: hackathon.timeCommitment,
-      domains: hackathon.domains,
-      eventFormat: hackathon.eventFormat,
-      deliverables: hackathon.deliverables,
+      hackathonName: hackathon.hackathonName || '',
+      organizationName: hackathon.organizationName || '',
+      organizerName: hackathon.organizerName || '',
+      organizerEmail: hackathon.organizerEmail || '',
+      hackathonWebsite: hackathon.hackathonWebsite || '',
+      platform: hackathon.platform || '',
+      hackathonDates: hackathon.hackathonDates || '',
+      judgeDeadline: hackathon.judgeDeadline || '',
+      participantCount: hackathon.participantCount || '',
+      theme: hackathon.theme || '',
+      eventSummary: hackathon.eventSummary || '',
+      judgeCount: hackathon.judgeCount || '',
+      timeCommitment: hackathon.timeCommitment || '',
+      domains: hackathon.domains || [],
+      eventFormat: hackathon.eventFormat || [],
+      deliverables: hackathon.deliverables || [],
     },
   });
 
+  // Reset form when hackathon changes
+  React.useEffect(() => {
+    form.reset({
+      hackathonName: hackathon.hackathonName || '',
+      organizationName: hackathon.organizationName || '',
+      organizerName: hackathon.organizerName || '',
+      organizerEmail: hackathon.organizerEmail || '',
+      hackathonWebsite: hackathon.hackathonWebsite || '',
+      platform: hackathon.platform || '',
+      hackathonDates: hackathon.hackathonDates || '',
+      judgeDeadline: hackathon.judgeDeadline || '',
+      participantCount: hackathon.participantCount || '',
+      theme: hackathon.theme || '',
+      eventSummary: hackathon.eventSummary || '',
+      judgeCount: hackathon.judgeCount || '',
+      timeCommitment: hackathon.timeCommitment || '',
+      domains: hackathon.domains || [],
+      eventFormat: hackathon.eventFormat || [],
+      deliverables: hackathon.deliverables || [],
+    });
+  }, [hackathon, form]);
+
   const updateHackathonMutation = useMutation({
     mutationFn: async (data: EditHackathonFormData) => {
+      console.log('Updating hackathon with data:', data);
       return apiRequest(`/api/admin/hackathons/${hackathon.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

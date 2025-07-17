@@ -29,8 +29,23 @@ export function JudgingPage() {
         try {
           const response = await apiRequest('/api/judges');
           const judges = response.data || [];
-          const currentJudge = judges.find((j: Judge) => j.email === user.email && j.status === 'approved');
+          
+          // Look for judge by email (regardless of case and with exact match)
+          const currentJudge = judges.find((j: Judge) => 
+            j.email.toLowerCase() === user.email.toLowerCase() && 
+            j.status === 'approved'
+          );
+          
           setJudge(currentJudge);
+          
+          if (!currentJudge) {
+            console.log('Judge lookup failed:', {
+              userEmail: user.email,
+              availableJudges: judges.map(j => ({ email: j.email, status: j.status, hasPassword: !!j.authPassword }))
+            });
+          } else {
+            console.log('Judge found:', currentJudge.name, currentJudge.email);
+          }
         } catch (error) {
           console.error('Error fetching judge:', error);
         }
